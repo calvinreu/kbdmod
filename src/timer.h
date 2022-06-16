@@ -8,6 +8,7 @@
 using namespace std::this_thread; // sleep_for, sleep_until
 using namespace std::chrono_literals; // nanoseconds, system_clock, seconds
 using std::chrono::system_clock;
+using std::chrono::milliseconds;
 
 extern ExecutionQueue EventQueue;
 extern bool* running;
