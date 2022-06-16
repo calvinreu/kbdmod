@@ -1,6 +1,8 @@
 #include "execution_queue.h"
 
-inline void ExecutionQueue::AddEvent(mapping *m, milliseconds delay) {
+extern milliseconds delay;
+
+inline void ExecutionQueue::AddEvent(mapping *m) {
     Lock.lock();
     events.emplace(m, delay);
     Lock.unlock();

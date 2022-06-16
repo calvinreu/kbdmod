@@ -11,6 +11,6 @@ struct ExecutionQueue
     std::set<TimerEvent> events;
     std::mutex Lock;
 
-    inline void AddEvent(mapping *m, milliseconds delay);
+    inline void AddEvent(mapping *m);
     inline TimerEvent PopEvent();
 };

@@ -19,7 +19,7 @@ struct TimerEvent
     system_clock::time_point execution_time;
     const mapping *m;
     bool operator<(TimerEvent &&other) const;
-    TimerEvent(mapping *m, milliseconds delay);
+    TimerEvent(mapping *m);
 };
 
 extern void TimerLoop();//initialize the timer
