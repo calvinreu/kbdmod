@@ -10,6 +10,6 @@ struct ExecutionQueue
     std::set<TimerEvent> events;
     std::mutex Lock;
 
-    inline void AddEvent(void(*actionHold)(const HoldOutput *output), void(*actionTap )(const TapOutput  *output), const HoldOutput* holdOutput, const TapOutput *tapOutput, const KeyState *state, milliseconds delay);
+    inline void AddEvent(mapping *m, milliseconds delay);
     inline TimerEvent PopEvent();
 };

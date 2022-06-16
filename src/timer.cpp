@@ -2,8 +2,8 @@
 
 ExecutionQueue EventQueue;
 
-TimerEvent::TimerEvent(void(*actionHold)(const HoldOutput *output), void(*actionTap )(const TapOutput  *output), const HoldOutput* holdOutput, const TapOutput *tapOutput, const KeyState *state, milliseconds delay) 
-: actionHold(actionHold), actionTap(actionTap), hold(holdOutput), tap(tapOutput), state(state) {
+TimerEvent::TimerEvent(mapping *m, milliseconds delay) 
+: m(m) {
     execution_time = system_clock::now() + delay;
 }
 
@@ -12,9 +12,9 @@ void TimerLoop() {
     {
         auto current = EventQueue.PopEvent();
         sleep_for(current.execution_time - system_clock::now());
-        if (current.state->is_tap())
-            current.actionTap(current.tap);
+        if (current.m->state.is_tap())
+            current.m->actionTap(&current.m->tapOutpot);
         else
-            current.actionHold(current.hold);        
+            current.m->actionHold(&current.m->holdOutput);        
     }
 }

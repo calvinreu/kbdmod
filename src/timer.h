@@ -17,13 +17,9 @@ extern bool* running;
 struct TimerEvent
 {
     system_clock::time_point execution_time;
-    const KeyState*  state;
-    const HoldOutput* hold;
-    const TapOutput * tap ;
-    void(*actionHold)(const HoldOutput *output);
-    void(*actionTap )(const TapOutput  *output);
+    const mapping *m;
     bool operator<(TimerEvent &&other) const;
-    TimerEvent(void(*actionHold)(const HoldOutput *output), void(*actionTap )(const TapOutput  *output), const HoldOutput* holdOutput, const TapOutput *tapOutput, const KeyState *state, milliseconds delay);
+    TimerEvent(mapping *m, milliseconds delay);
 };
 
 extern void TimerLoop();//initialize the timer

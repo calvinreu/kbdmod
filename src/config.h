@@ -1,8 +1,9 @@
 #pragma once
 
-struct OutputAction {
+struct OutputConfig {
     bool IgnoreConsumption;//do not consume this key
     bool WaitForRelease;//wait for release to output hold do not
+
 };
 
 struct HoldOutput {
@@ -17,5 +18,10 @@ struct TapOutput
 
 struct mapping
 {
-    
+    const KeyState  state;
+    const HoldOutput holdOutput;
+    const TapOutput  tapOutpot ;
+    void(*actionHold)(const HoldOutput *output);
+    void(*actionTap )(const TapOutput  *output);
+    //key index is the index in array
 };

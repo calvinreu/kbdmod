@@ -1,8 +1,8 @@
 #include "execution_queue.h"
 
-inline void ExecutionQueue::AddEvent(void(*actionHold)(const HoldOutput *output), void(*actionTap )(const TapOutput  *output), const HoldOutput* holdOutput, const TapOutput *tapOutput, const KeyState *state, milliseconds delay) {
+inline void ExecutionQueue::AddEvent(mapping *m, milliseconds delay) {
     Lock.lock();
-    events.emplace(actionHold, actionTap, holdOutput, tapOutput, state, delay);
+    events.emplace(m, delay);
     Lock.unlock();
 }
 
