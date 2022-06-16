@@ -27,8 +27,6 @@ void input_loop() {
         if (input.value == INPUT_VAL_PRESS) {
             current->state.press();
             EventQueue.AddEvent(current);
-            if (current->consumption.test(ON_PRESS_CONSUMPTION))
-                consumption();
             continue;
         }
          
