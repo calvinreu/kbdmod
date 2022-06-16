@@ -9,9 +9,9 @@ file(GLOB_RECURSE source src/*.cpp)
 add_library(source STATIC ${source})
 
 # test file for gbd DEBUGER
-add_executable(test.out test/test.cpp)
+add_executable(test.out test.cpp)
 # installation file
-add_executable(input-interception)
+add_executable(input-interception main.cpp)
 
 TARGET_LINK_LIBRARIES(input-interception source)
 TARGET_LINK_LIBRARIES(test.out source)
