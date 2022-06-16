@@ -13,7 +13,7 @@ enum OutputMode {
 };
 
 struct outputSeq {
-    __S16_TYPE code;
+    uint16_t code;
     outputSeq* next;
 };
 

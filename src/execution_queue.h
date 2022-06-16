@@ -2,6 +2,7 @@
 #include <set>
 #include <mutex>
 #include "timer.h"
+#include "mapping.h"
 
 using std::chrono::milliseconds;
 
