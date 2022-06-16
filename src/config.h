@@ -41,7 +41,7 @@ struct OutputConfig{
 
 struct KeyConfig {
     uint16_t code;
-    int Consumption;//32 bit [1-number of key actions currently hold, tap and press ] [0]be able to get consumed
+    int Consumption;//32 bit [1-number of key actions currently hold, tap and ] [0]be able to get consumed
     HoldStart holdStart;
     outputSeq tap;
     outputSeq hold;
