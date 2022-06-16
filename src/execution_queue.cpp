@@ -11,5 +11,5 @@ inline TimerEvent ExecutionQueue::PopEvent() {
     auto event = *(events.begin());
     events.erase(events.begin());
     Lock.unlock();
-    return event
+    return event;
 }
