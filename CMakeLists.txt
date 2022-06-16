@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 file(GLOB_RECURSE source src/*.cpp)
 
 add_library(source STATIC ${source})
-target_link_libraries(source PUBLIC thread)
+target_link_libraries(source PUBLIC libevdev yaml-cpp)
 
 # test file for gbd DEBUGER
 add_executable(test.out test.cpp)
