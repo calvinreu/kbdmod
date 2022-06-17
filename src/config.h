@@ -35,10 +35,7 @@ enum OutputMode {
     sequence,
 };
 
-struct outputSeq {
-    uint16_t code;
-    outputSeq* next;
-};
+typedef std::vector<uint16_t> outputSeq;
 
 struct OutputConfig{
     OutputMode mode;
@@ -46,7 +43,7 @@ struct OutputConfig{
 };
 
 struct KeyConfig {
-    uint16_t code;
+    uint8_t code;
     uint8_t Consumption;//8 bit [1-number of key actions currently hold, tap and ] [0]be able to get consumed
     HoldStart holdStart;
     outputSeq tap;
