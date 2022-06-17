@@ -11,8 +11,6 @@
 using std::bitset;
 
 extern ExecutionQueue EventQueue;
-extern std::vector<KeyState*> ConsumptionMap;
 
 extern inline void input_loop();
-extern inline void consumption();
 extern void write_event(input_event *event);

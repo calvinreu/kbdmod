@@ -2,7 +2,6 @@
 #include <thread>
 #include <chrono>
 #include "config.h"
-#include "key_state.h"
 #include "execution_queue.h"
 
 using namespace std::this_thread; // sleep_for, sleep_until
@@ -17,7 +16,7 @@ extern bool* running;
 struct TimerEvent
 {
     system_clock::time_point execution_time;
-    const mapping *m;
+    mapping *m;
     bool operator<(TimerEvent &&other) const;
     TimerEvent(mapping *m);
 };

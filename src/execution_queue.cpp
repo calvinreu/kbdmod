@@ -10,8 +10,7 @@ inline void ExecutionQueue::AddEvent(mapping *m) {
 
 inline TimerEvent ExecutionQueue::PopEvent() {
     Lock.lock();
-    auto event = *(events.begin());
-    events.erase(events.begin());
+    auto event = events.extract(events.begin()).value();
     Lock.unlock();
     return event;
 }

@@ -7,11 +7,6 @@ inline void write_event(input_event *event) {
         exit(EXIT_FAILURE);
 }
 
-inline void consumption(){
-    for (auto i = ConsumptionMap.begin(); i != ConsumptionMap.end(); i++)
-        (*i)->consume();
-}
-
 void input_loop() {
     input_event input;
     mapping *current;
@@ -25,13 +20,13 @@ void input_loop() {
         current = keyMap + input.code;
 
         if (input.value == INPUT_VAL_PRESS) {
-            current->state.press();
+            current->press();
             EventQueue.AddEvent(current);
             continue;
         }
          
         if (input.value == INPUT_VAL_RELEASE){
-            current->state.release();
+            current->release();
             continue;
         }
         

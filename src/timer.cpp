@@ -13,9 +13,6 @@ void TimerLoop() {
     {
         auto current = EventQueue.PopEvent();
         sleep_for(current.execution_time - system_clock::now());
-        if (current.m->state.is_tap())
-            current.m->actionTap(&current.m->tapOutpot);
-        else
-            current.m->actionHold(&current.m->holdOutput);        
+        current.m->output_event();
     }
 }
