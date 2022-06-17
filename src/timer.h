@@ -5,12 +5,12 @@
 #include "execution_queue.h"
 
 using namespace std::this_thread; // sleep_for, sleep_until
-using namespace std::chrono_literals; // nanoseconds, system_clock, seconds
+using namespace std::chrono_literals;
 using std::chrono::system_clock;
 using std::chrono::milliseconds;
 
 extern ExecutionQueue EventQueue;
-extern bool* running;
+extern bool running;
 
 //event to execute after a certain amount of time to add an event construct it in the event queue
 struct TimerEvent
