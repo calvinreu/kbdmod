@@ -2,18 +2,13 @@
 
 bool running = true;
 
-inline void write_event(input_event *event) {
-     if (fwrite(event, sizeof(struct input_event), 1, stdout) != 1)
-        exit(EXIT_FAILURE);
-}
-
 void input_loop() {
     input_event input;
     mapping *current;
-    while (fread(&input, sizeof(struct input_event), 1, stdin) == 1)
+    while (IO.read_event(&input))
     {
         if (input.type != EV_KEY || input.code > KEY_OPTION_COUNT) {
-            write_event(&input);//pass non keyboard and unsuported keys throught to the system
+            IO.write_event(&input);//pass non keyboard and unsuported keys throught to the system
             continue;
         }
 
@@ -31,8 +26,8 @@ void input_loop() {
         }
         
         fprintf(stderr, "unexpected .value=%d .code=%d, doing nothing",
-                input.value,
-                input.code);
+            input.value,
+            input.code);
         break;
     }
     
