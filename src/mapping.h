@@ -19,6 +19,7 @@ class mapping
 {
 private:
     //bit [0]pressed [1]double tap [2]press + release [3]consumed
+    //on third press before output event [1] && [2] are both true to support tripple taps
     uint8_t sc;//first four bits key states last four consumption
     outputSeq holdOutput;
     outputSeq  tapOutpot;

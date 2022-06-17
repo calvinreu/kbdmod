@@ -1,7 +1,6 @@
 #include "mapping.h"
 
 mapping keyMap[KEY_OPTION_COUNT];
-std::vector<mapping*> ConsumptionMap;
 
 inline bool mapping::is_tap()  const {
     return ((sc >> 1) | (~sc) | (sc >> 3)) & 1;
@@ -21,8 +20,10 @@ inline void mapping::release() {
 }
 
 inline void mapping::press() {
+    uint8_t mask = NULL;
+    mask = (sc & (sc << 1)) & 4;//[1][2]true->mask[2]true
     sc |= (sc >> 1) & 2;//copy [2] to [1]
-    sc = (sc & ~4) | 1;//[2]false [0]true
+    sc = (sc & mask) | 1;//[2]maks[2] [0]true
 }
 
 inline void mapping::output_event() {
@@ -34,7 +35,3 @@ inline void mapping::output_event() {
     sc &= ~10;//[1] and [3] false
 }
 
-inline void consumption(){
-    for (auto i = ConsumptionMap.begin(); i != ConsumptionMap.end(); i++)
-        (*i)->consume();
-}
