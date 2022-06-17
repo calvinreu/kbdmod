@@ -1,7 +1,7 @@
 #pragma once
 #include "mapping.h"
 
-class consumer
+class Consumer
 {
 private:    
     std::vector<mapping*> ConsumptionMap;

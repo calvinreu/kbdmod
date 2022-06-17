@@ -1,12 +1,12 @@
 #include "consumption.h"
 
-consumer consume;
+Consumer consume;
 
-inline void consumer::add_consume_map(std::vector<mapping*> &&ConsumptionMap) {
+inline void Consumer::add_consume_map(std::vector<mapping*> &&ConsumptionMap) {
     ConsumptionMap = ConsumptionMap;
 }
 
-inline void consumer::consume() const {
+inline void Consumer::consume() const {
     for (auto i = ConsumptionMap.begin(); i != ConsumptionMap.end(); i++)
         (*i)->consume();
 }

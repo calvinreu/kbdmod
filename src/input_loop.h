@@ -5,6 +5,7 @@
 #define INPUT_VAL_REPEAT 2//ignore
 #include "timer.h"
 #include "mapping.h"
+#include "consumption.h"
 #include <linux/input.h>
 #include <bitset>
 

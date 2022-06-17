@@ -5,11 +5,17 @@
 #include <yaml-cpp/yaml.h>
 #include <map>
 #include "mapping.h"
+#include "constexpr.h"
 
-#define ON_PRESS_CONSUMPTION 1
-#define ON_TAP_CONSUMPTION 2
-#define ON_HOLD_CONSUMPTION 3
-#define UNCONSUMABLE 0
+#define ON_PRESS_CONSUMPTION 5
+#define ON_TAP_CONSUMPTION 6
+#define ON_HOLD_CONSUMPTION 4
+#define UNCONSUMABLE 7
+
+#define ON_PRESS_CONSUMPTION_MASK constPow(2, ON_PRESS_CONSUMPTION)
+#define ON_TAP_CONSUMPTION_MASK   constPow(2, ON_TAP_CONSUMPTION)
+#define ON_HOLD_CONSUMPTION_MASK  constPow(2, ON_HOLD_CONSUMPTION)
+#define UNCONSUMABLE_MASK         constPow(2, UNCONSUMABLE)
 
 using std::map;
 using std::exception;
@@ -41,7 +47,7 @@ struct OutputConfig{
 
 struct KeyConfig {
     uint16_t code;
-    int Consumption;//32 bit [1-number of key actions currently hold, tap and ] [0]be able to get consumed
+    uint8_t Consumption;//8 bit [1-number of key actions currently hold, tap and ] [0]be able to get consumed
     HoldStart holdStart;
     outputSeq tap;
     outputSeq hold;
