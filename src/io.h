@@ -16,12 +16,14 @@
 class InputOutput
 {
 private:
-    std::vector<uint16_t> osm;//one shot modifier
+    std::vector<uint8_t> osm;//one shot modifier
     input_event outputTemplate;
 public:
     inline void write_event(const outputSeq &output);
     inline void write_event(input_event *output) const;
     inline bool read_event (input_event *input ) const;
+    inline void add_osm(const uint8_t &osm);
+    inline void add_osm(const std::vector<uint8_t> &osm);
 
     InputOutput();
 };
