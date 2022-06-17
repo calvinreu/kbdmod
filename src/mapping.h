@@ -39,5 +39,3 @@ public:
     inline void press();
     //key index is the index in array
 };
-
-extern inline void consumption();
