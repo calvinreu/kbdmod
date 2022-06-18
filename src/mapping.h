@@ -25,7 +25,7 @@ class mapping
 {
 private:
     //on third press before output event [1] && [2] are both true to support tripple taps
-    uint8_t sc;//bit states for consumption and state [7]has to be false
+    TypeKeyCode sc;//bit states for consumption and state [7]has to be false
     outputSeq holdOutput;
     outputSeq  tapOutpot;
     void(*actionHold)(const outputSeq *output) ;

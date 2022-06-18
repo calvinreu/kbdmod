@@ -6,7 +6,7 @@ inline bool KeyCodeIterator<T>::operator!=(const TypeKeyCode &value) const {
 }
 
 template<typename T>
-inline void KeyCodeIterator<T>::operator++() {
+inline void KeyCodeIterator<T>::operator++(int) {
     key++;
 }
 
@@ -39,11 +39,11 @@ inline void sequenz_buffer_manager_byte_allocator<sequenzBuffer>::clear() {
 }
 
 template<typename sequenzBuffer>
-inline void sequenz_buffer_manager_byte_allocator<sequenzBuffer>::append(const sequenzBuffer &other) {
+inline void sequenz_buffer_manager_byte_allocator<sequenzBuffer>::append(const sequenz_buffer_manager_byte_allocator<sequenzBuffer> &other) {
     if (data == NULL)
         data = other.data;
     else {
-        uint8_t index = 0;
+        TypeKeyCode index = 0;
         auto ptr = begin();
         for (ptr; ptr != end(); ptr++, index++);
         

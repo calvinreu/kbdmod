@@ -1,5 +1,6 @@
 #include "io.h"
 
+
 InputOutput::InputOutput() {
     outputTemplate.time.tv_sec = 0;
     outputTemplate.time.tv_usec = 0;
@@ -41,13 +42,8 @@ inline void InputOutput::write_event(const outputSeq &output) {
     osm.clear();
 }
 
-inline void InputOutput::add_osm(const uint8_t &osm_) {
-    osm.push_back(osm_);
-}
-
-inline void InputOutput::add_osm(const std::vector<uint8_t> &osm_) {
-    for (auto i = osm_.begin(); i != osm_.end(); i++)
-        osm.push_back(*i);
+inline void InputOutput::add_osm(const osmSeq &osm_) {
+    osm.append(osm_);
 }
 
 inline void InputOutput::write_event(input_event *output) const {

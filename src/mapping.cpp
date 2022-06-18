@@ -25,7 +25,7 @@ inline void mapping::release() {
 }
 
 inline void mapping::press() {
-    uint8_t mask = NULL;
+    TypeKeyCode mask = NULL;
     //if double tap and pressandrelease press and release bool is true
     mask = (sc & bit_shift<STATE_DOUBLE_TAP, STATE_PRESSANDRELEASE>(sc)) & STATE_PRESSANDRELEASE_MASK;
     sc |= (sc >> 1) & 2;//copy [2] to [1]

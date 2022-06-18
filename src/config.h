@@ -4,6 +4,7 @@
 #include <libevdev-1.0/libevdev/libevdev.h>
 #include <yaml-cpp/yaml.h>
 #include <map>
+#include "key.h"
 #include "mapping.h"
 #include "constexpr.h"
 
@@ -35,16 +36,14 @@ enum OutputMode {
     sequence,
 };
 
-typedef std::vector<uint16_t> outputSeq;
-
 struct OutputConfig{
     OutputMode mode;
     outputSeq output;
 };
 
 struct KeyConfig {
-    uint8_t code;
-    uint8_t Consumption;//8 bit [1-number of key actions currently hold, tap and ] [0]be able to get consumed
+    TypeKeyCode code;
+    TypeKeyCode Consumption;//8 bit [1-number of key actions currently hold, tap and ] [0]be able to get consumed
     HoldStart holdStart;
     outputSeq tap;
     outputSeq hold;

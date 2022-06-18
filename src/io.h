@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <linux/input.h>
+#include "key.h"
 #include "config.h"
 #include "timer.h"
 
@@ -16,14 +17,13 @@
 class InputOutput
 {
 private:
-    std::vector<uint8_t> osm;//one shot modifier
+    osmSeq osm;//one shot modifier
     input_event outputTemplate;
 public:
     inline void write_event(const outputSeq &output);
     inline void write_event(input_event *output) const;
     inline bool read_event (input_event *input ) const;
-    inline void add_osm(const uint8_t &osm);
-    inline void add_osm(const std::vector<uint8_t> &osm);
+    inline void add_osm(const osmSeq &osm);
 
     InputOutput();
 };

@@ -1,7 +1,7 @@
 #pragma once
 #include <bits/stdint-uintn.h>
 
-typedef uint8_t TypeKeyCode;
+typedef TypeKeyCode TypeKeyCode;
 
 template<typename T>
 class KeyCodeIterator {
@@ -9,7 +9,7 @@ private:
     T* key;
 public:
     inline bool operator!=(const TypeKeyCode &value) const;
-    inline void operator++();
+    inline void operator++(int);
     inline T operator*();
     inline KeyCodeIterator(T* key);
 };
@@ -27,7 +27,7 @@ public:
     inline constexpr TypeKeyCode end() const;
     inline KeyCodeIteratorNormal begin();
     inline void clear();
-    inline void append(const sequenzBuffer &other);
+    inline void append(const sequenz_buffer_manager_byte_allocator<sequenzBuffer> &other);
 };
 
 //Buffer size = sizeof(sequenzBuffer - 1)

@@ -8,7 +8,7 @@ constexpr T ipow(T num, unsigned int pow)
 }
 
 template<int from, int to>
-inline uint8_t bit_shift(const uint8_t &value)
+inline TypeKeyCode bit_shift(const TypeKeyCode &value)
 {
     if constexpr(from < to) 
         return (value << (to-from));
