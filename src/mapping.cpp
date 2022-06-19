@@ -28,7 +28,7 @@ inline void mapping::press() {
     TypeKeyCode mask = NULL;
     //if double tap and pressandrelease press and release bool is true
     mask = (sc & bit_shift<STATE_DOUBLE_TAP, STATE_PRESSANDRELEASE>(sc)) & STATE_PRESSANDRELEASE_MASK;
-    sc |= (sc >> 1) & 2;//copy [2] to [1]
+    sc |= bit_shift<STATE_PRESSANDRELEASE, STATE_DOUBLE_TAP>(sc) & STATE_DOUBLE_TAP;
     //set press, do not unset pressandrelease if double tap is already true to allow for third press before event elapsed
     sc = (sc & mask) | STATE_PRESSED_MASK;
     if(sc & ON_PRESS_CONSUMPTION_MASK) {
