@@ -1,6 +1,7 @@
 #pragma once
 #include "config.h"
 #include "consumption.h"
+#include "features.h"
 #include <vector>
 #include <bitset>
 
@@ -44,6 +45,8 @@ private:
     TypeOutputConf sc;//msb has to be false otherwise undefined behaviour can occur
     outputSeq holdOutput;
     outputSeq  tapOutpot;
+    DOUBLETAPVAR
+    TAPHOLDVAR
     inline bool is_tap()  const;
     inline bool is_hold() const;
 public:
