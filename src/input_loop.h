@@ -10,5 +10,6 @@ using std::bitset;
 
 extern ExecutionQueue EventQueue;
 extern IOTYPE IO;
+extern mapping keyMap[];
 
 extern inline void input_loop();

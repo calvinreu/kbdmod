@@ -20,7 +20,7 @@ inline KeyCodeIterator<T>::KeyCodeIterator(T* key): key(key) {}
 
 template<typename sequenzBuffer>
 inline KeyCodeIteratorConst sequenz_buffer_manager_byte_allocator<sequenzBuffer>::begin() const {
-    return KeyCodeIteratorConst((TypeKeyCode*)&data);
+    return KeyCodeIteratorConst((const TypeKeyCode*)&data);
 }
 
 template<typename sequenzBuffer>
@@ -30,7 +30,7 @@ inline constexpr TypeKeyCode sequenz_buffer_manager_byte_allocator<sequenzBuffer
 
 template<typename sequenzBuffer>
 inline KeyCodeIteratorNormal sequenz_buffer_manager_byte_allocator<sequenzBuffer>::begin() {
-    return KeyCodeIteratorConst((TypeKeyCode*)&data);
+    return KeyCodeIterator((TypeKeyCode*)&data);
 }
 
 template<typename sequenzBuffer>

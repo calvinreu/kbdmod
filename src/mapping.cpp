@@ -1,18 +1,19 @@
 #include "mapping.h"
 
+extern Consumer consumer;
 mapping keyMap[KEY_OPTION_COUNT];
 
 inline bool mapping::is_tap()  const {
-    return ((sc >> STATE_DOUBLE_TAP) | (~(sc >> STATE_PRESSED)) | (sc >> STATE_CONSUMED)) & 1;
+    return ((sc >> STATE_DOUBLE_TAP) | (~(sc >> STATE_PRESSED))/* | (sc >> STATE_CONSUMED)*/) & 1;
 }
 
 //a bit more efficient than is_tap
 inline bool mapping::is_hold() const {
-    return ~((sc >> STATE_DOUBLE_TAP) | (sc >> STATE_CONSUMED)) & (sc >> STATE_PRESSED);
+    return ~((sc >> STATE_DOUBLE_TAP) /*| (sc >> STATE_CONSUMED)*/) & (sc >> STATE_PRESSED);
 }
 
 inline void mapping::consume() {
-    sc |= STATE_CONSUMED_MASK;
+    sc &= ~STATE_PRESSED_MASK;
 }
 
 inline void mapping::release() {
@@ -25,25 +26,32 @@ inline void mapping::release() {
 }
 
 inline void mapping::press() {
-    TypeKeyCode mask = NULL;
-    //if double tap and pressandrelease press and release bool is true
+    TypeKeyCode mask = 0;
+    if(sc & ON_PRESS_CONSUMPTION_MASK)
+        consumer.consume();
+
+    //if double tap and pressandrelease pressandrelease bool is true
     mask = (sc & bit_shift<STATE_DOUBLE_TAP, STATE_PRESSANDRELEASE>(sc)) & STATE_PRESSANDRELEASE_MASK;
     sc |= bit_shift<STATE_PRESSANDRELEASE, STATE_DOUBLE_TAP>(sc) & STATE_DOUBLE_TAP;
     //set press, do not unset pressandrelease if double tap is already true to allow for third press before event elapsed
     sc = (sc & mask) | STATE_PRESSED_MASK;
-    if(sc & ON_PRESS_CONSUMPTION_MASK) {
-        mask = sc & STATE_CONSUMED_MASK;
-        consumer.consume();
-        sc |= mask;
-    }
 }
 
 inline void mapping::output_event() {
-    if (this->is_hold())
-        this->actionHold(&holdOutput);        
-    else
-        this->actionTap(&tapOutpot);
 
+    switch (sc & STATE_PRESSED_MASK + STATE_DOUBLE_TAP_MASK + STATE_TAPHOLD_MASK + STATE_PRESSANDRELEASE_MASK)
+    {
+    case STATE_PRESSED_MASK + STATE_DOUBLE_TAP_MASK:
+        //start taphold timer
+        break;
+    case STATE_PRESSED_MASK + STATE_DOUBLE_TAP_MASK + STATE_TAPHOLD_MASK:
+
+        break;
+    case STATE_DOUBLE_TAP_MASK:
+    default:
+        break;
+    }
+    
     //reset everything but pressed and double tap if pressandrelease and double tap are true 
     sc &= STATE_PRESSED_MASK + (bit_shift<STATE_PRESSANDRELEASE, STATE_DOUBLE_TAP>(sc) & STATE_DOUBLE_TAP_MASK);
 }

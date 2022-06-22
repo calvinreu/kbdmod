@@ -6,6 +6,9 @@
 
 using std::chrono::milliseconds;
 
+struct TimerEvent;
+struct mapping;
+
 struct ExecutionQueue
 {
     std::set<TimerEvent> events;

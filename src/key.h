@@ -1,7 +1,6 @@
 #pragma once
-#include <bits/stdint-uintn.h>
-
-typedef TypeKeyCode TypeKeyCode;
+#include "types.h"
+#include <cstddef>
 
 template<typename T>
 class KeyCodeIterator {

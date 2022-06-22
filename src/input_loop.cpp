@@ -1,5 +1,7 @@
 #include "input_loop.h"
 
+extern 
+
 bool running = true;
 
 void input_loop() {

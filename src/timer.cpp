@@ -1,5 +1,9 @@
 #include "timer.h"
 
+extern ExecutionQueue EventQueue;
+extern bool running;
+
+
 ExecutionQueue EventQueue;
 milliseconds delay;
 
@@ -9,7 +13,7 @@ TimerEvent::TimerEvent(mapping *m)
 }
 
 void TimerLoop() {
-    while (*running)
+    while (running)
     {
         auto current = EventQueue.PopEvent();
         sleep_for(current.execution_time - system_clock::now());

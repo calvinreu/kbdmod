@@ -1,14 +1,13 @@
 #include "constexpr.h"
 
-template <typename T>
-constexpr T ipow(T num, unsigned int pow)
+constexpr int constPow(int num, unsigned int pow)
 {
     return (pow >= sizeof(unsigned int)*8) ? 0 :
-        pow == 0 ? 1 : num * ipow(num, pow-1);
+        pow == 0 ? 1 : num * constPow(num, pow-1);
 }
 
 template<int from, int to>
-inline TypeKeyCode bit_shift(const TypeKeyCode &value)
+inline TypeOutputConf bit_shift(const TypeOutputConf &value)
 {
     if constexpr(from < to) 
         return (value << (to-from));

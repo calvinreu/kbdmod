@@ -9,9 +9,6 @@ using namespace std::chrono_literals;
 using std::chrono::system_clock;
 using std::chrono::milliseconds;
 
-extern ExecutionQueue EventQueue;
-extern bool running;
-
 //event to execute after a certain amount of time to add an event construct it in the event queue
 struct TimerEvent
 {

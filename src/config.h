@@ -6,7 +6,6 @@
 #include <map>
 #include "key.h"
 #include "mapping.h"
-#include "constexpr.h"
 #include "features.h"
 
 using std::map;
