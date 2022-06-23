@@ -1,7 +1,6 @@
 #include "input_loop.h"
 
-extern 
-
+extern ExecutionQueue EventQueue;
 bool running = true;
 
 void input_loop() {

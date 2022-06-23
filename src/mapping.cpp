@@ -2,15 +2,16 @@
 
 extern Consumer consumer;
 mapping keyMap[KEY_OPTION_COUNT];
+extern ExecutionQueue EventQueue;
 
-inline bool mapping::is_tap()  const {
-    return ((sc >> STATE_DOUBLE_TAP) | (~(sc >> STATE_PRESSED))/* | (sc >> STATE_CONSUMED)*/) & 1;
-}
-
-//a bit more efficient than is_tap
-inline bool mapping::is_hold() const {
-    return ~((sc >> STATE_DOUBLE_TAP) /*| (sc >> STATE_CONSUMED)*/) & (sc >> STATE_PRESSED);
-}
+//inline bool mapping::is_tap()  const {
+//    return ((sc >> STATE_DOUBLE_TAP) | (~(sc >> STATE_PRESSED))/* | (sc >> STATE_CONSUMED)*/) & 1;
+//}
+//
+////a bit more efficient than is_tap
+//inline bool mapping::is_hold() const {
+//    return ~((sc >> STATE_DOUBLE_TAP) /*| (sc >> STATE_CONSUMED)*/) & (sc >> STATE_PRESSED);
+//}
 
 inline void mapping::consume() {
     sc &= ~STATE_PRESSED_MASK;
@@ -42,12 +43,14 @@ inline void mapping::output_event() {
     switch (sc & STATE_PRESSED_MASK + STATE_DOUBLE_TAP_MASK + STATE_TAPHOLD_MASK + STATE_PRESSANDRELEASE_MASK)
     {
     case STATE_PRESSED_MASK + STATE_DOUBLE_TAP_MASK:
-        //start taphold timer
-        break;
+        sc |= STATE_TAPHOLD_MASK;
+        EventQueue.AddEvent(this);
+        return;
     case STATE_PRESSED_MASK + STATE_DOUBLE_TAP_MASK + STATE_TAPHOLD_MASK:
-
-        break;
-    case STATE_DOUBLE_TAP_MASK:
+        WRITETAPHOLD;
+        sc &= ~(STATE_DOUBLE_TAP_MASK + STATE_TAPHOLD_MASK);
+        return;
+    case STATE_DOUBLE_TAP_MASK + STATE_PRESSANDRELEASE_MASK:
     default:
         break;
     }

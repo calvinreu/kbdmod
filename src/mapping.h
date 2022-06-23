@@ -44,8 +44,7 @@ private:
     outputSeq  tapOutpot;
     DOUBLETAPVAR
     TAPHOLDVAR
-    inline bool is_tap()  const;
-    inline bool is_hold() const;
+    inline void write_sequence(const outputSeq &output);
 public:
     inline void output_event();
     inline void consume();
