@@ -1,17 +1,8 @@
 #include "mapping.h"
 
 extern Consumer consumer;
-mapping keyMap[KEY_OPTION_COUNT];
+mapping keyMapBase[KEY_OPTION_MAX - KEY_OPTION_MIN];
 extern ExecutionQueue EventQueue;
-
-//inline bool mapping::is_tap()  const {
-//    return ((sc >> STATE_DOUBLE_TAP) | (~(sc >> STATE_PRESSED))/* | (sc >> STATE_CONSUMED)*/) & 1;
-//}
-//
-////a bit more efficient than is_tap
-//inline bool mapping::is_hold() const {
-//    return ~((sc >> STATE_DOUBLE_TAP) /*| (sc >> STATE_CONSUMED)*/) & (sc >> STATE_PRESSED);
-//}
 
 inline void mapping::consume() {
     sc &= ~STATE_PRESSED_MASK;

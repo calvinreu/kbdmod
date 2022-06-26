@@ -14,7 +14,7 @@ struct TimerEvent
 {
     system_clock::time_point execution_time;
     mapping *m;
-    bool operator<(TimerEvent &&other) const;
+    inline bool operator<(const TimerEvent &other) const;
     TimerEvent(mapping *m);
 };
 

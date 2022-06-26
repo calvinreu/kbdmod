@@ -20,3 +20,5 @@ void TimerLoop() {
         current.m->output_event();
     }
 }
+
+inline bool TimerEvent::operator<(const TimerEvent &other) const { return this->execution_time < other.execution_time; }

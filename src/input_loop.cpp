@@ -1,14 +1,18 @@
 #include "input_loop.h"
 
+
+extern IOTYPE IO;
+extern mapping keyMapBase[];
 extern ExecutionQueue EventQueue;
 bool running = true;
 
 void input_loop() {
+    auto keyMap = keyMapBase - KEY_OPTION_MIN;
     input_event input;
     mapping *current;
     while (IO.read_event(&input))
     {
-        if (input.type != EV_KEY || input.code > KEY_OPTION_COUNT) {
+        if (input.type != EV_KEY || input.code > KEY_OPTION_MAX || input.code < KEY_OPTION_MIN) {
             IO.write_event(&input);//pass non keyboard and unsuported keys throught to the system
             continue;
         }

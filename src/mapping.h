@@ -1,13 +1,13 @@
 #pragma once
+#include "constexpr.h"
 #include "types.h"
 #include "io.h"
 #include "consumption.h"
 #include "features.h"
-#include "constexpr.h"
 #include <vector>
 
-#define KEY_OPTION_COUNT 249
-
+#define KEY_OPTION_MAX 249
+#define KEY_OPTION_MIN 0
 
 #define STATE_PRESSED 0
 #define STATE_DOUBLE_TAP 1
