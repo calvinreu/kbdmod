@@ -1,6 +1,7 @@
 #pragma once
 #include "types.h"
 #include <type_traits>
+#define FREEBITATENDSIZE 5
 
 constexpr int constPow(int num, unsigned int pow)
 {
@@ -11,6 +12,11 @@ constexpr int constPow(int num, unsigned int pow)
 template<int from, int to>
 inline TypeOutputConf bit_shift(const TypeOutputConf &value)
 {
+    if (to - from > FREEBITATENDSIZE)
+        static_assert(
+"unable to bitshift it would cause undefined behaviourbecause it shifts to far"
+        );
+    
     if constexpr(from < to) 
         return (value << (to-from));
     else if constexpr(from > to)
