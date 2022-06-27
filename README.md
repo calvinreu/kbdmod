@@ -2,6 +2,11 @@
 
 intercept keycodes and change them to emulate qmk/oryx zsa like behaviour with any keyboard
 
+## Stuff to add
+ - do not check any features for some keys and just pass them through
+ - make events not output anything if there is still something being done with the key
+ - create some system to ignore stuff the key dosent support
+
 
 ## Badges
 On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
