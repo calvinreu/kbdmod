@@ -1,5 +1,6 @@
 #include "io.h"
 
+inline void InputOutput::write_event() const {}
 
 InputOutput::InputOutput() {
     outputTemplate.time.tv_sec = 0;

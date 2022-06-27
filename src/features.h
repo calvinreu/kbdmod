@@ -1,6 +1,13 @@
 #pragma once
 
-#if DOUBLETAP == ENABLED
+#ifndef FEATUREDOUBLETAP
+#define FEATUREDOUBLETAP true
+#endif
+#ifndef FEATURETAPHOLD
+#define FEATURETAPHOLD true
+#endif
+
+#if FEATUREDOUBLETAP == true
 #define DOUBLETAPVAR outputSeq doubletap;
 #define DOUBLETAP doubletap
 #define DOUBLETAPCONF OutputConfig doubletap;
@@ -12,7 +19,7 @@
 #define WRITEDOUBLETAP 0
 #endif
 
-#if TAPHOLD == ENABLED
+#if FEATURETAPHOLD == true
 #define TAPHOLDVAR outputSeq taphold;
 #define TAPHOLDCONF OutputConfig taphold;
 #define TAPHOLD taphold

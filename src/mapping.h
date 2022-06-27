@@ -4,6 +4,9 @@
 #include "io.h"
 #include "consumption.h"
 #include "features.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string>
 #include <vector>
 
 #define KEY_OPTION_MAX 249
@@ -20,7 +23,10 @@
 #define ON_DOUBLETAP_CONSUMPTION 7
 #define ON_TAPHOLD_CONSUMPTION 8
 #define OSM_MODE 9
-#define UNCONSUMABLE 15//last bit since it can be set false after init without losing data
+//last bit since it can be set false after init without losing data
+#define UNCONSUMABLE 15
+//leave FREEBITATEND bit at the end free for bitshifting
+
 
 #define STATE_PRESSED_MASK          constPow(2, STATE_PRESSED)
 #define STATE_DOUBLE_TAP_MASK       constPow(2, STATE_DOUBLE_TAP)
@@ -39,12 +45,15 @@
 class mapping
 {
 private:
-    TypeOutputConf sc;//msb has to be false otherwise undefined behaviour can occur
+    //msb has to be false otherwise undefined behaviour can occur
+    TypeOutputConf sc;
     outputSeq holdOutput;
     outputSeq  tapOutpot;
     DOUBLETAPVAR
     TAPHOLDVAR
-    inline void write_sequence(const outputSeq &output);
+
+    inline void write_double_tap() const;
+    inline void write_tap_hold() const;
 public:
     inline void output_event();
     inline void consume();

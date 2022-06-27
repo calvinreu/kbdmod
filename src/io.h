@@ -22,6 +22,7 @@ private:
 public:
     inline void write_event(const outputSeq &output);
     inline void write_event(input_event *output) const;
+    inline void write_event() const;
     inline bool read_event (input_event *input ) const;
     inline void add_osm(const osmSeq &osm);
 
