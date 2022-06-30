@@ -51,3 +51,9 @@ inline void sequenz_buffer_manager_byte_allocator<sequenzBuffer>::append(const s
             *ptr = *i;
     }
 }
+
+//return if the sequenz is empty
+template<typename sequenzBuffer>
+inline bool sequenz_buffer_manager_byte_allocator<sequenzBuffer>::is_empty() const {
+    return data == NULL;
+}

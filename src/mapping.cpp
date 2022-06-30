@@ -7,11 +7,11 @@ extern IOTYPE IO;
 
 
 inline void mapping::consume() {
-    sc &= ~STATE_PRESSED_MASK;
+    key &= ~STATE_PRESSED_MASK;
 }
 
 inline void mapping::release() {
-    sc ^= STATE_PRESSED_MASK+STATE_PRESSANDRELEASE_MASK;
+    key ^= STATE_PRESSED_MASK+STATE_PRESSANDRELEASE_MASK;
     /*
 since pressed has to be true xor will make it false
 unless this is the 3rd release in one event timer 
@@ -24,61 +24,51 @@ the double tap sytem will get fucked anyway
 
 inline void mapping::press() {
     TypeKeyCode mask = 0;
-    if(sc & ON_PRESS_CONSUMPTION_MASK)
-        consumer.consume();
 
     //if double tap and pressandrelease pressandrelease bool is true
-    mask = (sc &
-    bit_shift<STATE_DOUBLE_TAP, STATE_PRESSANDRELEASE>(sc)) &
+    mask = (key &
+    bit_shift<STATE_DOUBLE_TAP, STATE_PRESSANDRELEASE>(key)) &
     STATE_PRESSANDRELEASE_MASK;
 
-    sc |= bit_shift<STATE_PRESSANDRELEASE, STATE_DOUBLE_TAP>(sc) &
+    key |= bit_shift<STATE_PRESSANDRELEASE, STATE_DOUBLE_TAP>(key) &
     STATE_DOUBLE_TAP;
 
     //set press, do not unset pressandrelease if double tap is already true
     //to allow for third press before event elapsed
-    sc = (sc & mask) | STATE_PRESSED_MASK;
+    key = (key & mask) | STATE_PRESSED_MASK;
 }
 
 inline void mapping::output_event() {
-
-    const TypeOutputConf ActionMask =
-    STATE_PRESSED_MASK + STATE_DOUBLE_TAP_MASK + STATE_PRESSANDRELEASE_MASK;
-
-    TypeOutputConf tapholdActive =
-    sc & bit_shift<STATE_PRESSED, STATE_TAPHOLD>(sc) & STATE_TAPHOLD_MASK;
-
-    switch (sc & ActionMask + tapholdActive)
-    {
-    case STATE_PRESSED_MASK + STATE_DOUBLE_TAP_MASK:
-        if constexpr(FEATURETAPHOLD) {
-            sc |= STATE_TAPHOLD_MASK;
-        }else{
-            sc &= ~STATE_DOUBLE_TAP_MASK;
-            IO.write_event(tapOutpot);
-            if ( sc & ON_TAP_CONSUMPTION_MASK )
-                consume();   
-        }
-        EventQueue.AddEvent(this);
-        return;
-    case STATE_PRESSED_MASK + STATE_DOUBLE_TAP_MASK + STATE_TAPHOLD_MASK:
-        IO.write_event(TAPHOLD);
-        sc &= ~(STATE_DOUBLE_TAP_MASK + STATE_TAPHOLD_MASK);
-        return;
-    case STATE_DOUBLE_TAP_MASK + STATE_PRESSANDRELEASE_MASK://triple tap
-        IO.write_event(tapOutpot);//fall through intentional
-        if ( sc & ON_TAP_CONSUMPTION_MASK )
-            consume();
-    case STATE_DOUBLE_TAP_MASK://double tap
-        write_double_tap();
-        if constexpr(FEATUREDOUBLETAP)
-            return;
-    case STATE_PRESSANDRELEASE_MASK://released key
-        IO.write_event(tapOutpot);
-        return;
-    default:
-        fprintf(stderr, "unrecognized state combination: %i", sc);
+    //check if key should be passed to output
+    if (key < HOLD_ENABLED_MASK) {
+        IO.write_event(tap);
         return;
     }
-}
 
+    //create switch statement for each state
+    //if state is pressed write tap hold
+    //if state is double tap write double tap
+    //if state is tap hold write tap hold
+    switch (key & KEY_STATE) {
+    //key not pressed anymore block
+    case STATE_DOUBLE_TAP_MASK + STATE_PRESSANDRELEASE_MASK:
+        IO.write_event(tap);//intentionally fallthrough
+    case STATE_DOUBLE_TAP_MASK:
+        if(doubletap.is_empty())
+            IO.write_event(tap);//intentionally fallthrough
+        else {
+            EventQueue.RemoveEvent(this);
+            IO.write_event(doubletap);
+            return;
+        }
+    case STATE_PRESSANDRELEASE_MASK:
+        IO.write_event(tap);
+        break;
+    //key pressed block
+    case STATE_PRESSED_MASK:
+        IO.write_event(hold);
+        break;
+    //taphold block
+
+    }
+}

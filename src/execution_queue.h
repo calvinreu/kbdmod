@@ -15,5 +15,7 @@ struct ExecutionQueue
     std::mutex Lock;
 
     inline void AddEvent(mapping *m);
+    //remove event from queue
+    inline TimerEvent RemoveEvent(const mapping *m);
     inline TimerEvent PopEvent();
 };

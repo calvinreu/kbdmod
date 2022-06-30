@@ -27,6 +27,8 @@ public:
     inline KeyCodeIteratorNormal begin();
     inline void clear();
     inline void append(const sequenz_buffer_manager_byte_allocator<sequenzBuffer> &other);
+    //return if the sequenz is empty
+    inline bool is_empty() const;
 };
 
 //Buffer size = sizeof(sequenzBuffer - 1)

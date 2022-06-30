@@ -1,6 +1,6 @@
 #include "consumption.h"
 
-Consumer consume;
+Consumer consumer;
 
 inline void Consumer::add_consume_map(std::vector<mapping*> &&ConsumptionMap) {
     ConsumptionMap = ConsumptionMap;
