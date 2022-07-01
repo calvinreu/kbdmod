@@ -3,8 +3,55 @@
 
 extern mapping keyMapBase[];
 
+//print usage
+inline void usage() {
+    std::cout << 
+    "Usage: \n"
+    "-h, --help: print this help message\n"
+    "-v, --version: print version\n"
+    "-c, --config: specify config file\n";
+}
+
 //init
-inline void init() {
+inline void init(const char **argv, int argc) {
+    //check for params
+    if (argc == 1) {
+        usage();
+        fprintf(stderr, "No arguments provided.\n");
+        exit(0);
+    }
+
+    string configPath;
+
+    //parse params
+    for (auto i = argv+1; i < argv+argc; i++) 
+    {
+        if (strcmp(*i, "-h") == 0 || strcmp(*i, "--help") == 0) {
+            usage();
+            exit(0);
+        }
+        else if (strcmp(*i, "-v") == 0 || strcmp(*i, "--version") == 0) {
+            std::cout << "Version: " << VERSION << std::endl;
+            exit(0);
+        }
+        else if (strcmp(*i, "-c") == 0 || strcmp(*i, "--config") == 0) {
+            if (i+1 < argv+argc) {
+                configPath = *(i+1);
+                i++;
+            }
+            else {
+                fprintf(stderr, "No config file provided.\n");
+                exit(0);
+            }
+        }
+        else {
+            fprintf(stderr, "Unknown argument: %s\n", *i);
+            usage();
+            exit(0);
+        }
+    }
+
+
     //init empty keymap
     for (int i = KEY_OPTION_MIN; i < KEY_OPTION_MAX; i++) {
         keyMapBase[i].init(

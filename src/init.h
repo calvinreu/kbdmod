@@ -7,8 +7,10 @@
 #include "features.h"
 #include <json/json.h>
 #include <fstream>
+#include <iostream>
 
+using std::string;
 using std::exception;
 
-extern inline void load_config();
-extern inline void init();
+extern inline void load_config(string path);
+extern inline void init(const char **argv, int argc);
