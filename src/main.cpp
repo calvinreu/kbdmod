@@ -1,6 +1,8 @@
+#include "init.h"
 
 int main(int argc, char const *argv[])
 {
-    /* code */
+    //run init
+    init(argv, argc);
     return 0;
 }

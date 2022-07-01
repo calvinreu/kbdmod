@@ -4,7 +4,7 @@
 #include <libevdev-1.0/libevdev/libevdev.h>
 #include "key.h"
 #include "mapping.h"
-#include "features.h"
+#include "timer.h"
 #include <json/json.h>
 #include <fstream>
 #include <iostream>

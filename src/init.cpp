@@ -62,6 +62,10 @@ inline void init(const char **argv, int argc) {
     }
     //load config
     load_config(configPath);
+
+    //start event loop
+    std::thread eventLoopThread(&TimerLoop);
+    eventLoopThread.detach();
 }
 
 //load config from json file
