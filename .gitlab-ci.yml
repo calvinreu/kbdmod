@@ -23,7 +23,7 @@ build:
       - "build/keyboard_modify.bin"
     cache:
       paths:
-        - "build/"
+        - "build/*"
 
 # has to be added still
 # run tests using the binary built before
