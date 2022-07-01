@@ -24,7 +24,6 @@
 #define ON_HOLD_OSM 5
 #define ON_DOUBLETAP_OSM 6
 #define ON_TAPHOLD_OSM 7
-#define UNCONSUMABLE 15
 #define HOLD_OUTPUT_PRESSED ON_HOLD_OSM
 #define TAPHOLD_OUTPUT_PRESSED ON_TAPHOLD_OSM
 
@@ -41,7 +40,6 @@
 #define ON_HOLD_OSM_MASK           constPow(2, ON_HOLD_OSM)
 #define ON_DOUBLETAP_OSM_MASK      constPow(2, ON_DOUBLETAP_OSM)
 #define ON_TAPHOLD_OSM_MASK        constPow(2, ON_TAPHOLD_OSM)
-#define UNCONSUMABLE_MASK         constPow(2, UNCONSUMABLE)
 #define HOLD_OUTPUT_PRESSED_MASK  constPow(2, HOLD_OUTPUT_PRESSED)
 #define TAPHOLD_OUTPUT_PRESSED_MASK constPow(2, TAPHOLD_OUTPUT_PRESSED)
 #define KEY_STATE STATE_PRESSED_MASK + STATE_DOUBLE_TAP_MASK \
@@ -77,4 +75,6 @@ public:
     //constructor for key mapping
     mapping(TypeOutputConf key, outputSeq hold, outputSeq tap, outputSeq doubletap, outputSeq taphold);
     mapping();
+    //init function for mapping
+    inline void init(TypeOutputConf key, uint64_t hold, uint64_t tap, uint64_t doubletap, uint64_t taphold);
 };

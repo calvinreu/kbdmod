@@ -5,6 +5,18 @@ mapping keyMapBase[KEY_OPTION_MAX - KEY_OPTION_MIN];
 extern ExecutionQueue EventQueue;
 extern IOTYPE IO;
 
+
+//init mapping
+inline void mapping::init(
+    TypeOutputConf key, uint64_t hold, uint64_t tap,
+    uint64_t doubletap, uint64_t taphold) {
+    this->key = key;
+    this->hold = hold;
+    this->tap = tap;
+    this->doubletap = doubletap;
+    this->taphold = taphold;
+}
+
 //write output event
 template<output_type type>
 inline void mapping::write_output() {

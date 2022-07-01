@@ -2,27 +2,12 @@
 #include <string>
 #include <sstream>
 #include <libevdev-1.0/libevdev/libevdev.h>
-#include <yaml-cpp/yaml.h>
-#include <map>
 #include "key.h"
 #include "mapping.h"
 #include "features.h"
+#include <json/json.h>
+#include <fstream>
 
-using std::map;
 using std::exception;
-using std::invalid_argument;
-using std::string;
-using std::stringstream;
-
-//mapping struct
-struct config
-{
-    TypeOutputConf keyconf;
-    outputSeq tap;
-    outputSeq hold;
-    outputSeq doubletap;
-    outputSeq taphold;
-};
-
 
 extern inline void load_config();

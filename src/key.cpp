@@ -18,28 +18,34 @@ inline T KeyCodeIterator<T>::operator*() {
 template<typename T>
 inline KeyCodeIterator<T>::KeyCodeIterator(T* key): key(key) {}
 
+//constructor for SequenzBuffer with sequenzBuffer
 template<typename sequenzBuffer>
-inline KeyCodeIteratorConst sequenz_buffer_manager_byte_allocator<sequenzBuffer>::begin() const {
+inline SequenzBuffer<sequenzBuffer>::
+SequenzBuffer(const sequenzBuffer &data): data(data) {}
+
+template<typename sequenzBuffer>
+inline KeyCodeIteratorConst SequenzBuffer<sequenzBuffer>::begin() const {
     return KeyCodeIteratorConst((const TypeKeyCode*)&data);
 }
 
 template<typename sequenzBuffer>
-inline constexpr TypeKeyCode sequenz_buffer_manager_byte_allocator<sequenzBuffer>::end() const {
+inline constexpr TypeKeyCode SequenzBuffer<sequenzBuffer>::end() const {
     return NULL;
 }
 
 template<typename sequenzBuffer>
-inline KeyCodeIteratorNormal sequenz_buffer_manager_byte_allocator<sequenzBuffer>::begin() {
+inline KeyCodeIteratorNormal SequenzBuffer<sequenzBuffer>::begin() {
     return KeyCodeIterator((TypeKeyCode*)&data);
 }
 
 template<typename sequenzBuffer>
-inline void sequenz_buffer_manager_byte_allocator<sequenzBuffer>::clear() {
+inline void SequenzBuffer<sequenzBuffer>::clear() {
     data = NULL;
 }
 
 template<typename sequenzBuffer>
-inline void sequenz_buffer_manager_byte_allocator<sequenzBuffer>::append(const sequenz_buffer_manager_byte_allocator<sequenzBuffer> &other) {
+inline void SequenzBuffer<sequenzBuffer>
+::append(const SequenzBuffer<sequenzBuffer> &other) {
     if (data == NULL)
         data = other.data;
     else {
@@ -47,13 +53,14 @@ inline void sequenz_buffer_manager_byte_allocator<sequenzBuffer>::append(const s
         auto ptr = begin();
         for (ptr; ptr != end(); ptr++, index++);
         
-        for (auto i = other.begin(); i != other.end() && index < sizeof(sequenzBuffer) - 1; ptr++, i++, index++)
+        for (auto i = other.begin(); i != other.end() && index < 
+        sizeof(sequenzBuffer) - 1; ptr++, i++, index++)
             *ptr = *i;
     }
 }
 
 //return if the sequenz is empty
 template<typename sequenzBuffer>
-inline bool sequenz_buffer_manager_byte_allocator<sequenzBuffer>::is_empty() const {
+inline bool SequenzBuffer<sequenzBuffer>::is_empty() const {
     return data == NULL;
 }

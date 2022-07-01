@@ -18,7 +18,7 @@ typedef KeyCodeIterator<TypeKeyCode> KeyCodeIteratorNormal;
 
 
 template<typename sequenzBuffer>
-class sequenz_buffer_manager_byte_allocator {
+class SequenzBuffer {
 private: 
     sequenzBuffer data;
 public:
@@ -26,11 +26,14 @@ public:
     inline constexpr TypeKeyCode end() const;
     inline KeyCodeIteratorNormal begin();
     inline void clear();
-    inline void append(const sequenz_buffer_manager_byte_allocator<sequenzBuffer> &other);
+    inline void append(const SequenzBuffer<sequenzBuffer> &other);
     //return if the sequenz is empty
     inline bool is_empty() const;
+    //construct from sequenzBuffer
+    inline SequenzBuffer(const sequenzBuffer &data);
+    inline SequenzBuffer();
 };
 
 //Buffer size = sizeof(sequenzBuffer - 1)
-typedef sequenz_buffer_manager_byte_allocator<uint64_t> outputSeq;
-typedef sequenz_buffer_manager_byte_allocator<uint64_t> osmSeq;
+typedef SequenzBuffer<uint64_t> outputSeq;
+typedef SequenzBuffer<uint64_t> osmSeq;
