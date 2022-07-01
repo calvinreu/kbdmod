@@ -14,7 +14,15 @@ using std::invalid_argument;
 using std::string;
 using std::stringstream;
 
-enum OutputMode {
-    osm,
-    sequence,
+//mapping struct
+struct config
+{
+    TypeOutputConf keyconf;
+    outputSeq tap;
+    outputSeq hold;
+    outputSeq doubletap;
+    outputSeq taphold;
 };
+
+
+extern inline void load_config();
