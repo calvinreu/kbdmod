@@ -94,6 +94,12 @@ inline void mapping::output_event() {
         return;
     }
 
+    //check if key is only an ON_TAP_OSM
+    if (key < HOLD_ENABLED_MASK) {
+        IO.add_osm(tap);
+        return;
+    } 
+
     //create switch statement for each state
     //if state is pressed write tap hold
     //if state is double tap write double tap

@@ -17,13 +17,13 @@
 #define STATE_TAPHOLD 2
 #define STATE_PRESSANDRELEASE 3
 #define OUTPUT_PRESSED 4
-#define HOLD_ENABLED 12
-#define DOUBLE_TAP_ENABLED 13//can be set to false since vars will be set null
-#define TAPHOLD_ENABLED 14   //can be set to false since vars will be set null
-#define ON_TAP_OSM 11//has to be smaller than features and bigger than any osm
-#define ON_HOLD_OSM 9
-#define ON_DOUBLETAP_OSM 10
-#define ON_TAPHOLD_OSM 8
+#define HOLD_ENABLED 9
+#define DOUBLE_TAP_ENABLED 10
+#define TAPHOLD_ENABLED 11
+#define ON_TAP_OSM 8//has to be smaller than features and bigger than any osm
+#define ON_HOLD_OSM 5
+#define ON_DOUBLETAP_OSM 6
+#define ON_TAPHOLD_OSM 7
 #define UNCONSUMABLE 15
 #define HOLD_OUTPUT_PRESSED ON_HOLD_OSM
 #define TAPHOLD_OUTPUT_PRESSED ON_TAPHOLD_OSM
