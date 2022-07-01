@@ -5,6 +5,15 @@ mapping keyMapBase[KEY_OPTION_MAX - KEY_OPTION_MIN];
 extern ExecutionQueue EventQueue;
 extern IOTYPE IO;
 
+//output press action
+inline void mapping::output_press(const outputSeq &seq) {
+    IO.write_event(seq, INPUT_VAL_PRESS);
+}
+
+//output release action
+inline void mapping::output_release(const outputSeq &seq) {
+    IO.write_event(seq, INPUT_VAL_RELEASE);
+}
 
 inline void mapping::consume() {
     key &= ~STATE_PRESSED_MASK;

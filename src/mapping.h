@@ -51,12 +51,16 @@ private:
     outputSeq  doubletap;
     outputSeq taphold;
 
-    inline void write_double_tap() const;
-    inline void write_tap_hold() const;
+    //output press action
+    inline void output_press(const outputSeq &seq);
+    //output release action
+    inline void output_release(const outputSeq &seq);
 public:
     inline void output_event();
     inline void consume();
     inline void release();
     inline void press();
     //key index is the index in array
+    //constructor for key mapping
+    mapping(TypeOutputConf key, outputSeq hold, outputSeq tap, outputSeq doubletap, outputSeq taphold);
 };
