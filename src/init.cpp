@@ -1,5 +1,6 @@
 #include "init.h"
 
+#define VERSION ""//make vscode shut up about unused variables
 
 extern mapping keyMapBase[];
 
