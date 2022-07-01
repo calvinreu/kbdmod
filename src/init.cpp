@@ -61,18 +61,18 @@ inline void init(const char **argv, int argc) {
         );
     }
     //load config
-    load_config();
+    load_config(configPath);
 }
 
 //load config from json file
-inline void load_config() {
+inline void load_config(string configPath) {
     //init outputSequences
     uint64_t tap;
     uint64_t doubletap;
     uint64_t hold;
     uint64_t taphold;
     //open file
-    std::ifstream file("config.json");
+    std::ifstream file(configPath);
     //read file
     Json::Value root;
     file >> root;
