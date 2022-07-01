@@ -9,7 +9,7 @@ private:
 public:
     inline bool operator!=(const TypeKeyCode &value) const;
     inline void operator++(int);
-    inline T operator*();
+    inline T& operator*();
     inline KeyCodeIterator(T* key);
 };
 
@@ -17,23 +17,23 @@ typedef KeyCodeIterator<const TypeKeyCode> KeyCodeIteratorConst;
 typedef KeyCodeIterator<TypeKeyCode> KeyCodeIteratorNormal;
 
 
-template<typename sequenzBuffer>
-class SequenzBuffer {
+template<typename buffer>
+class SequenceBuffer {
 private: 
-    sequenzBuffer data;
+    buffer data;
 public:
     inline KeyCodeIteratorConst begin() const;
     inline constexpr TypeKeyCode end() const;
     inline KeyCodeIteratorNormal begin();
     inline void clear();
-    inline void append(const SequenzBuffer<sequenzBuffer> &other);
+    inline void append(const SequenceBuffer<buffer> &other);
     //return if the sequenz is empty
     inline bool is_empty() const;
-    //construct from sequenzBuffer
-    inline SequenzBuffer(const sequenzBuffer &data);
-    inline SequenzBuffer();
+    //construct from SequenceBuffer
+    inline SequenceBuffer(const buffer &data);
+    inline SequenceBuffer();
 };
 
-//Buffer size = sizeof(sequenzBuffer - 1)
-typedef SequenzBuffer<uint64_t> outputSeq;
-typedef SequenzBuffer<uint64_t> osmSeq;
+//Buffer size = sizeof(SequenceBuffer - 1)
+typedef SequenceBuffer<uint64_t> outputSeq;
+typedef SequenceBuffer<uint64_t> osmSeq;
