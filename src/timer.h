@@ -15,7 +15,15 @@ struct TimerEvent
     system_clock::time_point execution_time;
     mapping *m;
     inline bool operator<(const TimerEvent &other) const;
+    //add compare operators to compare to time_point
+    inline bool operator<(const system_clock::time_point &other) const;
+    inline bool operator>(const system_clock::time_point &other) const;
+    inline bool operator==(const system_clock::time_point &other) const;
     TimerEvent(mapping *m);
+    //create timer event with custom delay
+    TimerEvent(mapping *m, const milliseconds &Delay);
+    //create timer event with custom timepoint
+    TimerEvent(mapping *m, const system_clock::time_point &Time);
 };
 
 extern void TimerLoop();//initialize the timer

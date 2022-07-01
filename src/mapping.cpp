@@ -53,22 +53,55 @@ inline void mapping::output_event() {
     //key not pressed anymore block
     case STATE_DOUBLE_TAP_MASK + STATE_PRESSANDRELEASE_MASK:
         IO.write_event(tap);//intentionally fallthrough
+        //set pressandrelease false
+        key &= ~STATE_PRESSANDRELEASE_MASK;
+        EventQueue.RemoveEvent(this);
     case STATE_DOUBLE_TAP_MASK:
+        //set double tap false
+        key &= ~STATE_DOUBLE_TAP_MASK;
+        EventQueue.RemoveEvent(this);
+
         if(doubletap.is_empty())
             IO.write_event(tap);//intentionally fallthrough
         else {
-            EventQueue.RemoveEvent(this);
             IO.write_event(doubletap);
             return;
         }
     case STATE_PRESSANDRELEASE_MASK:
         IO.write_event(tap);
-        break;
+        //set pressandrelease false
+        key &= ~STATE_PRESSANDRELEASE_MASK;
+        return;
     //key pressed block
     case STATE_PRESSED_MASK:
+        //set pressandrelease true
+        key |= STATE_PRESSANDRELEASE_MASK;
         IO.write_event(hold);
         break;
     //taphold block
-
+    case STATE_DOUBLE_TAP_MASK + STATE_PRESSED_MASK + STATE_PRESSANDRELEASE_MASK:
+        //possibilities are:
+        //1. tap taphold
+        //2. doubletap hold
+        //3. tap doubletap
+        //fallthrough
+    case STATE_DOUBLE_TAP_MASK + STATE_PRESSED_MASK:
+        //set taphold true
+        key |= STATE_TAPHOLD_MASK;
+        return;
+    case STATE_DOUBLE_TAP_MASK + STATE_TAPHOLD_MASK + STATE_PRESSED_MASK:
+        //set double tap false
+        key &= ~(STATE_DOUBLE_TAP_MASK + STATE_TAPHOLD_MASK);
+        //check if taphold is enabled
+        if (key & TAPHOLD_ENABLED_MASK) {
+            IO.write_event(taphold);
+            return;
+        }else if (key & DOUBLE_TAP_ENABLED_MASK) {
+            IO.write_event(doubletap);
+            return;
+        {
+            
+        }
+        
     }
 }

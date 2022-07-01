@@ -11,11 +11,15 @@ struct mapping;
 
 struct ExecutionQueue
 {
-    std::set<TimerEvent> events;
+    std::multiset<TimerEvent> events;
     std::mutex Lock;
 
+    //add event with custom delay
+    inline void AddEvent(mapping *m, const milliseconds &Delay);
     inline void AddEvent(mapping *m);
     //remove event from queue
-    inline TimerEvent RemoveEvent(const mapping *m);
+    inline void RemoveEvent(const mapping *m);
     inline TimerEvent PopEvent();
+    //is_empty
+    inline bool is_empty() const;
 };
