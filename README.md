@@ -3,9 +3,11 @@
 intercept keycodes and change them to emulate qmk/oryx zsa like behaviour with any keyboard
 
 ## Stuff to add
- - do not check any features for some keys and just pass them through
- - make events not output anything if there is still something being done with the key
- - create some system to ignore stuff the key dosent support
+ - config creator would be nice if it has a gui web based
+ - pipeline for keyboard_modify
+ - pipeline for gui when done
+ - automatic start of interception in main func
+ - some sort of examples usw
 
 
 ## Badges
