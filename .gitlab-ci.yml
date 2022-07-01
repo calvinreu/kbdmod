@@ -17,7 +17,7 @@ build:
   before_script:
     - apt update --yes && apt install make cmake libevdev-dev libjsoncpp-dev --yes
   script:
-    - mkdir build && cd build && cmake ../ && make -j 4
+    - cp -r /usr/include/jsoncpp/json /usr/include && mkdir build && cd build && cmake ../ && make -j 4
   artifacts:
     paths:
       - "build/keyboard_modify.bin"
