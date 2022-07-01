@@ -1,7 +1,7 @@
 #pragma once
 #include <thread>
 #include <chrono>
-#include "config.h"
+#include "init.h"
 #include "execution_queue.h"
 
 using namespace std::this_thread; // sleep_for, sleep_until

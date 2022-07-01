@@ -43,7 +43,7 @@ inline void InputOutput::write_event_release(const outputSeq &output) {
 
 inline void InputOutput::write_event() const {}
 
-InputOutput::InputOutput() {
+InputOutput::InputOutput() :osm(0) {
     outputTemplate.time.tv_sec = 0;
     outputTemplate.time.tv_usec = 0;
     outputTemplate.type = EV_KEY;

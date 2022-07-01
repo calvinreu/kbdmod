@@ -1,7 +1,20 @@
-#include "config.h"
+#include "init.h"
 
 
 extern mapping keyMapBase[];
+
+//init
+inline void init() {
+    //init empty keymap
+    for (int i = KEY_OPTION_MIN; i < KEY_OPTION_MAX; i++) {
+        keyMapBase[i].init(
+            0,
+            0, i, 0, 0
+        );
+    }
+    //load config
+    load_config();
+}
 
 //load config from json file
 inline void load_config() {

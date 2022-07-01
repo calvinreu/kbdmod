@@ -11,3 +11,4 @@
 using std::exception;
 
 extern inline void load_config();
+extern inline void init();

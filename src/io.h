@@ -2,7 +2,7 @@
 #include <vector>
 #include <linux/input.h>
 #include "key.h"
-#include "config.h"
+#include "init.h"
 #include "timer.h"
 
 /* https://www.kernel.org/doc/html/latest/input/event-codes.html */
