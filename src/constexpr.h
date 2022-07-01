@@ -1,7 +1,7 @@
 #pragma once
 #include "types.h"
 #include <type_traits>
-#define FREEBITATENDSIZE 5
+#define FREEBITATENDSIZE 4
 
 constexpr int constPow(int num, unsigned int pow)
 {
