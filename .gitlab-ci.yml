@@ -21,9 +21,9 @@ build:
   artifacts:
     paths:
       - "build/keyboard_modify.bin"
-    cache:
-      paths:
-        - "build/*"
+  cache:
+    paths:
+      - "build/*"
 
 # has to be added still
 # run tests using the binary built before
