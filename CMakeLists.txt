@@ -1,18 +1,17 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(keyboard-configurator VERSION 0.0.1)
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
 file(GLOB_RECURSE source src/*.cpp)
+add_library(source ${source})
+#add verison to source files
+project(keyboard_modify VERSION 0.0.1)
+set_target_properties(source PROPERTIES
+VERSION ${PROJECT_VERSION}
+SOVERSION ${PROJECT_VERSION_MAJOR})
 
-add_library(source STATIC ${source})
-target_link_libraries(source PUBLIC yaml-cpp)
+add_executable(keyboard_modify.bin src/main.cpp)
 
-# test file for gbd DEBUGER
-add_executable(test.out test.cpp)
-# installation file
-add_executable(input-interception main.cpp)
-
-TARGET_LINK_LIBRARIES(input-interception source)
-TARGET_LINK_LIBRARIES(test.out source)
+TARGET_LINK_LIBRARIES(keyboard_modify.bin source)
