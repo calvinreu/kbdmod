@@ -3,7 +3,14 @@
 #include <linux/input.h>
 #include "key.h"
 #include "init.h"
-#include "timer.h"
+#include <thread>
+#include <chrono>
+
+using namespace std::this_thread; // sleep_for, sleep_until
+using namespace std::chrono_literals;
+using std::chrono::system_clock;
+using std::chrono::milliseconds;
+
 
 /* https://www.kernel.org/doc/html/latest/input/event-codes.html */
 #define INPUT_VAL_PRESS 1
@@ -13,6 +20,7 @@
 #ifndef OUTPUT_DELAY//delay between output sequence keys
 #define OUTPUT_DELAY std::chrono::milliseconds(1)
 #endif
+
 
 class InputOutput
 {
@@ -30,5 +38,7 @@ public:
 
     InputOutput();
 };
- 
+
 typedef InputOutput IOTYPE;
+
+#include "io.cpp"//since everything is inline

@@ -1,4 +1,6 @@
+#pragma once
 #include "consumption.h"
+#include "mapping.h"
 
 Consumer consumer;
 

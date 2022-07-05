@@ -2,6 +2,7 @@
 #include "types.h"
 #include <cstddef>
 
+
 template<typename T>
 class KeyCodeIterator {
 private:
@@ -19,7 +20,7 @@ typedef KeyCodeIterator<TypeKeyCode> KeyCodeIteratorNormal;
 
 template<typename buffer>
 class SequenceBuffer {
-private: 
+private:
     buffer data;
 public:
     inline KeyCodeIteratorConst begin() const;
@@ -37,3 +38,5 @@ public:
 //Buffer size = sizeof(SequenceBuffer - 1)
 typedef SequenceBuffer<uint64_t> outputSeq;
 typedef SequenceBuffer<uint64_t> osmSeq;
+
+#include "key.cpp"//since everything is inline

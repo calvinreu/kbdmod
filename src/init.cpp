@@ -1,3 +1,4 @@
+#pragma once
 #include "init.h"
 
 #define VERSION ""//make vscode shut up about unused variables
@@ -6,7 +7,7 @@ extern mapping keyMapBase[];
 
 //print usage
 inline void usage() {
-    std::cout << 
+    std::cout <<
     "Usage: \n"
     "-h, --help: print this help message\n"
     "-v, --version: print version\n"
@@ -25,7 +26,7 @@ inline void init(const char **argv, int argc) {
     string configPath;
 
     //parse params
-    for (auto i = argv+1; i < argv+argc; i++) 
+    for (auto i = argv+1; i < argv+argc; i++)
     {
         if (strcmp(*i, "-h") == 0 || strcmp(*i, "--help") == 0) {
             usage();
@@ -89,7 +90,7 @@ inline void load_config(string configPath) {
         uint16_t keyfeatures = (*it)["features"].asUInt();
         //check if features are valid
         //check if doubletap osm is enabled but doubletap is disabled
-        if ((keyfeatures & ON_DOUBLETAP_OSM_MASK) 
+        if ((keyfeatures & ON_DOUBLETAP_OSM_MASK)
         && !(keyfeatures & DOUBLE_TAP_ENABLED_MASK)) {
             fprintf( stderr,
                 "doubletap osm is enabled but doubletap is disabled");

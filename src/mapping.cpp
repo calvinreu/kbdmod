@@ -1,4 +1,6 @@
+#pragma once//is included in headere file
 #include "mapping.h"
+
 
 extern Consumer consumer;
 mapping keyMapBase[KEY_OPTION_MAX - KEY_OPTION_MIN];
@@ -58,7 +60,7 @@ inline void mapping::release() {
     key ^= STATE_PRESSED_MASK+STATE_PRESSANDRELEASE_MASK;
     /*
 since pressed has to be true xor will make it false
-unless this is the 3rd release in one event timer 
+unless this is the 3rd release in one event timer
 pressed and release has to be false and therefore will get true
 if this is the 3rd release in one event timer
 which shouldnt be possible with a reasonable hold timeout
@@ -110,7 +112,7 @@ inline void mapping::output_event() {
     if (key < HOLD_ENABLED_MASK) {
         IO.add_osm(tap);
         return;
-    } 
+    }
 
     //create switch statement for each state
     //if state is pressed write tap hold
@@ -120,7 +122,7 @@ inline void mapping::output_event() {
     //key not pressed anymore block
     case STATE_DOUBLE_TAP_MASK + STATE_PRESSANDRELEASE_MASK:
         EventQueue.RemoveEvent(this);//fallthrough
-    case STATE_DOUBLE_TAP_MASK + 
+    case STATE_DOUBLE_TAP_MASK +
     STATE_PRESSANDRELEASE_MASK + STATE_TAPHOLD_MASK:
         write_output<tapT>();//intentionally fallthrough
         //set pressandrelease false
@@ -150,7 +152,7 @@ inline void mapping::output_event() {
         write_output<holdT>();
         return;
     //taphold block
-    case STATE_DOUBLE_TAP_MASK + 
+    case STATE_DOUBLE_TAP_MASK +
     STATE_PRESSED_MASK + STATE_PRESSANDRELEASE_MASK:
         //possibilities are:
         //1. tap taphold
@@ -174,7 +176,7 @@ inline void mapping::output_event() {
         return;
     case KEY_STATE://everything active
         //set everything but pressed false
-        key &= ~(STATE_PRESSANDRELEASE_MASK + 
+        key &= ~(STATE_PRESSANDRELEASE_MASK +
         STATE_TAPHOLD_MASK + STATE_DOUBLE_TAP_MASK);
         //check if taphold is enabled
         if (key & TAPHOLD_ENABLED_MASK) {

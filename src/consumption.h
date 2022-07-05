@@ -12,3 +12,6 @@ public:
     inline void add_consume_map(std::vector<mapping*> &&ConsumptionMap);
     inline void consume() const;
 };
+
+
+#include "consumption.cpp" //since everything is inline

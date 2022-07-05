@@ -1,7 +1,8 @@
+#pragma once
 #include "execution_queue.h"
 
 //add event with custom delay
-void ExecutionQueue::AddEvent(mapping *m, const milliseconds &Delay) {
+inline void ExecutionQueue::AddEvent(mapping *m, const milliseconds &Delay) {
     Lock.lock();
     events.emplace(m, Delay);
     Lock.unlock();

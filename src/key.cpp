@@ -1,3 +1,4 @@
+#pragma once//is included from header
 #include "key.h"
 
 template class KeyCodeIterator<TypeKeyCode>;
@@ -56,8 +57,8 @@ inline void SequenceBuffer<buffer>
         TypeKeyCode index = 0;
         auto ptr = begin();
         for (ptr; ptr != end(); ptr++, index++);
-        
-        for (auto i = other.begin(); i != other.end() && index < 
+
+        for (auto i = other.begin(); i != other.end() && index <
         sizeof(SequenceBuffer) - 1; ptr++, i++, index++)
             *ptr = *i;
     }

@@ -14,11 +14,14 @@ struct TimerEvent
 {
     system_clock::time_point execution_time;
     mapping *m;
-    inline bool operator<(const TimerEvent &other) const;
+    inline bool operator<(const TimerEvent &other) const { return execution_time > other.execution_time; }
     //add compare operators to compare to time_point
-    inline bool operator<(const system_clock::time_point &other) const;
-    inline bool operator>(const system_clock::time_point &other) const;
-    inline bool operator==(const system_clock::time_point &other) const;
+    inline bool operator<(const system_clock::time_point &other) const  {
+	return this->execution_time < other; }
+    inline bool operator>(const system_clock::time_point &other) const  {
+	return this->execution_time > other; }
+    inline bool operator==(const system_clock::time_point &other) const {
+	return this->execution_time == other; }
     TimerEvent(mapping *m);
     //create timer event with custom delay
     TimerEvent(mapping *m, const milliseconds &Delay);
