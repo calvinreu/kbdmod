@@ -79,5 +79,3 @@ public:
     //init function for mapping
     inline void init(TypeOutputConf key, uint64_t hold, uint64_t tap, uint64_t doubletap, uint64_t taphold);
 };
-
-#include "mapping.cpp"//since everything is inline

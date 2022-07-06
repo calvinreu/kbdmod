@@ -1,5 +1,4 @@
-#include "input_loop.h"
-
+#include "headers.h"
 
 extern IOTYPE IO;
 extern mapping keyMapBase[];
@@ -24,17 +23,17 @@ void input_loop() {
             EventQueue.AddEvent(current);
             continue;
         }
-         
+
         if (input.value == INPUT_VAL_RELEASE){
             current->release();
             continue;
         }
-        
+
         fprintf(stderr, "unexpected .value=%d .code=%d, doing nothing",
             input.value,
             input.code);
         break;
     }
-    
+
     running = false;
 }

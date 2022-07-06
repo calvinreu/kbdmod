@@ -1,6 +1,4 @@
-#pragma once//is included in headere file
-#include "mapping.h"
-
+#include "headers.h"
 
 extern Consumer consumer;
 mapping keyMapBase[KEY_OPTION_MAX - KEY_OPTION_MIN];

@@ -1,5 +1,4 @@
-#pragma once //is included from header
-#include "io.h"
+#include "headers.h"
 
 //write event with event value
 inline void InputOutput::write_event_press(const outputSeq &output)

@@ -1,5 +1,4 @@
-#pragma once
-#include "execution_queue.h"
+#include "headers.h"
 
 //add event with custom delay
 inline void ExecutionQueue::AddEvent(mapping *m, const milliseconds &Delay) {

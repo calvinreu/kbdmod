@@ -38,5 +38,3 @@ public:
 //Buffer size = sizeof(SequenceBuffer - 1)
 typedef SequenceBuffer<uint64_t> outputSeq;
 typedef SequenceBuffer<uint64_t> osmSeq;
-
-#include "key.cpp"//since everything is inline

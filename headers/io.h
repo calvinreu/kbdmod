@@ -40,5 +40,3 @@ public:
 };
 
 typedef InputOutput IOTYPE;
-
-#include "io.cpp"//since everything is inline

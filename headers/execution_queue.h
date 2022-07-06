@@ -23,5 +23,3 @@ struct ExecutionQueue
     //is_empty
     inline bool is_empty() const;
 };
-
-#include "execution_queue.cpp" //since everything is inline

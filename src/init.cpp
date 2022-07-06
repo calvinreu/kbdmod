@@ -1,5 +1,4 @@
-#pragma once
-#include "init.h"
+#include "headers.h"
 
 #define VERSION ""//make vscode shut up about unused variables
 
@@ -15,7 +14,7 @@ inline void usage() {
 }
 
 //init
-inline void init(const char **argv, int argc) {
+void init(const char **argv, int argc) {
     //check for params
     if (argc == 1) {
         usage();
@@ -70,7 +69,7 @@ inline void init(const char **argv, int argc) {
 }
 
 //load config from json file
-inline void load_config(string configPath) {
+void load_config(string configPath) {
     //init outputSequences
     uint64_t tap;
     uint64_t doubletap;
