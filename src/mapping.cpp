@@ -90,11 +90,11 @@ inline void mapping::output_event() {
     //check if output is pressed
     if (key & OUTPUT_PRESSED_MASK) {
         if (key & TAPHOLD_OUTPUT_PRESSED_MASK) {
-            output_release(taphold);
+            IO.write_event_release(taphold);
             //set output pressed and taphold pressed false
             key &= ~(OUTPUT_PRESSED_MASK + TAPHOLD_OUTPUT_PRESSED_MASK);
         }else{
-            output_release(hold);
+            IO.write_event_release(hold);
             //set output pressed and hold pressed false
             key &= ~(OUTPUT_PRESSED_MASK + HOLD_OUTPUT_PRESSED_MASK);
         }

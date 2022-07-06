@@ -63,7 +63,6 @@ private:
     outputSeq  doubletap;
     outputSeq taphold;
 
-    inline void output_release(const outputSeq &seq);
     //write output event
     template<output_type type>
     inline void write_output();
@@ -75,7 +74,7 @@ public:
     //key index is the index in array
     //constructor for key mapping
     inline mapping(TypeOutputConf key, outputSeq hold, outputSeq tap, outputSeq doubletap, outputSeq taphold);
-    inline mapping();
+    inline mapping() {}
     //init function for mapping
     inline void init(TypeOutputConf key, uint64_t hold, uint64_t tap, uint64_t doubletap, uint64_t taphold);
 };

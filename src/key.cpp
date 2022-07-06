@@ -1,5 +1,4 @@
-#pragma once//is included from header
-#include "key.h"
+#include "headers.h"
 
 template class KeyCodeIterator<TypeKeyCode>;
 template class KeyCodeIterator<const TypeKeyCode>;

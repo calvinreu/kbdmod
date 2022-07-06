@@ -32,7 +32,7 @@ public:
     inline bool is_empty() const;
     //construct from SequenceBuffer
     inline SequenceBuffer(const buffer &data);
-    inline SequenceBuffer();
+    inline SequenceBuffer() {}
 };
 
 //Buffer size = sizeof(SequenceBuffer - 1)
