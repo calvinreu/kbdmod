@@ -28,17 +28,19 @@ private:
     osmSeq osm;//one shot modifier
     input_event outputTemplate;
 public:
-    inline void write_event(const outputSeq &output);
-    inline void write_event(input_event *output) const;
-    inline void write_event() const;
-    inline void write_event_press(const outputSeq &output);
-    inline void write_event_release(const outputSeq &output);
-    inline bool read_event (input_event *input ) const;
-    inline void add_osm(const osmSeq &osm);
+    void write_event(const outputSeq &output);
+    inline void write_event(input_event *output) const {
+		if (fwrite(output, sizeof(struct input_event), 1, stdout) != 1)
+			fprintf(stderr, "Error writing to stdout.\n");
+	}
+    inline void write_event() const {}
+    void write_event_press(const outputSeq &output);
+    void write_event_release(const outputSeq &output);
+    inline bool read_event (input_event *input ) const
+		{ return fread(input, sizeof(struct input_event), 1, stdin) == 1; }
+    inline void add_osm(const osmSeq &osm) {this->osm.append(osm);}
 
     InputOutput();
 };
 
 typedef InputOutput IOTYPE;
-
-#include "io.cpp"//since everything is inline

@@ -2,7 +2,7 @@
 #include "constexpr.h"
 #include "types.h"
 #include "io.h"
-#include "consumption.h"
+#include "timer.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string>
@@ -45,8 +45,6 @@
 #define KEY_STATE STATE_PRESSED_MASK + STATE_DOUBLE_TAP_MASK \
 + STATE_TAPHOLD_MASK + STATE_PRESSANDRELEASE_MASK
 
-#include "mapping.cpp"//since everything is inline
-
 enum output_type {
     tapT,
     doubletapT,
@@ -64,19 +62,21 @@ private:
     outputSeq  doubletap;
     outputSeq taphold;
 
-    inline void output_release(const outputSeq &seq);
     //write output event
     template<output_type type>
     inline void write_output();
 public:
-    inline void output_event();
-    inline void consume();
-    inline void release();
-    inline void press();
-    //key index is the index in array
-    //constructor for key mapping
-    inline mapping(TypeOutputConf key, outputSeq hold, outputSeq tap, outputSeq doubletap, outputSeq taphold);
-    inline mapping();
+    void output_event();
+    void release();
+    void press();
+    inline mapping(){}
     //init function for mapping
-    inline void init(TypeOutputConf key, uint64_t hold, uint64_t tap, uint64_t doubletap, uint64_t taphold);
+    inline void init(TypeOutputConf key, uint64_t hold, uint64_t tap,
+	uint64_t doubletap, uint64_t taphold) {
+		this->key = key;
+		this->hold = hold;
+		this->tap = tap;
+		this->doubletap = doubletap;
+		this->taphold = taphold;
+	}
 };

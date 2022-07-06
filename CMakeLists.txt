@@ -1,16 +1,17 @@
 cmake_minimum_required(VERSION 3.10)
 
-
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
-
-add_library(source src/timer.cpp)
-#add verison to source files
 project(keyboard_modify VERSION 0.0.1)
-set_target_properties(source PROPERTIES
+set_target_properties(${SRC_FILES} PROPERTIES
 VERSION ${PROJECT_VERSION}
 SOVERSION ${PROJECT_VERSION_MAJOR})
 
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
+#search source dir
+file(GLOB_RECURSE SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
+add_library(source ${SRC_FILES})
+
+
 add_executable(keyboard_modify.bin src/main.cpp)
 
-TARGET_LINK_LIBRARIES(keyboard_modify.bin source)
+TARGET_LINK_LIBRARIES(keyboard_modify.bin source jsoncpp)

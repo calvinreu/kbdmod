@@ -12,7 +12,5 @@
 using std::string;
 using std::exception;
 
-extern inline void load_config(string path);
-extern inline void init(const char **argv, int argc);
-
-#include "init.cpp" //since everything is inline
+extern void load_config(string path);
+extern void init(const char **argv, int argc);

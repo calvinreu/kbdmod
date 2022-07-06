@@ -1,4 +1,5 @@
 #include "timer.h"
+#include "mapping.h"
 
 extern ExecutionQueue EventQueue;
 extern bool running;

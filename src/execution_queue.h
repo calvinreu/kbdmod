@@ -15,13 +15,19 @@ struct ExecutionQueue
     std::mutex Lock;
 
     //add event with custom delay
-    inline void AddEvent(mapping *m, const milliseconds &Delay);
-    inline void AddEvent(mapping *m);
+    inline void AddEvent(mapping *m, const milliseconds &Delay) {
+		Lock.lock();
+		events.emplace(m, Delay);
+		Lock.unlock();
+	}
+    inline void AddEvent(mapping *m) {
+		Lock.lock();
+		events.emplace(m);
+		Lock.unlock();
+	}
     //remove event from queue
-    inline void RemoveEvent(const mapping *m);
-    inline TimerEvent PopEvent();
+    void RemoveEvent(const mapping *m);
+    TimerEvent PopEvent();
     //is_empty
-    inline bool is_empty() const;
+    inline bool is_empty() const { return events.empty(); }
 };
-
-#include "execution_queue.cpp" //since everything is inline

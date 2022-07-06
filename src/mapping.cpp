@@ -1,23 +1,8 @@
-#pragma once//is included in headere file
 #include "mapping.h"
 
-
-extern Consumer consumer;
 mapping keyMapBase[KEY_OPTION_MAX - KEY_OPTION_MIN];
 extern ExecutionQueue EventQueue;
 extern IOTYPE IO;
-
-
-//init mapping
-inline void mapping::init(
-    TypeOutputConf key, uint64_t hold, uint64_t tap,
-    uint64_t doubletap, uint64_t taphold) {
-    this->key = key;
-    this->hold = hold;
-    this->tap = tap;
-    this->doubletap = doubletap;
-    this->taphold = taphold;
-}
 
 //write output event
 template<output_type type>
@@ -52,11 +37,7 @@ inline void mapping::write_output() {
         }
 }
 
-inline void mapping::consume() {
-    key &= ~STATE_PRESSED_MASK;
-}
-
-inline void mapping::release() {
+void mapping::release() {
     key ^= STATE_PRESSED_MASK+STATE_PRESSANDRELEASE_MASK;
     /*
 since pressed has to be true xor will make it false
@@ -71,7 +52,7 @@ the double tap sytem will get fucked anyway
         EventQueue.AddEvent(this);
 }
 
-inline void mapping::press() {
+void mapping::press() {
     TypeKeyCode mask = 0;
 
     //if double tap and pressandrelease pressandrelease bool is true
@@ -87,16 +68,17 @@ inline void mapping::press() {
     key = (key & mask) | STATE_PRESSED_MASK;
 }
 
-inline void mapping::output_event() {
+
+void mapping::output_event() {
 
     //check if output is pressed
     if (key & OUTPUT_PRESSED_MASK) {
         if (key & TAPHOLD_OUTPUT_PRESSED_MASK) {
-            output_release(taphold);
+            IO.write_event_release(taphold);
             //set output pressed and taphold pressed false
             key &= ~(OUTPUT_PRESSED_MASK + TAPHOLD_OUTPUT_PRESSED_MASK);
         }else{
-            output_release(hold);
+            IO.write_event_release(hold);
             //set output pressed and hold pressed false
             key &= ~(OUTPUT_PRESSED_MASK + HOLD_OUTPUT_PRESSED_MASK);
         }
