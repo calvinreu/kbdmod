@@ -4,7 +4,10 @@ cmake_minimum_required(VERSION 3.10)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
-add_library(source src/timer.cpp)
+#set source files
+file(GLOB_RECURSE SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
+
+add_library(source ${SRC_FILES})
 #add verison to source files
 project(keyboard_modify VERSION 0.0.1)
 set_target_properties(source PROPERTIES
