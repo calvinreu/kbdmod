@@ -8,7 +8,7 @@
 #include <json/json.h>
 #include <fstream>
 #include <iostream>
-
+#define VERSION "0.1.0"
 using std::string;
 using std::exception;
 
