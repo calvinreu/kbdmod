@@ -2,10 +2,9 @@
 
 intercept keycodes and change them to emulate qmk/oryx zsa like behaviour with any keyboard
 
-## Stuff to add
- - config creator would be nice if it has a gui web based
- - pipeline for keyboard_modify
- - pipeline for gui when done
+## TODO
+ - config loading use dual-function-keys naming when possible
+ - testing for keyboard_modifier
  - automatic start of interception in main func
  - some sort of examples usw
 
@@ -13,13 +12,10 @@ intercept keycodes and change them to emulate qmk/oryx zsa like behaviour with a
 ## Badges
 On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
 ## Installation
 dependencies
- - jsoncpp
- - libevdev
+ - yaml-cpp
+ - evdev
  - interception-tools
 
 ## Usage
@@ -29,7 +25,12 @@ Use examples liberally, and show the expected output if you can. It's helpful to
 Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
 
 ## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+ - config creator would be nice if it has a gui web based
+ - pipeline for gui when done
+ - general options for something like autoshift
+ - support for mouse output through keyboard
+ - layer system
+ - led control for layers usw
 
 ## Contributing
 State if you are open to contributions and what your requirements are for accepting them.
@@ -45,4 +46,4 @@ Show your appreciation to those who have contributed to the project.
 this project is under the MIT license see LICENSE
 
 ## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+pre alpha
