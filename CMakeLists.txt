@@ -11,4 +11,4 @@ add_library(source ${SRC_FILES})
 
 add_executable(keyboard_modify.bin src/main.cpp)
 
-TARGET_LINK_LIBRARIES(keyboard_modify.bin source yaml-cpp evdev)
+TARGET_LINK_LIBRARIES(keyboard_modify.bin source yaml-cpp evdev pthread)
