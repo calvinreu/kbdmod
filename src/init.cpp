@@ -11,6 +11,23 @@ inline void usage() {
     "-c, --config: specify config file\n";
 }
 
+//this function is copied from
+//https://gitlab.com/interception/linux/plugins/dual-function-keys
+//convert event code to string
+inline int event_code(const string code) {
+
+    int ret = libevdev_event_code_from_name(EV_KEY, code.c_str());
+    if (ret == -1)
+        ret = strtol(code.c_str(), NULL, 10);
+
+    // KEY_RESERVED is invalid
+    if (ret == 0)
+        fprintf(stderr, "%s is an invalid key code\n", code.c_str());
+
+    return ret;
+}
+
+
 //init
 void init(const char **argv, int argc) {
     //check for params
@@ -23,33 +40,22 @@ void init(const char **argv, int argc) {
     string configPath;
 
     //parse params
-    for (auto i = argv+1; i < argv+argc; i++)
-    {
-        if (strcmp(*i, "-h") == 0 || strcmp(*i, "--help") == 0) {
-            usage();
-            exit(0);
-        }
-        else if (strcmp(*i, "-v") == 0 || strcmp(*i, "--version") == 0) {
-            std::cout << "Version: " << VERSION << std::endl;
-            exit(0);
-        }
-        else if (strcmp(*i, "-c") == 0 || strcmp(*i, "--config") == 0) {
-            if (i+1 < argv+argc) {
-                configPath = *(i+1);
-                i++;
-            }
-            else {
-                fprintf(stderr, "No config file provided.\n");
-                exit(0);
-            }
-        }
-        else {
-            fprintf(stderr, "Unknown argument: %s\n", *i);
-            usage();
-            exit(0);
-        }
-    }
-
+    for (auto i = argv+1; i < argv+argc; i++) {
+		if (strcmp(*i, "-h") == 0 || strcmp(*i, "--help") == 0) {
+			usage();
+			exit(0);
+		} else if (strcmp(*i, "-v") == 0 || strcmp(*i, "--version") == 0) {
+			std::cout << "Version: " << VERSION << std::endl;
+			exit(0);
+		} else if (strcmp(*i, "-c") == 0 || strcmp(*i, "--config") == 0) {
+			configPath = *(i+1);
+			i++;
+		} else {
+			fprintf(stderr, "Unknown argument: %s\n", *i);
+			usage();
+			exit(1);
+		}
+	}
 
     //init empty keymap
     for (int i = KEY_OPTION_MIN; i < KEY_OPTION_MAX; i++) {
@@ -66,75 +72,38 @@ void init(const char **argv, int argc) {
     eventLoopThread.detach();
 }
 
-//load config from json file
+//if possible use config namings from dual-function-keys
+//load config from yaml file
 void load_config(string configPath) {
-    //init outputSequences
-    uint64_t tap;
-    uint64_t doubletap;
-    uint64_t hold;
-    uint64_t taphold;
-    //open file
-    std::ifstream file(configPath);
-    //read file
-    Json::Value root;
-    file >> root;
-    //close file
-    file.close();
+    //init outputStrings
+    string tap;
+    string doubletap;
+    string hold;
+    string taphold;
+	//init outputCodes
+	int tapCode;
+	int doubletapCode;
+	int holdCode;
+	int tapholdCode;
+
+
+	uint16_t kfbm;
+    //read yaml file
+    YAML::Node config = YAML::Load(configPath);
     //load keymap
-    Json::Value keymap = root["keymap"];
-    for (Json::Value::iterator it = keymap.begin(); it != keymap.end(); it++) {
-        //load keyfeatures
-        uint16_t keyfeatures = (*it)["features"].asUInt();
-        //check if features are valid
-        //check if doubletap osm is enabled but doubletap is disabled
-        if ((keyfeatures & ON_DOUBLETAP_OSM_MASK)
-        && !(keyfeatures & DOUBLE_TAP_ENABLED_MASK)) {
-            fprintf( stderr,
-                "doubletap osm is enabled but doubletap is disabled");
-        }
-        //check if taphold osm is enabled but taphold is disabled
-        if ((keyfeatures & ON_TAPHOLD_OSM_MASK)
-        && !(keyfeatures & TAPHOLD_ENABLED_MASK)) {
-            fprintf( stderr,
-                "taphold osm is enabled but taphold is disabled");
-        }
-        //check if hold osm is enabled but hold is disabled
-        if ((keyfeatures & ON_HOLD_OSM_MASK)
-        && !(keyfeatures & HOLD_ENABLED_MASK)) {
-            fprintf( stderr,
-                "hold osm is enabled but hold is disabled");
-        }
+    const YAML::Node& keymap = config["MAPPINGS"];
+    for (const auto &it : keymap) {
 
         //reset outputSequences
-        tap = 0;
-        doubletap = 0;
-        hold = 0;
-        taphold = 0;
-        //check enabled features
-        //hold
-        if (keyfeatures & HOLD_ENABLED_MASK) {
-            //load hold
-            hold = (*it)["hold"].asUInt64();
-        }
-        //doubletap
-        if (keyfeatures & DOUBLE_TAP_ENABLED_MASK) {
-            //load doubletap
-            doubletap = (*it)["doubletap"].asUInt64();
-        }
-        //taphold
-        if (keyfeatures & TAPHOLD_ENABLED_MASK) {
-            //load taphold
-            taphold = (*it)["taphold"].asUInt64();
-        }
-        //if there are no features enabled load hold from tap
-        //this is necessary because passthrough is not possible otherwise
-        if (keyfeatures &
-        HOLD_ENABLED_MASK + DOUBLE_TAP_ENABLED_MASK + TAPHOLD_ENABLED_MASK) {
-            hold = (*it)["tap"].asUInt64();
-        }
+        tap = "";
+        doubletap = "";
+        hold = "";
+        taphold = "";
 
-        //load tap
-        tap = (*it)["tap"].asUInt64();
+		//reset keyfeaturesbitmap
+		kfbm = 0;
+		//load key features
+
 
         //check if output sequences are valid
         if (((uint8_t*)(&tap))[7] != 0) {
@@ -155,12 +124,12 @@ void load_config(string configPath) {
         }
 
         //add mapping to keymap
-        keyMapBase[(*it)["keyism"].asUInt()].init(
-            keyfeatures,
-            tap,
-            doubletap,
-            hold,
-            taphold
+        keyMapBase[event_code(it["KEY"].as<string>())].init(
+            kfbm,
+            tapCode,
+            doubletapCode,
+            holdCode,
+            tapholdCode
         );
     }
 }
