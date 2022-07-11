@@ -1,6 +1,7 @@
 #pragma once
 #include "types.h"
 #include <cstddef>
+#include <stdio.h>
 
 
 template<typename T>
@@ -31,11 +32,13 @@ public:
 		{ return KeyCodeIterator((TypeKeyCode*)&data); }
     inline void clear() { data = 0; }
     inline void append(const SequenceBuffer<buffer> &other);
+	inline void append(const TypeKeyCode &key);
+	inline void operator+=(const TypeKeyCode &other){ append(other); }
     //return if the sequenz is empty
     inline bool is_empty() const { return data == 0; }
     //construct from SequenceBuffer
     inline SequenceBuffer(const buffer &data): data(data) {}
-    inline SequenceBuffer() {}
+    inline SequenceBuffer() : data(0) {}
 };
 
 //Buffer size = sizeof(SequenceBuffer - 1)
@@ -60,4 +63,16 @@ inline void SequenceBuffer<buffer>
         sizeof(SequenceBuffer) - 1; ptr++, i++, index++)
             *ptr = *i;
     }
+}
+
+template<typename buffer>
+inline void SequenceBuffer<buffer>
+::append(const TypeKeyCode &key) {
+	TypeKeyCode index = 0;
+	auto ptr = begin();
+	for (ptr; ptr != end(); ptr++, index++);
+	if (index < sizeof(SequenceBuffer) - 1)
+		*ptr = key;
+	else
+		fprintf(stderr, "SequenceBuffer is full\n");
 }

@@ -3,7 +3,6 @@
 intercept keycodes and change them to emulate qmk/oryx zsa like behaviour with any keyboard
 
 ## TODO
- - config loading use dual-function-keys naming when possible
  - testing for keyboard_modifier
  - automatic start of interception in main func
  - some sort of examples usw

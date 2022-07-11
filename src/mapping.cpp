@@ -57,11 +57,11 @@ void mapping::press() {
 
     //if double tap and pressandrelease pressandrelease bool is true
     mask = (key &
-    bit_shift<STATE_DOUBLE_TAP, STATE_PRESSANDRELEASE>(key)) &
+    bit_shift<STATE_DOUBLETAP, STATE_PRESSANDRELEASE>(key)) &
     STATE_PRESSANDRELEASE_MASK;
 
-    key |= bit_shift<STATE_PRESSANDRELEASE, STATE_DOUBLE_TAP>(key) &
-    STATE_DOUBLE_TAP;
+    key |= bit_shift<STATE_PRESSANDRELEASE, STATE_DOUBLETAP>(key) &
+    STATE_DOUBLETAP;
 
     //set press, do not unset pressandrelease if double tap is already true
     //to allow for third press before event elapsed
@@ -102,19 +102,19 @@ void mapping::output_event() {
     //if state is tap hold write tap hold
     switch (key & KEY_STATE) {
     //key not pressed anymore block
-    case STATE_DOUBLE_TAP_MASK + STATE_PRESSANDRELEASE_MASK:
+    case STATE_DOUBLETAP_MASK + STATE_PRESSANDRELEASE_MASK:
         EventQueue.RemoveEvent(this);//fallthrough
-    case STATE_DOUBLE_TAP_MASK +
+    case STATE_DOUBLETAP_MASK +
     STATE_PRESSANDRELEASE_MASK + STATE_TAPHOLD_MASK:
         write_output<tapT>();//intentionally fallthrough
         //set pressandrelease false
         key &= ~STATE_PRESSANDRELEASE_MASK;
-    case STATE_DOUBLE_TAP_MASK:
+    case STATE_DOUBLETAP_MASK:
         EventQueue.RemoveEvent(this);
         //fallthrough
-    case STATE_DOUBLE_TAP_MASK + STATE_TAPHOLD_MASK:
+    case STATE_DOUBLETAP_MASK + STATE_TAPHOLD_MASK:
         //set double tap false
-        key &= ~(STATE_DOUBLE_TAP_MASK + STATE_TAPHOLD_MASK);
+        key &= ~(STATE_DOUBLETAP_MASK + STATE_TAPHOLD_MASK);
 
         if(doubletap.is_empty())
             write_output<tapT>();//intentionally fallthrough
@@ -134,20 +134,20 @@ void mapping::output_event() {
         write_output<holdT>();
         return;
     //taphold block
-    case STATE_DOUBLE_TAP_MASK +
+    case STATE_DOUBLETAP_MASK +
     STATE_PRESSED_MASK + STATE_PRESSANDRELEASE_MASK:
         //possibilities are:
         //1. tap taphold
         //2. doubletap hold
         //3. tap doubletap
         //fallthrough
-    case STATE_DOUBLE_TAP_MASK + STATE_PRESSED_MASK:
+    case STATE_DOUBLETAP_MASK + STATE_PRESSED_MASK:
         //set taphold true
         key |= STATE_TAPHOLD_MASK;
         return;
-    case STATE_DOUBLE_TAP_MASK + STATE_TAPHOLD_MASK + STATE_PRESSED_MASK:
+    case STATE_DOUBLETAP_MASK + STATE_TAPHOLD_MASK + STATE_PRESSED_MASK:
         //set double tap false
-        key &= ~(STATE_DOUBLE_TAP_MASK + STATE_TAPHOLD_MASK);
+        key &= ~(STATE_DOUBLETAP_MASK + STATE_TAPHOLD_MASK);
         //check if taphold is enabled
         if (key & TAPHOLD_ENABLED_MASK) {
             write_output<tapholdT>();
@@ -159,13 +159,13 @@ void mapping::output_event() {
     case KEY_STATE://everything active
         //set everything but pressed false
         key &= ~(STATE_PRESSANDRELEASE_MASK +
-        STATE_TAPHOLD_MASK + STATE_DOUBLE_TAP_MASK);
+        STATE_TAPHOLD_MASK + STATE_DOUBLETAP_MASK);
         //check if taphold is enabled
         if (key & TAPHOLD_ENABLED_MASK) {
             write_output<tapT>();
             write_output<tapholdT>();
         //check if double tap is enabled
-        }else if (key & DOUBLE_TAP_ENABLED_MASK) {
+        }else if (key & DOUBLETAP_ENABLED_MASK) {
             write_output<doubletapT>();
             write_output<holdT>();
         }else {
