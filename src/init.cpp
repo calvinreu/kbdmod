@@ -108,7 +108,6 @@ void load_config(string configPath) {
 				it2->first.as<string>() != "DOUBLETAP" ||
 				it2->first.as<string>() != "HOLD" ||
 				it2->first.as<string>() != "TAPHOLD" ||
-				it2->first.as<string>() != "KEY" ||
 				it2->first.as<string>() != "TAP_OSM" ||
 				it2->first.as<string>() != "DOUBLETAP_OSM" ||
 				it2->first.as<string>() != "HOLD_OSM" ||
@@ -192,7 +191,7 @@ void load_config(string configPath) {
         }
 
         //add mapping to keymap
-        keyMapBase[event_code(it["KEY"].as<string>())].init(
+        keyMapBase[event_code(it.first.as<string>())].init(
             kfbm, hold, tap, doubletap, taphold
         );
     }
