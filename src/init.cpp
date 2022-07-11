@@ -94,6 +94,21 @@ void load_config(string configPath) {
 		hold.clear();
 		taphold.clear();
 
+		//check for unknown fields
+		for (auto it2 = it.begin(); it2 != it.end(); it2++) {
+			if (it2->first.as<string>() != "TAP" ||
+				it2->first.as<string>() != "DOUBLETAP" ||
+				it2->first.as<string>() != "HOLD" ||
+				it2->first.as<string>() != "TAPHOLD" ||
+				it2->first.as<string>() != "KEY" ||
+				it2->first.as<string>() != "TAP_OSM" ||
+				it2->first.as<string>() != "DOUBLETAP_OSM" ||
+				it2->first.as<string>() != "HOLD_OSM" ||
+				it2->first.as<string>() != "TAPHOLD_OSM" ){
+				fprintf(stderr, "Unknown field: %s\n", it2->first.as<string>().c_str());
+			}
+		}
+
 		//reset keyfeaturesbitmap
 		kfbm = 0;
 		//load key features
