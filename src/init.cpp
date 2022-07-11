@@ -1,6 +1,8 @@
 #include "init.h"
 
 extern mapping keyMapBase[];
+extern milliseconds delay;
+const int timing__tap_millisec = 200;
 
 //print usage
 inline void usage() {
@@ -84,6 +86,12 @@ void load_config(string configPath) {
 	uint16_t kfbm;
     //read yaml file
     YAML::Node config = YAML::Load(configPath);
+	//load timing
+	if (config["TIMING"]) {
+		delay = milliseconds(config["TIMING"]["TAP_MILLISEC"].as<uint>());
+	}else{
+		delay = milliseconds(timing__tap_millisec);
+	}
     //load keymap
     const YAML::Node& keymap = config["MAPPINGS"];
     for (const auto &it : keymap) {
