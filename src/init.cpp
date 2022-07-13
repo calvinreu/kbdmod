@@ -69,9 +69,6 @@ void init(const char **argv, int argc) {
     //load config
     load_config(configPath);
 
-    //start event loop
-    std::thread eventLoopThread(&TimerLoop);
-    eventLoopThread.detach();
 }
 
 //if possible use config namings from dual-function-keys
@@ -85,9 +82,17 @@ void load_config(string configPath) {
 
 	uint16_t kfbm;
     //read yaml file
-    YAML::Node config = YAML::Load(configPath);
+    YAML::Node config;
+
+    try {
+        config = YAML::LoadFile(configPath);
+    } catch (const exception &e) {
+        fprintf(stderr, "cannot read '%s': %s\n", configPath, e.what());
+        exit(EXIT_FAILURE);
+    }
+
 	//load timing
-	if (config["TIMING"]) {
+	if (config["TIMING"]["TAP_MILLISEC"]) {
 		delay = milliseconds(config["TIMING"]["TAP_MILLISEC"].as<uint>());
 	}else{
 		delay = milliseconds(timing__tap_millisec);
@@ -104,14 +109,15 @@ void load_config(string configPath) {
 
 		//check for unknown fields
 		for (auto it2 = it.begin(); it2 != it.end(); it2++) {
-			if (it2->first.as<string>() != "TAP" ||
-				it2->first.as<string>() != "DOUBLETAP" ||
-				it2->first.as<string>() != "HOLD" ||
-				it2->first.as<string>() != "TAPHOLD" ||
-				it2->first.as<string>() != "TAP_OSM" ||
-				it2->first.as<string>() != "DOUBLETAP_OSM" ||
-				it2->first.as<string>() != "HOLD_OSM" ||
-				it2->first.as<string>() != "TAPHOLD_OSM" ){
+			if (it2->first.as<string>() != "TAP" &&
+				it2->first.as<string>() != "DOUBLETAP" &&
+				it2->first.as<string>() != "HOLD" &&
+				it2->first.as<string>() != "TAPHOLD" &&
+				it2->first.as<string>() != "TAP_OSM" &&
+				it2->first.as<string>() != "DOUBLETAP_OSM" &&
+				it2->first.as<string>() != "HOLD_OSM" &&
+				it2->first.as<string>() != "TAPHOLD_OSM" &&
+				it2->first.as<string>() != "KEY" ){
 				fprintf(stderr, "Unknown field: %s\n", it2->first.as<string>().c_str());
 			}
 		}
@@ -125,7 +131,7 @@ void load_config(string configPath) {
 				for (const auto &it2 : it["TAP"])
 					tap += event_code(it2.as<string>());
 			else
-				tap = event_code(it["tap"].as<string>());
+				tap = event_code(it["TAP"].as<string>());
 		}else{
 			fprintf(stderr, "No tap feature found for key %s\n", it["KEY"].as<string>().c_str());
 		}
@@ -191,7 +197,7 @@ void load_config(string configPath) {
         }
 
         //add mapping to keymap
-        keyMapBase[event_code(it.first.as<string>())].init(
+        keyMapBase[event_code(it["KEY"].as<string>())].init(
             kfbm, hold, tap, doubletap, taphold
         );
     }
