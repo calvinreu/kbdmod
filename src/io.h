@@ -36,6 +36,7 @@ using std::chrono::milliseconds;
 	fprintf(stdout, "read_event: ");\
 	fscanf(stdin, "%d %d %d",\
 	&x->type, &x->code, &x->value);\
+	return true;\
 }
 #else
 #define write_event__(x) {\
