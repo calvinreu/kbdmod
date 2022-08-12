@@ -53,10 +53,10 @@ the double tap sytem will get fucked anyway
 }
 
 void mapping::press() {
-    TypeKeyCode mask = 0;
+    TypeOutputConf mask = ~STATE_PRESSANDRELEASE_MASK;
 
     //if double tap and pressandrelease pressandrelease bool is true
-    mask = (key &
+    mask |= (key &
     bit_shift<STATE_DOUBLETAP, STATE_PRESSANDRELEASE>(key)) &
     STATE_PRESSANDRELEASE_MASK;
 
