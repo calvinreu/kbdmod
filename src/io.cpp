@@ -50,7 +50,7 @@ InputOutput::InputOutput() :osm(0) {
 }
 
 void InputOutput::write_event(const outputSeq &output) {
-    outputTemplate.type = INPUT_VAL_PRESS;
+    outputTemplate.value = INPUT_VAL_PRESS;
     for (auto i = osm.begin(); i != osm.end(); i++)
     {
         outputTemplate.code = *i;
@@ -65,7 +65,7 @@ void InputOutput::write_event(const outputSeq &output) {
         sleep_for(OUTPUT_DELAY);
     }
 
-    outputTemplate.type = INPUT_VAL_RELEASE;
+    outputTemplate.value = INPUT_VAL_RELEASE;
 
     for (auto i = osm.begin(); i != osm.end(); i++)
     {
