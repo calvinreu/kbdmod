@@ -19,7 +19,7 @@ done
 
 # check if DESTDIR is set
 if [ -z $DESTDIR ]; then
-	DESTDIR="usr/local/bin"
+	DESTDIR="/usr/local/bin"
 fi
 
 # build
