@@ -28,7 +28,7 @@ using std::chrono::milliseconds;
 #if DEBUG
 //write output to stdout
 #define write_event__(x) {\
-	fprintf(stdout, "write_event: %d %d %d %d\n",\
+	fprintf(stdout, "write_event: %d %d %d\n",\
 	x->type, x->code, x->value);\
 }
 //read input from stdin
