@@ -21,6 +21,31 @@ using std::chrono::milliseconds;
 #define OUTPUT_DELAY std::chrono::milliseconds(1)
 #endif
 
+//if DEBUG
+#ifndef DEBUG
+#define DEBUG 0
+#endif
+#if DEBUG
+//write output to stdout
+#define write_event__(x) {\
+	fprintf(stdout, "write_event: %d %d %d %d\n",\
+	x->type, x->code, x->value);\
+}
+//read input from stdin
+#define read_event__(x) {\
+	fprintf(stdout, "read_event: ");\
+	fscanf(stdin, "%d %d %d",\
+	&x->type, &x->code, &x->value);\
+}
+#else
+#define write_event__(x) {\
+if (fwrite(x, sizeof(struct input_event), 1, stdout) != 1) \
+	fprintf(stderr, "Error writing to stdout.\n"); \
+}
+#define read_event__(x) {\
+	return fread(input, sizeof(struct input_event), 1, stdin) == 1;\
+}
+#endif
 
 class InputOutput
 {
@@ -29,15 +54,12 @@ private:
     input_event outputTemplate;
 public:
     void write_event(const outputSeq &output);
-    inline void write_event(input_event *output) const {
-		if (fwrite(output, sizeof(struct input_event), 1, stdout) != 1)
-			fprintf(stderr, "Error writing to stdout.\n");
-	}
+    inline void write_event(input_event *output) const write_event__(output)
     inline void write_event() const {}
     void write_event_press(const outputSeq &output);
     void write_event_release(const outputSeq &output);
-    inline bool read_event (input_event *input ) const
-		{ return fread(input, sizeof(struct input_event), 1, stdin) == 1; }
+
+    inline bool read_event (input_event *input ) const read_event__(input)
     inline void add_osm(const osmSeq &osm) {this->osm.append(osm);}
 
     InputOutput();
