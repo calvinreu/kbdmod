@@ -2,6 +2,12 @@ cmake_minimum_required(VERSION 3.10)
 
 project(keyboard_modify VERSION 0.0.1)
 
+# Check if debug
+if(CMAKE_BUILD_TYPE)
+  message(STATUS "Debug build")
+  add_compile_definitions(DEBUG TRUE)
+endif()
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 #search source dir
