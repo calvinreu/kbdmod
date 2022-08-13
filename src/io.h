@@ -5,48 +5,9 @@
 #include "init.h"
 #include <thread>
 #include <chrono>
+#include <iostream>
+#include "io_macro.h"
 
-using namespace std::this_thread; // sleep_for, sleep_until
-using namespace std::chrono_literals;
-using std::chrono::system_clock;
-using std::chrono::milliseconds;
-
-
-/* https://www.kernel.org/doc/html/latest/input/event-codes.html */
-#define INPUT_VAL_PRESS 1
-#define INPUT_VAL_RELEASE 0
-#define INPUT_VAL_REPEAT 2//ignore
-
-#ifndef OUTPUT_DELAY//delay between output sequence keys
-#define OUTPUT_DELAY std::chrono::milliseconds(1)
-#endif
-
-//if DEBUG
-#ifndef DEBUG
-#define DEBUG 0
-#endif
-#if DEBUG
-//write output to stdout
-#define write_event__(x) {\
-	fprintf(stdout, "write_event: %d %d %d\n",\
-	x->type, x->code, x->value);\
-}
-//read input from stdin
-#define read_event__(x) {\
-	fprintf(stdout, "read_event: ");\
-	fscanf(stdin, "%d %d %d",\
-	&x->type, &x->code, &x->value);\
-	return true;\
-}
-#else
-#define write_event__(x) {\
-if (fwrite(x, sizeof(struct input_event), 1, stdout) != 1) \
-	fprintf(stderr, "Error writing to stdout.\n"); \
-}
-#define read_event__(x) {\
-	return fread(input, sizeof(struct input_event), 1, stdin) == 1;\
-}
-#endif
 
 class InputOutput
 {
