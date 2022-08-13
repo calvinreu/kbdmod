@@ -60,11 +60,11 @@ void mapping::press() {
     bit_shift<STATE_DOUBLETAP, STATE_PRESSANDRELEASE>(key)) &
     STATE_PRESSANDRELEASE_MASK;
 
+	//set doubletap if pressandrelease is true
     key |= bit_shift<STATE_PRESSANDRELEASE, STATE_DOUBLETAP>(key) &
-    STATE_DOUBLETAP;
+    STATE_DOUBLETAP_MASK;
 
-    //set press, do not unset pressandrelease if double tap is already true
-    //to allow for third press before event elapsed
+    //add pressandrelease masking + set state pressed
     key = (key & mask) | STATE_PRESSED_MASK;
 }
 
