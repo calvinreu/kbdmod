@@ -20,16 +20,16 @@ inline bool debug_read_event(input_event *input)
 		while (std::getline(ss, item, ' ')) {
 			seq.push_back(std::stoi(item));
 		}
+	}else{
+		sleep_for(milliseconds(seq[0]));
+		//remove sleep time from seq
+		seq.erase(seq.begin(), seq.begin() + 1);
 	}
 
 	*input = {timeval{0,0}, seq[0], seq[1], seq[2]};
 	seq.erase(seq.begin(), seq.begin() + 3);
 	//check if seq has 4 or more elements
-	if (seq.size() > 3) {
-		sleep_for(milliseconds(seq[0]));
-		//remove sleep time from seq
-		seq.erase(seq.begin(), seq.begin() + 1);
-	}
+
 	return true;
 }
 
