@@ -48,7 +48,7 @@ which shouldnt be possible with a reasonable hold timeout
 the double tap sytem will get fucked anyway
     */
    //check if output is pressed or if it is passtrhough key
-    if (key < ON_TAP_OSM || key & OUTPUT_PRESSED_MASK)
+    if (key < ON_TAP_OSM_MASK || key & OUTPUT_PRESSED_MASK)
         EventQueue.AddEvent(this);
 }
 
