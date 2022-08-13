@@ -38,6 +38,9 @@ inline void mapping::write_output() {
 }
 
 void mapping::release() {
+	//set pressandrelease true if doubletap is active but not pressandrelease
+	key |= STATE_PRESSANDRELEASE_MASK & ((~key) & bit_shift<STATE_DOUBLETAP, STATE_PRESSANDRELEASE>(key));
+
     key ^= STATE_PRESSED_MASK+STATE_PRESSANDRELEASE_MASK;
     /*
 since pressed has to be true xor will make it false
