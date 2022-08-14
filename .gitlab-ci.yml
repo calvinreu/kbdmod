@@ -18,12 +18,16 @@ build:
     - apt update --yes && apt install make cmake libevdev-dev libyaml-cpp-dev --yes
   script:
     - mkdir -p build && cd build && cmake ../ && make -j 4
+    - cd ../test && g++ compare.cpp -o compare.out
   artifacts:
     paths:
       - "build/keyboard_modify.bin"
+      - "/bin"
+      - "test/compare.out"
   cache:
     paths:
       - "build/*"
+      - "/bin"
 
 # run tests using the binary built before
 test:
