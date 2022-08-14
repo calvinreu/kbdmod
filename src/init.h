@@ -8,7 +8,7 @@
 #include <yaml-cpp/yaml.h>
 #include <fstream>
 #include <iostream>
-#define VERSION "0.1.0"
+#define VERSION "0.0.0"
 using std::string;
 using std::exception;
 using std::stringstream;
