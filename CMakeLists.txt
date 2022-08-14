@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.10)
 project(keyboard_modify)
 
 # Check if debug
-if(CMAKE_BUILD_TYPE)
+if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
   message(STATUS "Debug build")
   add_compile_definitions(DEBUG TRUE)
 endif()
