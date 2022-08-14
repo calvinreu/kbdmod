@@ -3,9 +3,11 @@
 intercept keycodes and change them to emulate qmk/oryx zsa like behaviour with any keyboard
 
 ## TODO
- - testing for keyboard_modifier
- - automatic start of interception in main func
- - some sort of examples usw
+ - fix taphold
+ - add pipeline to validate functionallity working as intended
+ - write configuration process to readme
+ - some sort of examples and usage
+ - add contributing
 
 
 ## Badges
@@ -27,7 +29,7 @@ build dependencies
 Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
 
 ## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+Just create an issue or mail me
 
 ## Roadmap
  - config creator would be nice if it has a gui web based
@@ -38,17 +40,18 @@ Tell people where they can go to for help. It can be any combination of an issue
  - led control for layers usw
 
 ## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+### debuging
+to debug build the project with the DEBUG flag in cmake
+use the console and the sequences from test/combinations.txt for testing
+this is a part of the vscode debuger options but they should be easy to convert to any other debuger as well
+```json
+"program": "${workspaceFolder}/build/keyboard_modify.bin",
+"args": ["-c", "${workspaceFolder}/test/testing.yaml"],
+```
+probably not helpfull until there is a working alpha and pipeline
 
 ## License
-this project is under the MIT license see LICENSE
+this project is under the MIT license (c)Calvin Reu see LICENSE
 
 ## Project status
 pre alpha
