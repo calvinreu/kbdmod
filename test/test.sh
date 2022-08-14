@@ -17,9 +17,14 @@ echo "$input"
 # run the program and echo input at it to get the output
 output=$((sleep 0.1; echo "$input") | ../build/keyboard_modify.bin -c testing.yaml)
 
-# load the expected output file
-expected="$(cat expected_output.txt)"
+#format the output
+#remove 'read_event: '
+output="${output//read_event: /}"
+#remove 'write_event: '
+output="${output//write_event: /}"
+#save the output to a file
+echo "$output" > output.txt
 
-echo "$output"
-echo "$expected"
+# compare the output with the expected output
+./compare.out output.txt expected_output.txt
 
