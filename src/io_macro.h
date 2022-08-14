@@ -36,7 +36,6 @@ inline bool debug_read_event(input_event *input)
 
 	*input = {timeval{0,0}, seq[0], seq[1], seq[2]};
 	seq.erase(seq.begin(), seq.begin() + 3);
-	//check if seq has 4 or more elements
 
 	return true;
 }
