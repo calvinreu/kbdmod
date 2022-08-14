@@ -17,7 +17,7 @@ build:
   before_script:
     - apt update --yes && apt install make cmake libevdev-dev libyaml-cpp-dev --yes
   script:
-    - mkdir -p build && cd build && cmake ../ && make -j 4
+    - mkdir -p build && cd build && cmake ../ -DCMAKE_BUILD_TYPE=Debug && make -j4
     - cd ../test && g++ compare.cpp -o compare.out
   artifacts:
     paths:
