@@ -22,7 +22,6 @@ build:
   artifacts:
     paths:
       - "build/keyboard_modify.bin"
-      - "/bin"
       - "test/compare.out"
   cache:
     paths:
@@ -32,5 +31,7 @@ build:
 # run tests using the binary built before
 test:
   stage: test
+  before_script:
+    - apt update --yes && libevdev-dev libyaml-cpp-dev
   script:
     - test/test.sh
