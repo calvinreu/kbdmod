@@ -2,7 +2,7 @@
 
 intercept keycodes and change them to emulate qmk/oryx zsa like behaviour with any keyboard meaning you can assign macros, OSMs and normal keys to single tap, double tap, hold or tap and then hold of a key
 
-a lot of this project is from [dual-function-keys](https://gitlab.com/interception/linux/plugins/dual-function-keys) also a great project worth checking out
+a lot of this project is from [dual-function-keys](https://gitlab.com/interception/linux/plugins/dual-function-keys) a great project worth checking out
 
 ## Installation
 dependencies
