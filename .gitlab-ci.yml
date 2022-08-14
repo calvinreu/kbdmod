@@ -32,6 +32,6 @@ build:
 test:
   stage: test
   before_script:
-    - apt update --yes && libevdev-dev libyaml-cpp-dev
+    - apt update --yes && apt install libevdev-dev libyaml-cpp-dev --yes
   script:
     - test/test.sh
