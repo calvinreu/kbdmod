@@ -3,7 +3,6 @@
 intercept keycodes and change them to emulate qmk/oryx zsa like behaviour with any keyboard
 
 ## TODO
- - fix taphold
  - add pipeline to validate functionallity working as intended
  - write configuration process to readme
  - some sort of examples and usage
