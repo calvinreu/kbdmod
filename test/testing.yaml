@@ -1,5 +1,6 @@
 TIMING:
-  TAP_MILLISEC: 199
+# unrealistic small value for faster testing
+  TAP_MILLISEC: 40
 
 MAPPINGS:
   - KEY: KEY_A

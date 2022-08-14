@@ -18,9 +18,17 @@ inline bool debug_read_event(input_event *input)
 		std::stringstream ss(in);
 		std::string item;
 		while (std::getline(ss, item, ' ')) {
-			seq.push_back(std::stoi(item));
+			//check for quit
+			if (item == "q")
+				seq.push_back(UINT16_MAX);
+			else
+				seq.push_back(std::stoi(item));
 		}
 	}else{
+		if (seq.size() == 1 && seq[0] == UINT16_MAX) {
+			sleep_for(milliseconds(300));
+			return false;
+		}
 		sleep_for(milliseconds(seq[0]));
 		//remove sleep time from seq
 		seq.erase(seq.begin(), seq.begin() + 1);
