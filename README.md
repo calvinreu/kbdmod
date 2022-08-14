@@ -14,14 +14,26 @@ build dependencies
  - cmake
  - make
 
- > cd tmp && git clone https://gitlab.com/input-configuration/keyboard_modify && cd keyboard_modify && ./install.sh
+ > cd tmp && git clone https://gitlab.com/input-configuration/kbdmod && cd kbd && ./install.sh
 
 ## Configuration
 There are two parts to be configured: kbdmod and udevmon, which launches kbdmod.
 
-See [examples](https://gitlab.com/interception/linux/plugins/dual-function-keys/-/tree/master/doc/examples.md) which contains kbdmod and udevmon.yaml configurations.
+See [examples](https://gitlab.com/input-configuration/kbdmod/-/blob/main/doc/examples.md) which contains kbdmod configurations.
 
-### keyboard_modify
+### udevmon
+This yaml file resides in `/etc/interception/udevmon.d/Keyboard1.yaml`
+to get the keyboard name use
+> sudo libinput list-devices | grep Device | grep eyboard
+
+```yaml
+- JOB: "intercept -g $DEVNODE | kbdmod -c /etc/interception/kbdmod/configname
+  DEVICE:
+    NAME: "Keyboard name"
+- JOB: ...
+```
+
+### kbdmod
 
 This yaml file conventionally resides in `/etc/interception/kbdmod`.
 
@@ -49,7 +61,7 @@ MAPPINGS:
 ```
 
 ## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+to get a bit of inspiration what you could do with this look for zsa oryx on youtube note that layers are not supported yet
 
 ## Support
 Just create an issue or mail me
@@ -64,7 +76,9 @@ Just create an issue or mail me
  - led control for layers usw
 
 ## Contributing
-### debuging
+Contributions are very welcome for improvements with the current features a working pipeline is enough to get a commit merged though testing your code yourself would be nice for implementation of new features even if they are on the roadmap please create an issue so the details can be resolved contributing examples would be very welcome.
+PS: please follow the editorconfig
+## Debuging
 to debug build the project with the DEBUG flag in cmake
 use the console and the sequences from test/combinations.txt for testing
 this is a part of the vscode debuger options but they should be easy to convert to any other debuger as well
@@ -73,10 +87,6 @@ this is a part of the vscode debuger options but they should be easy to convert 
 "args": ["-c", "${workspaceFolder}/test/testing.yaml"],
 ```
 Note: the manual testing script does not work yet it is supposed to enable this program on your system and disable it after 20s
-
-### contributing
-Contributions are very welcome for improvements with the current features a working pipeline is enough to get a commit merged though testing your code yourself would be nice for implementation of new features even if they are on the roadmap please create an issue so the details can be resolved contributing examples would be very welcome.
-PS: please follow the editorconfig
 
 ## License
 this project is under the MIT license (c)Calvin Reu see LICENSE
