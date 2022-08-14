@@ -25,9 +25,8 @@ build:
     paths:
       - "build/*"
 
-# has to be added still
 # run tests using the binary built before
-#test:
-#  stage: test
-#  script:
-#    - ./runmytests.sh
+test:
+  stage: test
+  script:
+    - test/test.sh
