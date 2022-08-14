@@ -101,6 +101,11 @@ void mapping::output_event() {
             //set output pressed and hold pressed false
             key &= ~(OUTPUT_PRESSED_MASK + HOLD_OUTPUT_PRESSED_MASK);
         }
+		//reset pressandrelease
+		key &= ~STATE_PRESSANDRELEASE_MASK;
+		//unlock mutex
+		keyMapMutex.unlock();
+		return;
     }
 
     //check if key should be passed to output
