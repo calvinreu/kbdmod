@@ -12,7 +12,8 @@ input="${input//$'\n'/' 50 '}"
 # add trailing q
 input="$input"" q"
 
-echo "$input"
+#only to test script
+#echo "$input"
 
 # run the program and echo input at it to get the output
 output=$((sleep 0.1; echo "$input") | ../build/keyboard_modify.bin -c testing.yaml)
