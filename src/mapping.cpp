@@ -1,6 +1,7 @@
 #include "mapping.h"
 
 mapping keyMapBase[KEY_OPTION_MAX - KEY_OPTION_MIN];
+std::mutex keyMapMutex;
 extern ExecutionQueue EventQueue;
 extern IOTYPE IO;
 
@@ -38,6 +39,9 @@ inline void mapping::write_output() {
 }
 
 void mapping::release() {
+	//lock mutex
+	keyMapMutex.lock();
+
 	//set pressandrelease true if doubletap is active but not pressandrelease
 	key |= STATE_PRESSANDRELEASE_MASK & ((~key) & bit_shift<STATE_DOUBLETAP, STATE_PRESSANDRELEASE>(key));
 
@@ -53,9 +57,15 @@ the double tap sytem will get fucked anyway
    //check if output is pressed or if it is passtrhough key
     if (key < ON_TAP_OSM_MASK || key & OUTPUT_PRESSED_MASK)
         EventQueue.AddEvent(this);
+
+	//unlock mutex
+	keyMapMutex.unlock();
 }
 
 void mapping::press() {
+	//lock mutex
+	keyMapMutex.lock();
+
     TypeOutputConf mask = ~STATE_PRESSANDRELEASE_MASK;
 
     //if double tap and pressandrelease pressandrelease bool is true
@@ -69,10 +79,16 @@ void mapping::press() {
 
     //add pressandrelease masking + set state pressed
     key = (key & mask) | STATE_PRESSED_MASK;
+
+	//unlock mutex
+	keyMapMutex.unlock();
 }
 
 
 void mapping::output_event() {
+
+	//lock mutex
+	keyMapMutex.lock();
 
     //check if output is pressed
     if (key & OUTPUT_PRESSED_MASK) {
@@ -123,19 +139,19 @@ void mapping::output_event() {
             write_output<tapT>();//intentionally fallthrough
         else {
             write_output<doubletapT>();
-            return;
+            break;
         }
     case STATE_PRESSANDRELEASE_MASK:
         write_output<tapT>();
         //set pressandrelease false
         key &= ~STATE_PRESSANDRELEASE_MASK;
-        return;
+        break;
     //key pressed block
     case STATE_PRESSED_MASK:
         //set pressandrelease true
         key |= STATE_PRESSANDRELEASE_MASK;
         write_output<holdT>();
-        return;
+        break;
     //taphold block
     case STATE_DOUBLETAP_MASK +
     STATE_PRESSED_MASK + STATE_PRESSANDRELEASE_MASK:
@@ -147,7 +163,7 @@ void mapping::output_event() {
     case STATE_DOUBLETAP_MASK + STATE_PRESSED_MASK:
         //set taphold true
         key |= STATE_TAPHOLD_MASK;
-        return;
+        break;
     case STATE_DOUBLETAP_MASK + STATE_TAPHOLD_MASK + STATE_PRESSED_MASK:
         //set double tap false
         key &= ~(STATE_DOUBLETAP_MASK + STATE_TAPHOLD_MASK);
@@ -158,7 +174,7 @@ void mapping::output_event() {
             write_output<tapT>();
             write_output<holdT>();
         }
-        return;
+        break;
     case KEY_STATE://everything active
         //set everything but pressed false
         key &= ~(STATE_PRESSANDRELEASE_MASK +
@@ -176,4 +192,7 @@ void mapping::output_event() {
             write_output<holdT>();
         }
     }
+
+	//unlock mutex
+	keyMapMutex.unlock();
 }
