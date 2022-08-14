@@ -34,6 +34,11 @@ int main(int argc, char *argv[])
 			std::cout << line1 << " : " << line2 << std::endl;
 		}
 	}
+
+	if (!file1.eof()) {
+		std::cout << line1 << std::endl;
+	}
+
 	while (std::getline(file1, line1)) {
 		std::cout << line1 << std::endl;
 		same = false;
