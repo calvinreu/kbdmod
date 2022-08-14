@@ -63,7 +63,7 @@ void init(const char **argv, int argc) {
     for (int i = KEY_OPTION_MIN; i < KEY_OPTION_MAX; i++) {
         keyMapBase[i].init(
             0,
-            0, i, 0, 0
+            i, i, 0, 0
         );
     }
     //load config
