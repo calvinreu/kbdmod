@@ -196,6 +196,12 @@ void load_config(string configPath) {
             exit(EXIT_FAILURE);
         }
 
+		//check if key has any feature but tap
+		if (kfbm == 0) {
+			//set hold sequence to tap sequence
+			hold = tap;
+		}
+
         //add mapping to keymap
         keyMapBase[event_code(it["KEY"].as<string>())].init(
             kfbm, hold, tap, doubletap, taphold
