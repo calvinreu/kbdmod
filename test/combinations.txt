@@ -1,0 +1,5 @@
+pls note whitspaces do matter no trailing, leading whitspaces or double whitspaces
+hold: 1 30 1 300 1 30 0
+tap : 1 30 1 50 1 30 0
+doubletap: 1 30 1 50 1 30 0 140 1 30 1 50 1 30 0
+taphold: 1 30 1 50 1 30 0 140 1 30 1 250 1 30 0
