@@ -60,12 +60,12 @@ void init(const char **argv, int argc) {
 	}
 
     //init empty keymap
-    for (int i = 0; i < KEY_OPTION_MAX-KEY_OPTION_MIN; i++) {
-        keyMapBase[i].init(
-            0,
-            i+KEY_OPTION_MIN, i+KEY_OPTION_MIN, 0, 0
-        );
-    }
+    //for (int i = 0; i < KEY_OPTION_MAX-KEY_OPTION_MIN; i++) {
+    //    keyMapBase[i].init(
+    //        0,
+    //        i+KEY_OPTION_MIN, i+KEY_OPTION_MIN, 0, 0
+    //    );
+    //}
     //load config
     load_config(configPath);
 

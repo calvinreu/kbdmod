@@ -12,12 +12,22 @@ void input_loop() {
     mapping *current;
     while (IO.read_event(&input))
     {
-        if (input.type != EV_KEY || input.code > KEY_OPTION_MAX || input.code < KEY_OPTION_MIN) {
-            IO.write_event(&input);//pass non keyboard and unsuported keys throught to the system
+        current = keyMap + input.code;
+
+		if (input.type == EV_MSC && input.code == MSC_SCAN)
+            continue;
+
+		//pass non keyboard and unsuported keys throught to the system
+        if (input.type != EV_KEY ||
+			input.code > KEY_OPTION_MAX ||
+			input.code < KEY_OPTION_MIN ||
+			current->is_null()) {
+            IO.write_event(&input);
             continue;
         }
 
-        current = keyMap + input.code;
+		//print error
+		fprintf(stderr, "key %d %s\n", input.code, input.value == 1 ? "pressed" : "released");
 
         if (input.value == INPUT_VAL_PRESS) {
             current->press();
