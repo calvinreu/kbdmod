@@ -1,5 +1,7 @@
 #! /bin/bash
 
+# if $1==input, then return input
+
 # Test script for the project
 # cd into the script directory
 cd "$(dirname "$0")"
@@ -11,6 +13,11 @@ input="$(echo "$input" | grep -v '#')"
 input="${input//$'\n'/' 50 '}"
 # add trailing q
 input="$input"" q"
+
+if [ "$1" == "input" ]; then
+	echo "$input"
+	exit 0
+fi
 
 #only to test script
 #echo "$input"
