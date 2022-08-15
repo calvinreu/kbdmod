@@ -66,15 +66,6 @@ to get a bit of inspiration what you could do with this look for zsa oryx on you
 ## Support
 Just create an issue or mail me
 
-## Roadmap
- - remove unecessary delays
- - config creator would be nice if it has a gui web based
- - pipeline for gui when done
- - general options for something like autoshift
- - support for mouse output through keyboard
- - layer system
- - led control for layers usw
-
 ## Contributing
 Contributions are very welcome for improvements with the current features a working pipeline is enough to get a commit merged though testing your code yourself would be nice for implementation of new features even if they are on the roadmap please create an issue so the details can be resolved contributing examples would be very welcome.
 PS: please follow the editorconfig
@@ -93,3 +84,13 @@ this project is under the MIT license (c)Calvin Reu see LICENSE
 
 ## Project status
 first functional version the project is currently under active development contributions and suggestions are welcome
+
+## Roadmap
+ - remove unecessary delays
+ - config creator would be nice if it has a gui web based
+ - pipeline for gui when done
+ - general options for something like autoshift
+ - support for mouse output through keyboard
+ - layer system
+ - led control for layers usw
+
