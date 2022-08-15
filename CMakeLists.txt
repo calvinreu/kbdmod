@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(keyboard_modify)
+project(kbdmod)
 
 # Check if debug
 if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
@@ -17,6 +17,6 @@ file(GLOB_RECURSE SRC_FILES ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
 add_library(source ${SRC_FILES})
 
 
-add_executable(keyboard_modify.bin src/main.cpp)
+add_executable(kbdmod.bin src/main.cpp)
 
-TARGET_LINK_LIBRARIES(keyboard_modify.bin source yaml-cpp evdev pthread)
+TARGET_LINK_LIBRARIES(kbdmod.bin source yaml-cpp evdev pthread)
