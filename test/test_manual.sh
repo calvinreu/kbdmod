@@ -12,7 +12,7 @@ cd $DIR
 mkdir udevmon
 mv /etc/interception/udevmon.d/* udevmon/
 cp udevmon.yaml /etc/interception/udevmon.d/test.yaml
-cp testing.yaml /tmp/keyboard_modify_testing.yaml
+cp testing.yaml /tmp/kbdmod_test.yaml
 
 # test
 systemctl restart udevmon

@@ -1,4 +1,4 @@
-- JOB: "intercept -g $DEVNODE | /tmp/keyboard_modify -c /tmp/keyboard_modify_test.yaml | uinput -d $DEVNODE"
+- JOB: "intercept -g $DEVNODE | /tmp/kbdmod -c /tmp/kbdmod_test.yaml | uinput -d $DEVNODE"
   DEVICE:
   #use the name of the keyboard you use for testing
     NAME: "TeckNet X366 Keyboard"

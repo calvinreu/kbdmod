@@ -30,6 +30,6 @@ make -j 8
 cd ../
 
 mkdir -p $DESTDIR
-cp -f build/keyboard_modify.bin $DESTDIR/keyboard_modify
-chmod 755 $DESTDIR/keyboard_modify
+cp -f build/kbdmod.bin $DESTDIR/kbdmod
+chmod 755 $DESTDIR/kbdmod
 
