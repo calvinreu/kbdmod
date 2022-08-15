@@ -16,7 +16,7 @@ input="$input"" q"
 #echo "$input"
 
 # run the program and echo input at it to get the output
-output=$((sleep 0.1; echo "$input") | ../build/keyboard_modify.bin -c testing.yaml)
+output=$((sleep 0.1; echo "$input") | ../build/kbdmod.bin -c testing.yaml)
 
 #format the output
 #remove 'read_event: '
