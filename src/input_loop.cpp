@@ -24,17 +24,20 @@ void input_loop() {
             EventQueue.AddEvent(current);
             continue;
         }
-         
+
         if (input.value == INPUT_VAL_RELEASE){
             current->release();
             continue;
         }
-        
+
+		if (input.value == INPUT_VAL_REPEAT){
+			continue;
+		}
+
         fprintf(stderr, "unexpected .value=%d .code=%d, doing nothing",
             input.value,
             input.code);
-        break;
     }
-    
+
     running = false;
 }
