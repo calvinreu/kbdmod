@@ -32,4 +32,5 @@ cd ../
 mkdir -p $DESTDIR
 cp -f build/kbdmod.bin $DESTDIR/kbdmod
 chmod 755 $DESTDIR/kbdmod
+echo "kbdmod installed to $DESTDIR/kbdmod"
 
