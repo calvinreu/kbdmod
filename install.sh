@@ -23,9 +23,11 @@ if [ -z $DESTDIR ]; then
 fi
 
 # build
+#in case there is a debug config left from a previous installation, remove it
+rm -rf build
 mkdir -p build
 cd build
-cmake ..
+cmake .. -DCMAKE_BUILD_TYPE=Release
 make -j 8
 cd ../
 
