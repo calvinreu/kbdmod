@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
 		same = false;
 	}
 	while (std::getline(file2, line2)) {
-		std::cout << line2 << std::endl;
+		std::cout << "     : " << line2 << std::endl;
 		same = false;
 	}
 	file1.close();

@@ -14,9 +14,11 @@ class InputOutput
 private:
     osmSeq osm;//one shot modifier
     input_event outputTemplate;
+	inline void syn_pause() const;
 public:
+	void write_event(const input_event &event);
     void write_event(const outputSeq &output);
-    inline void write_event(input_event *output) const write_event__(output)
+    void write_event(const input_event *output) const;
     inline void write_event() const {}
     void write_event_press(const outputSeq &output);
     void write_event_release(const outputSeq &output);

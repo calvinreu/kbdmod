@@ -21,7 +21,7 @@ build:
     - cd ../test && g++ compare.cpp -o compare.out
   artifacts:
     paths:
-      - "build/keyboard_modify.bin"
+      - "build/kbdmod.bin"
       - "test/compare.out"
   cache:
     paths:

@@ -10,14 +10,35 @@ void input_loop() {
     auto keyMap = keyMapBase - KEY_OPTION_MIN;
     input_event input;
     mapping *current;
+
+	setbuf(stdout, NULL);
+	setbuf(stdin, NULL);
+
     while (IO.read_event(&input))
     {
-        if (input.type != EV_KEY || input.code > KEY_OPTION_MAX || input.code < KEY_OPTION_MIN) {
-            IO.write_event(&input);//pass non keyboard and unsuported keys throught to the system
+        current = keyMap + input.code;
+
+		if (input.type == EV_MSC && input.code == MSC_SCAN)
+            continue;
+
+		//pass non keyboard and unsuported keys throught to the system
+        if (input.type != EV_KEY ||
+			input.code > KEY_OPTION_MAX ||
+			input.code < KEY_OPTION_MIN) {
+            IO.write_event(&input);
             continue;
         }
 
-        current = keyMap + input.code;
+		if (current->noqueue()) {
+			if(current->passthrough())
+				IO.write_event(input);
+			else if (input.value == INPUT_VAL_PRESS)
+				if (current->tap_osm())
+					IO.add_osm(current->get_tap());
+				else
+					IO.write_event(current->get_tap());
+			continue;
+		}
 
         if (input.value == INPUT_VAL_PRESS) {
             current->press();

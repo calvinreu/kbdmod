@@ -25,11 +25,12 @@ fi
 # build
 mkdir -p build
 cd build
-cmake ..
+cmake .. -DCMAKE_BUILD_TYPE=Release
 make -j 8
 cd ../
 
 mkdir -p $DESTDIR
 cp -f build/kbdmod.bin $DESTDIR/kbdmod
 chmod 755 $DESTDIR/kbdmod
+echo "kbdmod installed to $DESTDIR/kbdmod"
 

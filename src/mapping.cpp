@@ -108,22 +108,6 @@ void mapping::output_event() {
 		return;
     }
 
-    //check if key should be passed to output
-    if (key < ON_TAP_OSM_MASK) {
-		//set output pressed true
-		key |= OUTPUT_PRESSED_MASK	+ HOLD_OUTPUT_PRESSED_MASK;
-        IO.write_event_press(hold);
-		keyMapMutex.unlock();
-        return;
-    }
-
-    //check if key is only an ON_TAP_OSM
-    if (key < HOLD_ENABLED_MASK) {
-        IO.add_osm(tap);
-		keyMapMutex.unlock();
-        return;
-    }
-
     //create switch statement for each state
     //if state is pressed write tap hold
     //if state is double tap write double tap

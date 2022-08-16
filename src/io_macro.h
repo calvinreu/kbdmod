@@ -47,7 +47,7 @@ inline bool debug_read_event(input_event *input)
 #define INPUT_VAL_REPEAT 2//ignore
 
 #ifndef OUTPUT_DELAY//delay between output sequence keys
-#define OUTPUT_DELAY std::chrono::milliseconds(1)
+#define OUTPUT_DELAY 15
 #endif
 
 //if DEBUG
@@ -66,6 +66,7 @@ inline bool debug_read_event(input_event *input)
 #define write_event__(x) {\
 if (fwrite(x, sizeof(struct input_event), 1, stdout) != 1) \
 	fprintf(stderr, "Error writing to stdout.\n"); \
+syn_pause();\
 }
 #define read_event__(x) {\
 	return fread(input, sizeof(struct input_event), 1, stdin) == 1;\

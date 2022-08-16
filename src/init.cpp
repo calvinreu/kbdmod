@@ -60,12 +60,12 @@ void init(const char **argv, int argc) {
 	}
 
     //init empty keymap
-    for (int i = KEY_OPTION_MIN; i < KEY_OPTION_MAX; i++) {
-        keyMapBase[i].init(
-            0,
-            i, i, 0, 0
-        );
-    }
+    //for (int i = 0; i < KEY_OPTION_MAX-KEY_OPTION_MIN; i++) {
+    //    keyMapBase[i].init(
+    //        0,
+    //        i+KEY_OPTION_MIN, i+KEY_OPTION_MIN, 0, 0
+    //    );
+    //}
     //load config
     load_config(configPath);
 
@@ -196,14 +196,8 @@ void load_config(string configPath) {
             exit(EXIT_FAILURE);
         }
 
-		//check if key has any feature but tap
-		if (kfbm == 0) {
-			//set hold sequence to tap sequence
-			hold = tap;
-		}
-
         //add mapping to keymap
-        keyMapBase[event_code(it["KEY"].as<string>())].init(
+        keyMapBase[event_code(it["KEY"].as<string>())-KEY_OPTION_MIN].init(
             kfbm, hold, tap, doubletap, taphold
         );
     }
