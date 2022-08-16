@@ -47,7 +47,7 @@ inline bool debug_read_event(input_event *input)
 #define INPUT_VAL_REPEAT 2//ignore
 
 #ifndef OUTPUT_DELAY//delay between output sequence keys
-#define OUTPUT_DELAY 10
+#define OUTPUT_DELAY 15
 #endif
 
 //if DEBUG
