@@ -13,7 +13,6 @@ class InputOutput
 {
 private:
     osmSeq osm;//one shot modifier
-    input_event outputTemplate;
 	inline void syn_pause() const;
 public:
     void write_event(const outputSeq &output);
@@ -25,7 +24,7 @@ public:
     inline bool read_event (input_event *input ) const read_event__(input)
     inline void add_osm(const osmSeq &osm) {this->osm.append(osm);}
 
-    InputOutput();
+    inline InputOutput(): osm(0) {}
 };
 
 typedef InputOutput IOTYPE;
