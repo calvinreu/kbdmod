@@ -66,7 +66,7 @@ private:
     template<output_type type>
     inline void write_output();
 public:
-    inline bool is_null() const { return tap.is_empty(); }
+    inline bool is_null() const { return key; }
     void output_event();
     void release();
     void press();
