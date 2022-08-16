@@ -30,9 +30,6 @@ void input_loop() {
             continue;
         }
 
-		//print error
-		fprintf(stderr, "key %d %s\n", input.code, input.value == 1 ? "pressed" : "released");
-
         if (input.value == INPUT_VAL_PRESS) {
             current->press();
             EventQueue.AddEvent(current);
