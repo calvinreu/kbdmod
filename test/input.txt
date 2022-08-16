@@ -22,5 +22,5 @@
 1 33 1 20 1 33 0 10 1 33 1 20 1 33 0
 #passthrough non conf key //key_q
 1 16 1 20 1 16 0
-#do overlaping keys
-1 32 1 10 1 16 1 20 1 32 0 20 1 16 0
+#overlaping non conf keys
+1 1 1 10 1 2 1 10 1 2 0 10 1 1 0
