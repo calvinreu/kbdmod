@@ -34,5 +34,5 @@ output="${output//write_event: /}"
 echo "$output" > output.txt
 
 # compare the output with the expected output
-./compare.out output.txt expected_output.txt
+./compare.out expected_output.txt output.txt
 
