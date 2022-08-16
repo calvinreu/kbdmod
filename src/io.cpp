@@ -26,77 +26,72 @@ inline void InputOutput::syn_pause() const {
 //write event with event value
 void InputOutput::write_event_press(const outputSeq &output)
 {
-	static input_event press = {
-		.type = EV_KEY,
-		.value = INPUT_VAL_PRESS,
-	};
-
-	//press osm keys
+    outputTemplate.value = INPUT_VAL_PRESS;
+    //press osm keys
     for (auto i = osm.begin(); i != osm.end(); i++)
     {
-        press.code = *i;
-        write_event(&press);
+        outputTemplate.code = *i;
+        write_event(&outputTemplate);
     }
     //press output keys
     for (auto i = output.begin(); i != output.end(); i++)
     {
-        press.code = *i;
-        write_event(&press);
+        outputTemplate.code = *i;
+        write_event(&outputTemplate);
     }
     //release osm keys
-    press.value = INPUT_VAL_RELEASE;
+    outputTemplate.value = INPUT_VAL_RELEASE;
     for (auto i = osm.begin(); i != osm.end(); i++)
     {
-        press.code = *i;
-        write_event(&press);
+        outputTemplate.code = *i;
+        write_event(&outputTemplate);
     }
     //clear osm keys
     osm.clear();
 }
 
 void InputOutput::write_event_release(const outputSeq &output) {
-	static input_event release = {
-		.type = EV_KEY,
-		.value = INPUT_VAL_RELEASE,
-	};
-	//release output keys
+    outputTemplate.value = INPUT_VAL_RELEASE;
+    //release output keys
     for (auto i = output.begin(); i != output.end(); i++)
     {
-        release.code = *i;
-        write_event(&release);
+        outputTemplate.code = *i;
+        write_event(&outputTemplate);
     }
 }
 
-void InputOutput::write_event(const outputSeq &output) {
-    static input_event ev = {
-		.type = EV_KEY,
-	};
-	ev.value = INPUT_VAL_PRESS;
+InputOutput::InputOutput() :osm(0) {
+    outputTemplate.time.tv_sec = 0;
+    outputTemplate.time.tv_usec = 0;
+    outputTemplate.type = EV_KEY;
+}
 
-	for (auto i = osm.begin(); i != osm.end(); i++)
+void InputOutput::write_event(const outputSeq &output) {
+    outputTemplate.value = INPUT_VAL_PRESS;
+    for (auto i = osm.begin(); i != osm.end(); i++)
     {
-        ev.code = *i;
-        write_event(&ev);
+        outputTemplate.code = *i;
+        write_event(&outputTemplate);
     }
 
     for (auto i = output.begin(); i != output.end(); i++)
     {
-        ev.code = *i;
-        write_event(&ev);
+        outputTemplate.code = *i;
+        write_event(&outputTemplate);
     }
 
-    ev.value = INPUT_VAL_RELEASE;
+    outputTemplate.value = INPUT_VAL_RELEASE;
 
     for (auto i = osm.begin(); i != osm.end(); i++)
     {
-        ev.code = *i;
-        write_event(&ev);
+        outputTemplate.code = *i;
+        write_event(&outputTemplate);
     }
 
     for (auto i = output.begin(); i != output.end(); i++)
     {
-        ev.code = *i;
-        write_event(&ev);
+        outputTemplate.code = *i;
+        write_event(&outputTemplate);
     }
 
     osm.clear();
