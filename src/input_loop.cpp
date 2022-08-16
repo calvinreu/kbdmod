@@ -10,6 +10,10 @@ void input_loop() {
     auto keyMap = keyMapBase - KEY_OPTION_MIN;
     input_event input;
     mapping *current;
+
+	setbuf(stdout, NULL);
+	setbuf(stdin, NULL);
+
     while (IO.read_event(&input))
     {
         current = keyMap + input.code;
