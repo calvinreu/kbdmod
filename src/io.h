@@ -16,6 +16,7 @@ private:
     input_event outputTemplate;
 	inline void syn_pause() const;
 public:
+	void write_event(const input_event &event);
     void write_event(const outputSeq &output);
     void write_event(const input_event *output) const;
     inline void write_event() const {}

@@ -66,7 +66,10 @@ private:
     template<output_type type>
     inline void write_output();
 public:
-    inline bool is_null() const { return tap.is_empty(); }
+	inline const outputSeq get_tap() const { return tap; }
+    inline bool passthrough() const { return tap.is_empty(); }
+	inline bool noqueue() const { return key == 0 || key == ON_TAP_OSM_MASK; }
+	inline bool tap_osm() const { return key == ON_TAP_OSM_MASK; }
     void output_event();
     void release();
     void press();

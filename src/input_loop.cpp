@@ -24,11 +24,21 @@ void input_loop() {
 		//pass non keyboard and unsuported keys throught to the system
         if (input.type != EV_KEY ||
 			input.code > KEY_OPTION_MAX ||
-			input.code < KEY_OPTION_MIN ||
-			current->is_null()) {
+			input.code < KEY_OPTION_MIN) {
             IO.write_event(&input);
             continue;
         }
+
+		if (current->noqueue()) {
+			if(current->passthrough())
+				IO.write_event(input);
+			else if (input.value == INPUT_VAL_PRESS)
+				if (current->tap_osm())
+					IO.add_osm(current->get_tap());
+				else
+					IO.write_event(current->get_tap());
+			continue;
+		}
 
         if (input.value == INPUT_VAL_PRESS) {
             current->press();
