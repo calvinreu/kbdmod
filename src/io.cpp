@@ -98,8 +98,11 @@ void InputOutput::write_event(const outputSeq &output) {
 
     for (auto i = output.begin(); i != output.end(); i++)
     {
+		outputTemplate.value = INPUT_VAL_PRESS;
         outputTemplate.code = *i;
         write_event(&outputTemplate);
+		outputTemplate.value = INPUT_VAL_RELEASE;
+		write_event(&outputTemplate);
     }
 
     outputTemplate.value = INPUT_VAL_RELEASE;
@@ -110,11 +113,6 @@ void InputOutput::write_event(const outputSeq &output) {
         write_event(&outputTemplate);
     }
 
-    for (auto i = output.begin(); i != output.end(); i++)
-    {
-        outputTemplate.code = *i;
-        write_event(&outputTemplate);
-    }
 
     osm.clear();
 }
