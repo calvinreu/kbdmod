@@ -13,7 +13,7 @@ echo "replacing config with test config"
 mkdir udevmon
 mv /etc/interception/udevmon.d/* udevmon/
 cp udevmon.yaml /etc/interception/udevmon.d/test.yaml
-cp testing.yaml /tmp/kbdmod_test.yaml
+cp manual_testing.yaml /tmp/kbdmod_test.yaml
 
 # test
 echo "starting test"

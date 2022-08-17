@@ -41,6 +41,14 @@ inline void mapping::write_output() {
 void mapping::release() {
 	//lock mutex
 	keyMapMutex.lock();
+	//tap if key only has hold enabled and has not been managed
+	if (key < DOUBLETAP_ENABLED_MASK && key & HOLD_ENABLED_MASK && !(key & HOLD_OUTPUT_PRESSED_MASK)) {
+		write_output<tapT>();
+		key &= ~STATE_PRESSED_MASK;
+		key |= TAPPED_HOLD_KEY_MASK;
+		keyMapMutex.unlock();
+		return;
+	}
 
 	//set pressandrelease true if doubletap is active but not pressandrelease
 	key |= STATE_PRESSANDRELEASE_MASK & ((~key) & bit_shift<STATE_DOUBLETAP, STATE_PRESSANDRELEASE>(key));
@@ -90,7 +98,15 @@ void mapping::output_event() {
 	//lock mutex
 	keyMapMutex.lock();
 
-    //check if output is pressed
+	//ignore hold only if hold is not pressed
+	if (!(key & DOUBLETAP_ENABLED_MASK) && key & TAPPED_HOLD_KEY_MASK) {
+		if (!(key & STATE_PRESSED_MASK))
+			key &= ~TAPPED_HOLD_KEY_MASK;
+		keyMapMutex.unlock();
+		return;
+	}
+
+	//check if output is pressed
     if (key & OUTPUT_PRESSED_MASK) {
         if (key & TAPHOLD_OUTPUT_PRESSED_MASK) {
             IO.write_event_release(taphold);
