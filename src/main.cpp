@@ -1,6 +1,8 @@
 #include "init.h"
 #include "input_loop.h"
 
+extern std::vector<mapping> keyMapBase;
+
 int main(int argc, char const *argv[])
 {
     //run init

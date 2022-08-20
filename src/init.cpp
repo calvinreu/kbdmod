@@ -73,11 +73,8 @@ void init(const char **argv, int argc) {
 //if possible use config namings from dual-function-keys
 //load config from yaml file
 void load_config(string configPath) {
-    //init outputStrings
-    outputSeq tap;
-    outputSeq doubletap;
-    outputSeq hold;
-    outputSeq taphold;
+    std::map<int, KeyCode*> keyMap;
+	KeyCode buffer[128];
 
 	uint16_t kfbm;
     //read yaml file
@@ -115,15 +112,13 @@ void load_config(string configPath) {
 		}
 		KEY_OPTION_MIN = min;
 		KEY_OPTION_MAX = max;
+		keyMapBase.resize(KEY_OPTION_MAX - KEY_OPTION_MIN + 1);
 	}
 
     for (const auto &it : keymap) {
 
-        //reset outputSeq
-		tap.clear();
-		doubletap.clear();
-		hold.clear();
-		taphold.clear();
+		size_t len = 0;
+		size_t seqlen;
 
 		//check for unknown fields
 		for (auto it2 = it.begin(); it2 != it.end(); it2++) {
@@ -145,11 +140,20 @@ void load_config(string configPath) {
 		//load key features
 		//load tap
 		if (it["TAP"]) {
-			if (it["TAP"].Type() == YAML::NodeType::Sequence)
-				for (const auto &it2 : it["TAP"])
-					tap += event_code(it2.as<string>());
-			else
-				tap = event_code(it["TAP"].as<string>());
+			if (it["TAP"].Type() == YAML::NodeType::Sequence) {
+				seqlen = 0;
+				for (const auto &it2 : it["TAP"]){seqlen++;}
+				buffer[0] = seqlen;
+				len = 1;
+				for (const auto &it2 : it["TAP"]) {
+					buffer[len] = event_code(it2.as<string>());
+					len++;
+				}
+			}else{
+				buffer[0] = 1;
+				buffer[1] = event_code(it["TAP"].as<string>());
+				len = 2;
+			}
 		}else{
 			fprintf(stderr, "No tap feature found for key %s\n", it["KEY"].as<string>().c_str());
 		}
@@ -160,11 +164,21 @@ void load_config(string configPath) {
 		//check for hold
 		if (it["HOLD"]) {
 			kfbm |= HOLD_ENABLED_MASK;
-			if (it["HOLD"].Type() == YAML::NodeType::Sequence)
-				for (const auto &it2 : it["HOLD"])
-					hold += event_code(it2.as<string>());
-			else
-				hold = event_code(it["HOLD"].as<string>());
+			if (it["HOLD"].Type() == YAML::NodeType::Sequence) {
+				seqlen = 0;
+				for (const auto &it2 : it["HOLD"]){seqlen++;}
+				buffer[len] = seqlen;
+				len++;
+				for (const auto &it2 : it["HOLD"]) {
+					buffer[len] = event_code(it2.as<string>());
+					len++;
+				}
+			}else{
+				buffer[len] = 1;
+				len++;
+				buffer[len] = event_code(it["HOLD"].as<string>());
+				len++;
+			}
 			//check for hold osm
 			if (it["HOLD_OSM"])//default is false
 				kfbm |= ON_HOLD_OSM_MASK;
@@ -172,11 +186,21 @@ void load_config(string configPath) {
 		//check for doubletap
 		if (it["DOUBLETAP"]) {
 			kfbm |= DOUBLETAP_ENABLED_MASK;
-			if (it["DOUBLETAP"].Type() == YAML::NodeType::Sequence)
-				for (const auto &it2 : it["DOUBLETAP"])
-					doubletap += event_code(it2.as<string>());
-			else
-				doubletap = event_code(it["DOUBLETAP"].as<string>());
+			if (it["DOUBLETAP"].Type() == YAML::NodeType::Sequence) {
+				seqlen = 0;
+				for (const auto &it2 : it["DOUBLETAP"]){seqlen++;}
+				buffer[len] = seqlen;
+				len++;
+				for (const auto &it2 : it["DOUBLETAP"]) {
+					buffer[len] = event_code(it2.as<string>());
+					len++;
+				}
+			}else{
+				buffer[len] = 1;
+				len++;
+				buffer[len] = event_code(it["DOUBLETAP"].as<string>());
+				len++;
+			}
 			//check for doubletap osm
 			if (it["DOUBLETAP_OSM"])//default is false
 				kfbm |= ON_DOUBLETAP_OSM_MASK;
@@ -185,40 +209,29 @@ void load_config(string configPath) {
 		//check for taphold
 		if (it["TAPHOLD"]) {
 			kfbm |= TAPHOLD_ENABLED_MASK;
-			if (it["TAPHOLD"].Type() == YAML::NodeType::Sequence)
-				for (const auto &it2 : it["TAPHOLD"])
-					taphold += event_code(it2.as<string>());
-			else
-				taphold = event_code(it["TAPHOLD"].as<string>());
+			if (it["TAPHOLD"].Type() == YAML::NodeType::Sequence) {
+				seqlen = 0;
+				for (const auto &it2 : it["TAPHOLD"]){seqlen++;}
+				buffer[len] = seqlen;
+				len++;
+				for (const auto &it2 : it["TAPHOLD"]) {
+					buffer[len] = event_code(it2.as<string>());
+					len++;
+				}
+			}else{
+				buffer[len] = 1;
+				len++;
+				buffer[len] = event_code(it["TAPHOLD"].as<string>());
+				len++;
+			}
 			//check for taphold osm
 			if (it["TAPHOLD_OSM"])//default is false
 				kfbm |= ON_TAPHOLD_OSM_MASK;
 		}
 
 
-        //check if output sequences are valid
-        if (((uint8_t*)(&tap))[7] != 0) {
-            fprintf(stderr, "tap is not a valid output sequence\n");
-            exit(EXIT_FAILURE);
-        }
-        if (((uint8_t*)(&doubletap))[7] != 0) {
-            fprintf(stderr, "doubletap is not a valid output sequence\n");
-            exit(EXIT_FAILURE);
-        }
-        if (((uint8_t*)(&hold))[7] != 0) {
-            fprintf(stderr, "hold is not a valid output sequence\n");
-            exit(EXIT_FAILURE);
-        }
-        if (((uint8_t*)(&taphold))[7] != 0) {
-            fprintf(stderr, "taphold is not a valid output sequence\n");
-            exit(EXIT_FAILURE);
-        }
-
-		keyMapBase.resize(KEY_OPTION_MAX - KEY_OPTION_MIN + 1);
-
         //add mapping to keymap
         keyMapBase[event_code(it["KEY"].as<string>())-KEY_OPTION_MIN].init(
-            kfbm, hold, tap, doubletap, taphold
-        );
+            kfbm, OutputStorage(buffer, len));
     }
 }

@@ -11,29 +11,29 @@ inline void mapping::write_output() {
     if constexpr (type == tapT)
         //check if tap is osm
         if (key & ON_TAP_OSM_MASK)
-            IO.add_osm(tap);
+            IO.set_osm(tap());
         else
-            IO.write_event(tap);
+            IO.write_event(tap());
     else if constexpr (type == doubletapT)
         //check if doubletap is osm
         if (key & ON_DOUBLETAP_OSM_MASK)
-            IO.add_osm(doubletap);
+            IO.set_osm(doubletap());
         else
-            IO.write_event(doubletap);
+            IO.write_event(doubletap());
     else if constexpr (type == holdT)
         //check if hold is osm
         if (key & ON_HOLD_OSM_MASK)
-            IO.add_osm(hold);
+            IO.set_osm(hold());
         else {
-            IO.write_event_press(hold);
+            IO.write_event_press(hold());
             key |= (HOLD_OUTPUT_PRESSED_MASK + OUTPUT_PRESSED_MASK);
         }
     else if constexpr (type == tapholdT)
         //check if taphold is osm
         if (key & ON_TAPHOLD_OSM_MASK)
-            IO.add_osm(taphold);
+            IO.set_osm(taphold());
         else {
-            IO.write_event_press(taphold);
+            IO.write_event_press(taphold());
             key |= (TAPHOLD_OUTPUT_PRESSED_MASK + OUTPUT_PRESSED_MASK);
         }
 }
@@ -109,11 +109,11 @@ void mapping::output_event() {
 	//check if output is pressed
     if (key & OUTPUT_PRESSED_MASK) {
         if (key & TAPHOLD_OUTPUT_PRESSED_MASK) {
-            IO.write_event_release(taphold);
+            IO.write_event_release(taphold());
             //set output pressed and taphold pressed false
             key &= ~(OUTPUT_PRESSED_MASK + TAPHOLD_OUTPUT_PRESSED_MASK);
         }else{
-            IO.write_event_release(hold);
+            IO.write_event_release(hold());
             //set output pressed and hold pressed false
             key &= ~(OUTPUT_PRESSED_MASK + HOLD_OUTPUT_PRESSED_MASK);
         }
@@ -144,7 +144,7 @@ void mapping::output_event() {
         //set double tap false
         key &= ~(STATE_DOUBLETAP_MASK + STATE_TAPHOLD_MASK);
 
-        if(doubletap.is_empty())
+        if(key & DOUBLETAP_ENABLED_MASK != 0)
             write_output<tapT>();//intentionally fallthrough
         else {
             write_output<doubletapT>();
