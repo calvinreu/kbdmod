@@ -2,6 +2,9 @@
 
 IOTYPE IO;
 
+
+KeyCode NULLSTORAGE = 0;
+
 void InputOutput::write_event(const input_event &event)
 {
 	if (event.value == INPUT_VAL_PRESS) {

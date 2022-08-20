@@ -112,6 +112,7 @@ void load_config(string configPath) {
 		}
 		KEY_OPTION_MIN = min;
 		KEY_OPTION_MAX = max;
+		keyMapBase.resize(KEY_OPTION_MAX - KEY_OPTION_MIN + 1);
 	}
 
     for (const auto &it : keymap) {
@@ -228,7 +229,6 @@ void load_config(string configPath) {
 				kfbm |= ON_TAPHOLD_OSM_MASK;
 		}
 
-		keyMapBase.resize(KEY_OPTION_MAX - KEY_OPTION_MIN + 1);
 
         //add mapping to keymap
         keyMapBase[event_code(it["KEY"].as<string>())-KEY_OPTION_MIN].init(

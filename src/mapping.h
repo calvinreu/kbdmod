@@ -61,8 +61,12 @@ private:
 	//write output event
     template<output_type type>
     inline void write_output();
+	inline OutputStorage& tap(){return output;}
+	inline OutputStorage hold(){return output.next();}
+	inline OutputStorage doubletap(){return output.next().next();}
+	inline OutputStorage taphold(){return output.next().next().next();}
 public:
-	inline const OutputStorage get_output() const { return output; }
+	inline const OutputStorage& get_output() const { return output; }
     inline bool passthrough() const { return output.is_empty(); }
 	inline bool noqueue() const { return key == 0 || key == ON_TAP_OSM_MASK; }
 	inline bool tap_osm() const { return key == ON_TAP_OSM_MASK; }
@@ -71,8 +75,9 @@ public:
     void press();
     inline mapping(){}
     //init function for mapping
-    inline void init(TypeOutputConf key, OutputStorage output){
+    inline void init(TypeOutputConf key, OutputStorage &&output){
 		this->key = key;
-		this->output = output;
+		this->output = std::move(output);
 	}
+	inline ~mapping(){output.destruct();}
 };
