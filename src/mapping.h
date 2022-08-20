@@ -56,17 +56,13 @@ class mapping
 private:
     //msb has to be false otherwise undefined behaviour can occur
     TypeOutputConf key;
-    outputSeq hold;//init with tap if hold is disabled
-    outputSeq  tap;
-    outputSeq  doubletap;
-    outputSeq taphold;
-
-    //write output event
+	OutputStorage output;
+	//write output event
     template<output_type type>
     inline void write_output();
 public:
-	inline const outputSeq get_tap() const { return tap; }
-    inline bool passthrough() const { return tap.is_empty(); }
+	inline const OutputStorage get_output() const { return output; }
+    inline bool passthrough() const { return output.is_empty(); }
 	inline bool noqueue() const { return key == 0 || key == ON_TAP_OSM_MASK; }
 	inline bool tap_osm() const { return key == ON_TAP_OSM_MASK; }
     void output_event();
