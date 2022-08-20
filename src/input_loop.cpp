@@ -38,7 +38,9 @@ void input_loop() {
 				if (current->tap_osm())
 					IO.set_osm(current->get_output());
 				else
-					IO.write_event(current->get_output());
+					IO.write_event_press(current->get_output());
+			else if (!current->tap_osm())
+				IO.write_event_release(current->get_output());
 			continue;
 		}
 
