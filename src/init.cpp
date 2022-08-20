@@ -1,5 +1,9 @@
 #include "init.h"
 
+#ifndef VERSION
+#define VERSION "version undefined"
+#endif
+
 extern mapping keyMapBase[];
 extern milliseconds delay;
 const int timing__tap_millisec = 200;
