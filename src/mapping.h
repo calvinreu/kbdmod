@@ -9,9 +9,6 @@
 #include <vector>
 
 
-#define KEY_OPTION_MAX 249
-#define KEY_OPTION_MIN 4
-
 #define STATE_PRESSED 0
 #define STATE_DOUBLETAP 1
 #define STATE_TAPHOLD 2

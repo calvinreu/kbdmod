@@ -2,12 +2,14 @@
 
 
 extern IOTYPE IO;
-extern mapping keyMapBase[];
+extern std::vector<mapping> keyMapBase;
 extern ExecutionQueue EventQueue;
+extern uint KEY_OPTION_MIN;
+extern uint KEY_OPTION_MAX;
 bool running = true;
 
 void input_loop() {
-    auto keyMap = keyMapBase - KEY_OPTION_MIN;
+    mapping* keyMap = &(*keyMapBase.begin()) - KEY_OPTION_MIN;
     input_event input;
     mapping *current;
 

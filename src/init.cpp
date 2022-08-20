@@ -4,9 +4,11 @@
 #define VERSION "version undefined"
 #endif
 
-extern mapping keyMapBase[];
+extern std::vector<mapping> keyMapBase;
 extern milliseconds delay;
 const int timing__tap_millisec = 200;
+uint KEY_OPTION_MIN = 0;
+uint KEY_OPTION_MAX = 0;
 
 //print usage
 inline void usage() {
@@ -63,13 +65,6 @@ void init(const char **argv, int argc) {
 		}
 	}
 
-    //init empty keymap
-    //for (int i = 0; i < KEY_OPTION_MAX-KEY_OPTION_MIN; i++) {
-    //    keyMapBase[i].init(
-    //        0,
-    //        i+KEY_OPTION_MIN, i+KEY_OPTION_MIN, 0, 0
-    //    );
-    //}
     //load config
     load_config(configPath);
 
@@ -103,6 +98,25 @@ void load_config(string configPath) {
 	}
     //load keymap
     const YAML::Node& keymap = config["MAPPINGS"];
+	//get smallest and biggest key
+	{
+		int max = 0;
+		//max of uint
+		int min = std::numeric_limits<int>::max();
+		for(const auto &it : keymap) {
+			if (it["KEY"]) {
+				min = std::min(min, event_code(it["KEY"].as<string>()));
+				max = std::max(max, event_code(it["KEY"].as<string>()));
+			}
+		}
+		if(min > max) {
+			fprintf(stderr, "No valid key found in config.\n");
+			exit(EXIT_FAILURE);
+		}
+		KEY_OPTION_MIN = min;
+		KEY_OPTION_MAX = max;
+	}
+
     for (const auto &it : keymap) {
 
         //reset outputSeq
@@ -199,6 +213,8 @@ void load_config(string configPath) {
             fprintf(stderr, "taphold is not a valid output sequence\n");
             exit(EXIT_FAILURE);
         }
+
+		keyMapBase.resize(KEY_OPTION_MAX - KEY_OPTION_MIN + 1);
 
         //add mapping to keymap
         keyMapBase[event_code(it["KEY"].as<string>())-KEY_OPTION_MIN].init(

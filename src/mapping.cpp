@@ -1,6 +1,6 @@
 #include "mapping.h"
 
-mapping keyMapBase[KEY_OPTION_MAX - KEY_OPTION_MIN];
+std::vector<mapping> keyMapBase;
 std::mutex keyMapMutex;
 extern ExecutionQueue EventQueue;
 extern IOTYPE IO;
