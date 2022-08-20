@@ -56,6 +56,7 @@ class mapping
 private:
     //msb has to be false otherwise undefined behaviour can occur
     TypeOutputConf key;
+	//[0]tap[1]hold[2]doubletap[3]taphold
 	OutputStorage output;
 	//write output event
     template<output_type type>
@@ -70,12 +71,8 @@ public:
     void press();
     inline mapping(){}
     //init function for mapping
-    inline void init(TypeOutputConf key, outputSeq hold, outputSeq tap,
-	outputSeq doubletap, outputSeq taphold) {
+    inline void init(TypeOutputConf key, OutputStorage output){
 		this->key = key;
-		this->hold = hold;
-		this->tap = tap;
-		this->doubletap = doubletap;
-		this->taphold = taphold;
+		this->output = output;
 	}
 };

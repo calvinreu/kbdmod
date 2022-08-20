@@ -46,7 +46,7 @@ inline void InputOutput::syn_pause() const {
 }
 
 //write event with event value
-void InputOutput::write_event_press(const outputSeq &output)
+void InputOutput::write_event_press(const OutputStorage &output)
 {
     outputTemplate.value = INPUT_VAL_PRESS;
     //press osm keys
@@ -72,7 +72,7 @@ void InputOutput::write_event_press(const outputSeq &output)
     osm.clear();
 }
 
-void InputOutput::write_event_release(const outputSeq &output) {
+void InputOutput::write_event_release(const OutputStorage &output) {
     outputTemplate.value = INPUT_VAL_RELEASE;
     //release output keys
     for (auto i = output.begin(); i != output.end(); i++)
@@ -82,13 +82,13 @@ void InputOutput::write_event_release(const outputSeq &output) {
     }
 }
 
-InputOutput::InputOutput() :osm(0) {
+InputOutput::InputOutput() {
     outputTemplate.time.tv_sec = 0;
     outputTemplate.time.tv_usec = 0;
     outputTemplate.type = EV_KEY;
 }
 
-void InputOutput::write_event(const outputSeq &output) {
+void InputOutput::write_event(const OutputStorage &output) {
     outputTemplate.value = INPUT_VAL_PRESS;
     for (auto i = osm.begin(); i != osm.end(); i++)
     {

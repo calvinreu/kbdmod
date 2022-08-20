@@ -11,9 +11,9 @@ inline void mapping::write_output() {
     if constexpr (type == tapT)
         //check if tap is osm
         if (key & ON_TAP_OSM_MASK)
-            IO.add_osm(tap);
+            IO.set_osm(output);
         else
-            IO.write_event(tap);
+            IO.write_event(output);
     else if constexpr (type == doubletapT)
         //check if doubletap is osm
         if (key & ON_DOUBLETAP_OSM_MASK)
