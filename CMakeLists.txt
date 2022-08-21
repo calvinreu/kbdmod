@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-project(kbdmod VERSION 0.1.0)
+project(kbdmod VERSION ${version})
 
 # Check if debug
 if(${CMAKE_BUILD_TYPE} STREQUAL "Debug")
