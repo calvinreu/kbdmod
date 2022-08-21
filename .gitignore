@@ -4,3 +4,4 @@ test/udevmon.yaml
 build
 otherstuff/
 pkgbuild_test/
+kbdmod/
