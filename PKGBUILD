@@ -42,6 +42,5 @@ check() {
 
 package() {
 	cd "$pkgname-v$pkgver/build"
-	mkdir -p "$pkgdir/usr/bin"
-	cp kbdmod.bin "$pkgdir/usr/bin/kbdmod"
+	cp kbdmod.bin "$pkgdir/kbdmod"
 }
