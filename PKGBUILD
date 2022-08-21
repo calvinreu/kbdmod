@@ -1,4 +1,4 @@
-# Maintainer: Calvin Reu <j.calvin.reu@protonmail.com>
+# Maintainer: Calvin Reu <j  dot  calvin  dot  reu at protonmail period com>
 # License: MIT
 # Repository: https://gitlab.com/input-configuration/kbdmod
 
@@ -21,7 +21,7 @@ replaces=()
 backup=()
 options=()
 install=
-changelo=
+changelog=
 source=("https://gitlab.com/input-configuration/$pkgname/-/archive/v$pkgver/kbdmod-v$pkgver.tar.gz")
 noextract=()
 sha256sums=(b5d564eccbc1a63db85fbb98cb4335c5d5c96b81521a1c080d79a3068f397d04)
