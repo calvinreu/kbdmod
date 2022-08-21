@@ -1,8 +1,8 @@
 # kbdmod
 
-[![pipeline status](https://gitlab.com/input-configuration/kbdmod/badges/main/pipeline.svg)](https://gitlab.com/input-configuration/kbdmod/-/commits/main)
+[![pipeline status](https://gitlab.com/calvinreu/kbdmod/badges/main/pipeline.svg)](https://gitlab.com/calvinreu/kbdmod/-/commits/main)
 [![AUR](https://img.shields.io/aur/version/kbdmod)](https://aur.archlinux.org/packages/kbdmod)
-[![Latest Release](https://gitlab.com/input-configuration/kbdmod/-/badges/release.svg)](https://gitlab.com/input-configuration/kbdmod/-/releases)
+[![Latest Release](https://gitlab.com/calvinreu/kbdmod/-/badges/release.svg)](https://gitlab.com/calvinreu/kbdmod/-/releases)
 
 intercept keycodes and change them to emulate qmk/oryx zsa like behaviour with any keyboard meaning you can assign macros, OSMs and normal keys to single tap, double tap, hold or tap and then hold of a key
 
@@ -18,12 +18,12 @@ build dependencies
  - cmake
  - make
 
- > cd tmp && git clone https://gitlab.com/input-configuration/kbdmod && cd kbd && ./install.sh
+ > cd tmp && git clone https://gitlab.com/calvinreu/kbdmod && cd kbd && ./install.sh
 
 ## Configuration
 There are two parts to be configured: kbdmod and udevmon, which launches kbdmod.
 
-See [examples](https://gitlab.com/input-configuration/kbdmod/-/blob/main/doc/examples.md) which contains kbdmod configurations.
+See [examples](https://gitlab.com/calvinreu/kbdmod/-/blob/main/doc/examples.md) which contains kbdmod configurations.
 
 ### udevmon
 This yaml file resides in `/etc/interception/udevmon.d/Keyboard1.yaml`
