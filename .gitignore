@@ -3,5 +3,4 @@ test/output.txt
 test/udevmon.yaml
 build
 otherstuff/
-kbdmod-v*.tar.gz
-src/kbdmod-v*
+pkgbuild_test/
