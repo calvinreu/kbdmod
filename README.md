@@ -1,6 +1,8 @@
 # kbdmod
 
+[![pipeline status](https://gitlab.com/input-configuration/kbdmod/badges/main/pipeline.svg)](https://gitlab.com/input-configuration/kbdmod/-/commits/main)
 [![AUR](https://img.shields.io/aur/version/kbdmod)](https://aur.archlinux.org/packages/kbdmod)
+[![Latest Release](https://gitlab.com/input-configuration/kbdmod/-/badges/release.svg)](https://gitlab.com/input-configuration/kbdmod/-/releases)
 
 intercept keycodes and change them to emulate qmk/oryx zsa like behaviour with any keyboard meaning you can assign macros, OSMs and normal keys to single tap, double tap, hold or tap and then hold of a key
 
