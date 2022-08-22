@@ -68,32 +68,3 @@ InputOutput::InputOutput() {
     outputTemplate.time.tv_usec = 0;
     outputTemplate.type = EV_KEY;
 }
-
-void InputOutput::write_event(const OutputStorage &output) {
-    outputTemplate.value = INPUT_VAL_PRESS;
-    for (auto i = osm.begin(); i != osm.end(); i++)
-    {
-        outputTemplate.code = *i;
-        write_event(&outputTemplate);
-    }
-
-    for (auto i = output.begin(); i != output.end(); i++)
-    {
-		outputTemplate.value = INPUT_VAL_PRESS;
-        outputTemplate.code = *i;
-        write_event(&outputTemplate);
-		outputTemplate.value = INPUT_VAL_RELEASE;
-		write_event(&outputTemplate);
-    }
-
-    outputTemplate.value = INPUT_VAL_RELEASE;
-
-    for (auto i = osm.begin(); i != osm.end(); i++)
-    {
-        outputTemplate.code = *i;
-        write_event(&outputTemplate);
-    }
-
-
-    osm.clear();
-}

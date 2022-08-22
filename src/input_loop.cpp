@@ -3,7 +3,8 @@
 
 extern IOTYPE IO;
 extern std::vector<mapping> keyMapBase;
-extern ExecutionQueue EventQueue;
+extern TimerEvent timer_event;
+extern mapping* AktiveKey;
 extern uint KEY_OPTION_MIN;
 extern uint KEY_OPTION_MAX;
 bool running = true;
@@ -32,21 +33,22 @@ void input_loop() {
         }
 
 		if (current->noqueue()) {
-			if(current->passthrough())
+			if(current->passthrough()) {
+				AktiveKey->consume_event();
 				IO.write_event(input);
-			else if (input.value == INPUT_VAL_PRESS)
+			}else if (input.value == INPUT_VAL_PRESS) {
+				AktiveKey->consume_event();
 				if (current->tap_osm())
 					IO.set_osm(current->get_output());
 				else
 					IO.write_event_press(current->get_output());
-			else if (!current->tap_osm())
+			} else if (!current->tap_osm())
 				IO.write_event_release(current->get_output());
 			continue;
 		}
 
         if (input.value == INPUT_VAL_PRESS) {
             current->press();
-            EventQueue.AddEvent(current);
             continue;
         }
 

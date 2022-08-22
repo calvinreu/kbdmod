@@ -9,8 +9,6 @@
 #include <vector>
 
 
-#define INPUT_RELEASED 0
-#define DOUBLE_PRESS 1
 #define OUTPUT_PRESSED 2
 #define ON_TAP_OSM 3
 #define ON_HOLD_OSM 4
@@ -20,8 +18,6 @@
 #define TAPHOLD_ENABLED 8
 #define HOLD_ENABLED 9
 
-#define SINGLE_PRESS_MASK 			constPow(2, INPUT_RELEASED   )
-#define DOUBLE_PRESS_MASK 				constPow(2, DOUBLE_PRESS     )
 #define OUTPUT_PRESSED_MASK  	        constPow(2, OUTPUT_PRESSED   )
 #define ON_TAP_OSM_MASK  				constPow(2, ON_TAP_OSM       )
 #define ON_HOLD_OSM_MASK  				constPow(2, ON_HOLD_OSM      )
@@ -30,11 +26,14 @@
 #define DOUBLETAP_ENABLED_MASK  		constPow(2, DOUBLETAP_ENABLED)
 #define TAPHOLD_ENABLED_MASK  			constPow(2, TAPHOLD_ENABLED  )
 #define HOLD_ENABLED_MASK  				constPow(2, HOLD_ENABLED     )
-#define KEY_STATE INPUT_RELEASED+DOUBLE_PRESS+OUTPUT_PRESSED
+#define KEY_STATE 						7
 #define TAP_OUTPUT_PRESSED_MASK  		0 + OUTPUT_PRESSED_MASK
 #define HOLD_OUTPUT_PRESSED_MASK  		1 + OUTPUT_PRESSED_MASK
 #define DOUBLETAP_OUTPUT_PRESSED_MASK  	2 + OUTPUT_PRESSED_MASK
 #define TAPHOLD_OUTPUT_PRESSED_MASK  	3 + OUTPUT_PRESSED_MASK
+#define SINGLE_PRESS_MASK  				1
+#define SINGLE_RELEASE_MASK  			2
+#define DOUBLE_PRESS_MASK  				3
 
 enum output_type {
     tapT,
@@ -60,7 +59,6 @@ private:
 	inline OutputStorage hold(){return output.next();}
 	inline OutputStorage doubletap(){return output.next().next();}
 	inline OutputStorage taphold(){return output.next().next().next();}
-	void consume_event();
 public:
 	inline const OutputStorage& get_output() const { return output; }
     inline bool passthrough() const { return output.is_empty(); }
@@ -69,6 +67,7 @@ public:
 	void timeout_event();
     void release();
     void press();
+	void consume_event();
     //init function for mapping
     inline void init(TypeOutputConf key, OutputStorage &&output){
 		this->key = key;
