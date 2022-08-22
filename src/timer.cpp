@@ -1,40 +1,23 @@
 #include "timer.h"
 #include "mapping.h"
 
-extern ExecutionQueue EventQueue;
 extern bool running;
+TimerEvent timer_event;
 
 milliseconds delay;
-
-TimerEvent::TimerEvent(mapping *m)
-	: m(m)
-{
-	execution_time = system_clock::now() + delay;
-}
-
-// create timer event with custom delay
-TimerEvent::TimerEvent(mapping *m, const milliseconds &Delay)
-	: m(m)
-{
-	execution_time = system_clock::now() + Delay;
-}
-
-// create timer event with custom timepoint
-TimerEvent::TimerEvent(mapping *m, const system_clock::time_point &Time)
-	: m(m), execution_time(Time) {}
 
 void TimerLoop()
 {
 	while (running)
 	{
 		// check if queue is empty
-		if (EventQueue.is_empty())
+		if (timer_event.is_empty())
 		{
 			sleep_for(delay);
 			continue;
 		}
-		auto current = EventQueue.PopEvent();
-		sleep_until(current.execution_time);
-		current.m->output_event();
+		sleep_until(timer_event.execution_time);
+		if(!timer_event.is_empty())
+			timer_event.m->timeout_event();
 	}
 }
