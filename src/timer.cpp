@@ -17,7 +17,13 @@ void TimerLoop()
 			continue;
 		}
 		sleep_until(timer_event.execution_time);
-		if(!timer_event.is_empty())
-			timer_event.m->timeout_event();
+		if(timer_event.reset || timer_event.is_empty()) {
+			timer_event.reset = false;
+			continue;
+		}
+
+		// execute event
+		timer_event.m->timeout_event();
+		timer_event.clear();
 	}
 }
