@@ -1,7 +1,7 @@
 #pragma once
 #include <thread>
 #include <chrono>
-#include "execution_queue.h"
+#include <mutex>
 
 using namespace std::this_thread; // sleep_for, sleep_until
 using namespace std::chrono_literals;
@@ -10,24 +10,30 @@ using std::chrono::milliseconds;
 
 struct mapping;
 
-//event to execute after a certain amount of time to add an event construct it in the event queue
+//event to execute after a certain amount of time there should only be one
 struct TimerEvent
 {
     system_clock::time_point execution_time;
     mapping *m;
-    inline bool operator<(const TimerEvent &other) const { return execution_time > other.execution_time; }
-    //add compare operators to compare to time_point
-    inline bool operator<(const system_clock::time_point &other) const
-		{ return this->execution_time < other; }
-    inline bool operator>(const system_clock::time_point &other) const
-		{ return this->execution_time > other; }
-    inline bool operator==(const system_clock::time_point &other) const
-		{ return this->execution_time == other; }
-    TimerEvent(mapping *m);
-    //create timer event with custom delay
-    TimerEvent(mapping *m, const milliseconds &Delay);
-    //create timer event with custom timepoint
-    TimerEvent(mapping *m, const system_clock::time_point &Time);
+	std::mutex mutex;
+	bool reset;
+    inline TimerEvent() : m(nullptr), reset(false) {}
+	inline void set(const system_clock::duration &duration, mapping *m)
+	{
+		mutex.lock();
+		if (this->m != nullptr)
+			this->reset = true;
+		execution_time = system_clock::now() + duration;
+		this->m = m;
+		mutex.unlock();
+	}
+	inline void clear() {
+		mutex.lock();
+		m = nullptr;
+		reset = false;
+		mutex.unlock();
+	}
+	inline bool is_empty() { return m == nullptr; }
 };
 
 extern void TimerLoop();//initialize the timer
