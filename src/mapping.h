@@ -21,7 +21,7 @@
 #define HOLD_ENABLED 9
 #define AUTOSHIFT_ENABLED 10
 
-#define INPUT_RELEASED_MASK 			constPow(2, INPUT_RELEASED   )
+#define SINGLE_PRESS_MASK 			constPow(2, INPUT_RELEASED   )
 #define DOUBLE_PRESS_MASK 				constPow(2, DOUBLE_PRESS     )
 #define OUTPUT_PRESSED_MASK  	        constPow(2, OUTPUT_PRESSED   )
 #define ON_TAP_OSM_MASK  				constPow(2, ON_TAP_OSM       )

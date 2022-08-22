@@ -13,27 +13,27 @@ void mapping::release() {
 	//check key state
 	switch(key & KEY_STATE) {
 	case TAP_OUTPUT_PRESSED_MASK:
-		IO.write_event_release(output);
+		write_output_release(tap());
 		break;
 	case HOLD_OUTPUT_PRESSED_MASK:
-		IO.write_event_release(output);
+		write_output_release(hold());
 		break;
 	case DOUBLETAP_OUTPUT_PRESSED_MASK:
-		IO.write_event_release(output);
+		write_output_release(doubletap());
 		break;
 	case TAPHOLD_OUTPUT_PRESSED_MASK:
-		IO.write_event_release(output);
+		write_output_release(taphold());
 		break;
-	case 0:
+	case SINGLE_PRESS_MASK+DOUBLE_PRESS_MASK:
+		write_output<doubletapT>();
+		break;
+	case SINGLE_PRESS_MASK:
 	 	//check for doubletap or taphold
 		if(key < HOLD_ENABLED_MASK) {
 			timer_event.set(delay, this);
 		}else{
 			write_output_press<tapT>();
 		}
-	case INPUT_RELEASED_MASK+DOUBLE_PRESS_MASK:
-		write_output<doubletapT>();
-		break;
 	}
 	keyMapMutex.unlock();
 }
@@ -43,7 +43,6 @@ void mapping::press() {
 	keyMapMutex.lock();
 
 	timer_event.set(delay, this);
-	AktiveKey = this;
 
 	//check key state
 	if(key == 0 && AktiveKey != nullptr) {
@@ -56,6 +55,9 @@ void mapping::press() {
 			timer_event.clear();
 		}
 	}
+
+	AktiveKey = this;
+	key |= SINGLE_PRESS_MASK;
 
 	//unlock mutex
 	keyMapMutex.unlock();
@@ -70,32 +72,73 @@ inline void mapping::write_output_release(const OutputStorage &output_) {
 template<output_type type>
 inline void mapping::write_output_press() {
     if constexpr (type == tapT)
-        if (key & ON_TAP_OSM_MASK)
+        if (key & ON_TAP_OSM_MASK) {
             IO.set_osm(tap());
-        else {
+			clear();
+        } else {
             IO.write_event_press(tap());
 			key |= TAP_OUTPUT_PRESSED_MASK;
 		}
     else if constexpr (type == doubletapT)
-        if (key & ON_DOUBLETAP_OSM_MASK)
+        if (key & ON_DOUBLETAP_OSM_MASK) {
             IO.set_osm(doubletap());
-        else {
+			clear();
+        } else {
             IO.write_event_press(doubletap());
 			key |= DOUBLETAP_OUTPUT_PRESSED_MASK;
 		}
     else if constexpr (type == holdT)
-        if (key & ON_HOLD_OSM_MASK)
+        if (key & ON_HOLD_OSM_MASK) {
             IO.set_osm(hold());
-        else {
+			clear();
+        } else {
             IO.write_event_press(hold());
 			key |= HOLD_OUTPUT_PRESSED_MASK;
         }
     else if constexpr (type == tapholdT)
         //check if taphold is osm
-        if (key & ON_TAPHOLD_OSM_MASK)
+        if (key & ON_TAPHOLD_OSM_MASK) {
             IO.set_osm(taphold());
-        else {
+			clear();
+		} else {
             IO.write_event_press(taphold());
 			key |= TAPHOLD_OUTPUT_PRESSED_MASK;
         }
+}
+
+template<output_type type>
+inline void mapping::write_output() {
+    if constexpr (type == tapT)
+        if (key & ON_TAP_OSM_MASK) {
+            IO.set_osm(tap());
+			clear();
+        } else {
+            IO.write_event_press(tap());
+			write_output_release(tap());
+		}
+    else if constexpr (type == doubletapT)
+        if (key & ON_DOUBLETAP_OSM_MASK) {
+            IO.set_osm(doubletap());
+			clear();
+        } else {
+            IO.write_event_press(doubletap());
+			write_output_release(doubletap());
+		}
+    else if constexpr (type == holdT)
+        if (key & ON_HOLD_OSM_MASK) {
+            IO.set_osm(hold());
+			clear();
+        } else {
+            IO.write_event_press(hold());
+			write_output_release(hold());
+        }
+    else if constexpr (type == tapholdT)
+        //check if taphold is osm
+        if (key & ON_TAPHOLD_OSM_MASK) {
+            IO.set_osm(taphold());
+			clear();
+		} else {
+            IO.write_event_press(taphold());
+			write_output_release(taphold());
+		}
 }
