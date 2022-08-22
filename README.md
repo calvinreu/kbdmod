@@ -90,11 +90,7 @@ this project is under the MIT license (c)Calvin Reu see LICENSE
 first functional version the project is currently under active development contributions and suggestions are welcome
 
 ## Roadmap
- - remove unecessary delays
  - config creator would be nice if it has a gui web based
- - pipeline for gui when done
- - general options for something like autoshift
  - support for mouse output through keyboard
- - layer system
- - led control for layers usw
+ - led control of capslock, numlock and scrlck leds
 
