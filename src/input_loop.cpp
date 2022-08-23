@@ -2,15 +2,12 @@
 
 
 extern IOTYPE IO;
-extern std::vector<mapping> keyMapBase;
 extern TimerEvent timer_event;
 extern mapping* AktiveKey;
-extern uint KEY_OPTION_MIN;
-extern uint KEY_OPTION_MAX;
+extern Layer AktiveLayer;
 bool running = true;
 
 void input_loop() {
-    mapping* keyMap = &(*keyMapBase.begin()) - KEY_OPTION_MIN;
     input_event input;
     mapping *current;
 
@@ -19,15 +16,15 @@ void input_loop() {
 
     while (IO.read_event(&input))
     {
-        current = keyMap + input.code;
+        current = AktiveLayer.mappings + input.code;
 
 		if (input.type == EV_MSC && input.code == MSC_SCAN)
             continue;
 
 		//pass non keyboard and unsuported keys throught to the system
         if (input.type != EV_KEY ||
-			input.code > KEY_OPTION_MAX ||
-			input.code < KEY_OPTION_MIN) {
+			input.code > AktiveLayer.max ||
+			input.code < AktiveLayer.min) {
             IO.write_event(&input);
             continue;
         }

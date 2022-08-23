@@ -1,7 +1,6 @@
 #include "mapping.h"
 
-std::vector<mapping> keyMapBase;
-std::mutex keyMapMutex;
+extern std::mutex LayerMutex;
 mapping* AktiveKey = nullptr;
 extern TimerEvent timer_event;
 extern milliseconds delay;
@@ -9,7 +8,7 @@ extern IOTYPE IO;
 
 void mapping::release() {
 	//lock mutex
-	keyMapMutex.lock();
+	LayerMutex.lock();
 	timer_event.clear();
 	//check key state
 	switch(key & KEY_STATE) {
@@ -37,7 +36,7 @@ void mapping::release() {
 			write_output<tapT>();
 		}
 	}
-	keyMapMutex.unlock();
+	LayerMutex.unlock();
 }
 
 void mapping::press() {
@@ -49,7 +48,7 @@ void mapping::press() {
 		AktiveKey->consume_event();
 
 	//lock mutex
-	keyMapMutex.lock();
+	LayerMutex.lock();
 
 	timer_event.set(delay, this);
 
@@ -60,7 +59,7 @@ void mapping::press() {
 		}else{
 			write_output_press<doubletapT>();
 			timer_event.clear();
-			keyMapMutex.unlock();
+			LayerMutex.unlock();
 			return;
 		}
 	}
@@ -69,12 +68,12 @@ void mapping::press() {
 	key |= SINGLE_PRESS_MASK;
 
 	//unlock mutex
-	keyMapMutex.unlock();
+	LayerMutex.unlock();
 }
 
 void mapping::consume_event() {
 	//lock mutex
-	keyMapMutex.lock();
+	LayerMutex.lock();
 	timer_event.clear();
 	//check key state
 	if (key & DOUBLE_PRESS_MASK) {
@@ -83,11 +82,11 @@ void mapping::consume_event() {
 		write_output<tapT>();
 	}
 	AktiveKey = nullptr;
-	keyMapMutex.unlock();
+	LayerMutex.unlock();
 }
 
 void mapping::timeout_event() {
-	if(!keyMapMutex.try_lock())
+	if(!LayerMutex.try_lock())
 		return;
 	//check key state
 	switch(key & KEY_STATE) {
@@ -118,7 +117,7 @@ void mapping::timeout_event() {
 		break;
 	}
 	//unlock mutex
-	keyMapMutex.unlock();
+	LayerMutex.unlock();
 }
 
 inline void mapping::write_output_release(const OutputStorage &output_) {

@@ -1,7 +1,8 @@
 #include "autoshift.h"
 
-extern std::vector<mapping> keyMapBase;
-extern uint8_t autoShift;
+uint8_t autoShift;
+extern Layer* Layers;
+extern uint8_t LayerCount;
 
 void autoshift_init(const KeyCode &code, TypeOutputConf *outputConf) {
 	if (*outputConf & HOLD_ENABLED_MASK)
@@ -20,16 +21,20 @@ void autoshift_init(const KeyCode &code, TypeOutputConf *outputConf) {
 }
 
 void enable_autoshift() {
-	for (auto &it : keyMapBase) {
-		if (it.key & AUTOSHIFT_CAPABLE_MASK)
-			it.key |= HOLD_ENABLED_MASK;
+	for (auto i = Layers; i < Layers + LayerCount; i++) {
+		for (auto &it : *i) {
+			if (it.key & AUTOSHIFT_CAPABLE_MASK)
+				it.key |= HOLD_ENABLED_MASK;
+		}
 	}
 }
 
 void disable_autoshift() {
-	for (auto &it : keyMapBase) {
-		if (it.key & AUTOSHIFT_CAPABLE_MASK)
-			it.key &= ~HOLD_ENABLED_MASK;
+	for (auto i = Layers; i < Layers + LayerCount; i++) {
+		for (auto &it : *i) {
+			if (it.key & AUTOSHIFT_CAPABLE_MASK)
+				it.key &= ~HOLD_ENABLED_MASK;
+		}
 	}
 }
 

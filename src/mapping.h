@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 #include "mapping_def.h"
+#include "layer.h"
 
 
 enum output_type {
@@ -48,5 +49,5 @@ public:
 		this->key = key;
 		this->output = std::move(output);
 	}
-	inline ~mapping(){output.destruct();}
+	~mapping();
 };
