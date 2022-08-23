@@ -35,7 +35,7 @@ void input_loop() {
 		if (current->notapdance()) {
 			if (AktiveKey != nullptr)
 				AktiveKey->consume_event();
-			if(current->passthrough()) {
+			if(current->passthrough(input.code)) {
 				IO.write_event(input);
 			}else if (input.value == INPUT_VAL_PRESS) {
 				if (current->tap_osm())

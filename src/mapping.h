@@ -35,7 +35,8 @@ private:
 public:
     TypeOutputConf key;
 	inline const OutputStorage& get_output() const { return output; }
-    inline bool passthrough() const { return output.is_empty(); }
+    inline bool passthrough(const KeyCode &code) const
+	{ return *output.begin() == code && key == 0; }
 	inline bool notapdance() const { return key < ON_HOLD_OSM_MASK; }
 	inline bool tap_osm() const { return key == ON_TAP_OSM_MASK; }
 	void timeout_event();
