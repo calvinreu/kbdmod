@@ -1,5 +1,9 @@
 #include "init.h"
 #include "input_loop.h"
+#include "layer.h"
+
+extern Layer* Layers;
+extern uint8_t LayerCount;
 
 //print usage
 inline void usage() {
@@ -48,6 +52,12 @@ int main(int argc, char const *argv[])
 
 	//start input loop
 	input_loop();
+
+	disable_autoshift();
+
+	for(uint8_t i = 0; i < LayerCount; i++){
+		Layers[i].destruct();
+	}
 
     return 0;
 }

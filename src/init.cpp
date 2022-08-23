@@ -40,11 +40,11 @@ void init(string configPath) {
     const YAML::Node& layers = config["MAPPINGS"];
 
 	//old config with only one layer
-	if (layers.IsMap()) {
+	if (layers[0].IsMap()) {
 		LayerCount = 1;
 		Layers = new Layer[1];
 		*Layers = load_layer(layers);
-	}else if(layers.IsSequence()){
+	}else if(layers[0].IsSequence()){
 		LayerCount = layers.size();
 		Layers = new Layer[LayerCount];
 		for (uint8_t i = 0; i < LayerCount; i++) {
@@ -59,6 +59,7 @@ void init(string configPath) {
 		enable_autoshift();
 
 	AktiveLayer = *Layers;
+	AktiveLayer.mappings -= AktiveLayer.min;
 }
 
 Layer load_layer(const YAML::Node &layerconf) {
@@ -101,7 +102,6 @@ Layer load_layer(const YAML::Node &layerconf) {
 	for (const auto &it : layerconf) {
 
 		size_t len = 0;
-		size_t seqlen;
 
 		//check for unknown fields
 		for (auto it2 = it.begin(); it2 != it.end(); it2++) {
@@ -219,7 +219,7 @@ Layer load_layer(const YAML::Node &layerconf) {
 			len -= 2;
 
 		//add mapping to keymap
-        layer[event_code(it["KEY"].as<string>())].init(
+        layer[event_code(it["KEY"].as<string>())-min].init(
             kfbm, OutputStorage(buffer, len));
 	}
 
