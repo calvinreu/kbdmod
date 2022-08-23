@@ -279,7 +279,7 @@ void load_config(string configPath) {
 	//add autoshift
 	for(auto i = keyMapBase.begin(); i != keyMapBase.end(); i++){
 		if(i->get_output().size() < 2){
-			autoshift_init(autoShift, *(i->get_output().begin()), &(i->key));
+			autoshift_init(*(i->get_output().begin()), &(i->key));
 		}
 	}
 
