@@ -94,6 +94,8 @@ void mapping::timeout_event() {
 	case SINGLE_PRESS_MASK:
 		if(key & HOLD_ENABLED_MASK) {
 			if(key & AUTOSHIFT_CAPABLE_MASK) {
+				reset();
+				AktiveKey = nullptr;
 				IO.write_event(input_event{
 					timeval{0,0}, EV_KEY, KEY_LEFTSHIFT, INPUT_VAL_PRESS});
 				IO.write_event_press(tap());
