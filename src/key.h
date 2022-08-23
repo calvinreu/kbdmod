@@ -42,4 +42,5 @@ public:
 		memcpy(this->data, data, len*sizeof(KeyCode));
 		this->data++;
 	}
+	inline uint8_t size() const { return data[-1]; }
 };

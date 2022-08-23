@@ -9,6 +9,7 @@ extern milliseconds delay;
 const int timing__tap_millisec = 200;
 uint KEY_OPTION_MIN = 0;
 uint KEY_OPTION_MAX = 0;
+uint8_t autoShift = 0;
 
 //print usage
 inline void usage() {
@@ -93,6 +94,10 @@ void load_config(string configPath) {
 	}else{
 		delay = milliseconds(timing__tap_millisec);
 	}
+	//load features
+	if (config["FEATURES"]["AUTOSHIFT"]) {
+		autoShift = config["FEATURES"]["AUTOSHIFT"].as<uint8_t>();
+	}
     //load keymap
     const YAML::Node& keymap = config["MAPPINGS"];
 	//get smallest and biggest key
@@ -106,12 +111,30 @@ void load_config(string configPath) {
 				max = std::max(max, event_code(it["KEY"].as<string>()));
 			}
 		}
+
+		if (autoShift & AUTOSHIFT_DIGIT_MASK) {
+			min = std::min(min, KEY_1);
+			max = std::max(max, KEY_0);
+		}
+
+		if (autoShift & AUTOSHIFT_LETTER_MASK) {
+			min = std::min(min, KEY_Q);
+			max = std::max(max, KEY_M);
+		}
+
+		if (autoShift & AUTOSHIFT_SPECIAL_CHARACTER_MASK) {
+			min = std::min(min, KEY_MINUS);
+			max = std::max(max ,KEY_SLASH);
+		}
+
 		if(min > max) {
 			fprintf(stderr, "No valid key found in config.\n");
 			exit(EXIT_FAILURE);
 		}
+
 		KEY_OPTION_MIN = min;
 		KEY_OPTION_MAX = max;
+
 		keyMapBase.resize(KEY_OPTION_MAX - KEY_OPTION_MIN + 1);
 	}
 
@@ -161,6 +184,7 @@ void load_config(string configPath) {
 		if (it["TAP_OSM"])//default is false
 			kfbm |= ON_TAP_OSM_MASK;
 
+		buffer[len] = 0;
 		//check for hold
 		if (it["HOLD"]) {
 			kfbm |= HOLD_ENABLED_MASK;
@@ -182,7 +206,11 @@ void load_config(string configPath) {
 			//check for hold osm
 			if (it["HOLD_OSM"])//default is false
 				kfbm |= ON_HOLD_OSM_MASK;
+		}else{
+			len++;
 		}
+
+		buffer[len] = 0;
 		//check for doubletap
 		if (it["DOUBLETAP"]) {
 			kfbm |= DOUBLETAP_ENABLED_MASK;
@@ -205,6 +233,8 @@ void load_config(string configPath) {
 			if (it["DOUBLETAP_OSM"])//default is false
 				kfbm |= ON_DOUBLETAP_OSM_MASK;
 
+		} else {
+			len++;
 		}
 		//check for taphold
 		if (it["TAPHOLD"]) {
@@ -229,9 +259,34 @@ void load_config(string configPath) {
 				kfbm |= ON_TAPHOLD_OSM_MASK;
 		}
 
+		if (!(kfbm & HOLD_ENABLED_MASK + DOUBLETAP_ENABLED_MASK + TAPHOLD_ENABLED_MASK)) {
+			len -= 2;
+		}
+
 
         //add mapping to keymap
         keyMapBase[event_code(it["KEY"].as<string>())-KEY_OPTION_MIN].init(
             kfbm, OutputStorage(buffer, len));
     }
+
+	//init empty keys
+	for(int i = 0; i < KEY_OPTION_MAX - KEY_OPTION_MIN + 1; i++){
+		buffer[0] = 1;
+		buffer[1] = i + KEY_OPTION_MIN;
+		keyMapBase[i].init(0, OutputStorage(buffer, 2));
+	}
+
+	//add autoshift
+	for(auto i = keyMapBase.begin(); i != keyMapBase.end(); i++){
+		if(i->get_output().size() < 2){
+			autoshift_init(autoShift, *(i->get_output().begin()), &(i->key));
+		}
+	}
+
+	autoShift &= ~(AUTOSHIFT_DIGIT_MASK | AUTOSHIFT_LETTER_MASK |
+	AUTOSHIFT_SPECIAL_CHARACTER_MASK);
+
+	if (autoShift)
+		enable_autoshift();
+
 }

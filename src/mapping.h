@@ -20,8 +20,6 @@ enum output_type {
 class mapping
 {
 private:
-    //msb has to be false otherwise undefined behaviour can occur
-    TypeOutputConf key;
 	OutputStorage output;
 	//write output event
     template<output_type type>
@@ -35,6 +33,7 @@ private:
 	inline OutputStorage doubletap(){return output.next().next();}
 	inline OutputStorage taphold(){return output.next().next().next();}
 public:
+    TypeOutputConf key;
 	inline const OutputStorage& get_output() const { return output; }
     inline bool passthrough() const { return output.is_empty(); }
 	inline bool notapdance() const { return key < ON_HOLD_OSM_MASK; }

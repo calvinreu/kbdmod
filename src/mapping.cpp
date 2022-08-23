@@ -10,6 +10,7 @@ extern IOTYPE IO;
 void mapping::release() {
 	//lock mutex
 	keyMapMutex.lock();
+	timer_event.clear();
 	//check key state
 	switch(key & KEY_STATE) {
 	case TAP_OUTPUT_PRESSED_MASK:
@@ -29,7 +30,7 @@ void mapping::release() {
 		break;
 	case SINGLE_PRESS_MASK:
 	 	//check for doubletap or taphold
-		if(key < HOLD_ENABLED_MASK) {
+		if(key & DOUBLETAP_ENABLED_MASK + TAPHOLD_ENABLED_MASK) {
 			key ^= DOUBLE_PRESS_MASK;
 			timer_event.set(delay, this);
 		}else{
@@ -85,6 +86,15 @@ void mapping::timeout_event() {
 	switch(key & KEY_STATE) {
 	case SINGLE_PRESS_MASK:
 		if(key & HOLD_ENABLED_MASK) {
+			if(key & AUTOSHIFT_CAPABLE_MASK) {
+				IO.write_event(input_event{
+					timeval{0,0}, EV_KEY, KEY_LEFTSHIFT, INPUT_VAL_PRESS});
+				IO.write_event_press(tap());
+				IO.write_event_release(tap());
+				IO.write_event(input_event{
+					timeval{0,0}, EV_KEY, KEY_LEFTSHIFT, INPUT_VAL_RELEASE});
+			}
+
 			write_output_press<holdT>();
 			break;
 		}
