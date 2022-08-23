@@ -10,7 +10,7 @@ extern milliseconds delay;
 extern Layer AktiveLayer;
 extern Layer* Layers;
 extern uint8_t LayerCount;
-extern uint8_t autoShift = 0;
+extern uint8_t autoShift;
 
 Layer load_layer(const YAML::Node &layerconf);
 
@@ -57,6 +57,8 @@ void init(string configPath) {
 
 	if (autoShift)
 		enable_autoshift();
+
+	AktiveLayer = *Layers;
 }
 
 Layer load_layer(const YAML::Node &layerconf) {
@@ -235,5 +237,5 @@ Layer load_layer(const YAML::Node &layerconf) {
 		if(i.get_output().size() < 2)
 			autoshift_init(*i.get_output().begin(), &i.key);
 
-	AktiveLayer = *Layers;
+	return layer;
 }
