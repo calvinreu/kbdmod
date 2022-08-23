@@ -32,12 +32,13 @@ void input_loop() {
             continue;
         }
 
-		if (current->noqueue()) {
-			if(current->passthrough()) {
+		if (current->notapdance()) {
+			if (AktiveKey != nullptr)
 				AktiveKey->consume_event();
+
+			if(current->passthrough()) {
 				IO.write_event(input);
 			}else if (input.value == INPUT_VAL_PRESS) {
-				AktiveKey->consume_event();
 				if (current->tap_osm())
 					IO.set_osm(current->get_output());
 				else
