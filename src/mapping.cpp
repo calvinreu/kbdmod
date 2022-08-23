@@ -6,6 +6,16 @@ extern TimerEvent timer_event;
 extern milliseconds delay;
 extern IOTYPE IO;
 
+mapping::~mapping() {
+	if(key & HOLD_ENABLED + DOUBLETAP_ENABLED + TAPHOLD_ENABLED){
+		taphold().destruct();
+		doubletap().destruct();
+		hold().destruct();
+	}
+
+	output.destruct();
+}
+
 void mapping::release() {
 	//lock mutex
 	LayerMutex.lock();
