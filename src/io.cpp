@@ -10,6 +10,27 @@ void InputOutput::write_event(const input_event *output) const
 	write_event__(output);
 }
 
+void InputOutput::write_event(const input_event &event) {
+	if (event.value == INPUT_VAL_PRESS) {
+		outputTemplate.value = INPUT_VAL_PRESS;
+		for (auto i = osm.begin(); i != osm.end(); i++)
+    	{
+    	    outputTemplate.code = *i;
+    	    write_event(&outputTemplate);
+    	}
+		IO.write_event(&event);
+		outputTemplate.value = INPUT_VAL_RELEASE;
+		for (auto i = osm.begin(); i != osm.end(); i++)
+		{
+		    outputTemplate.code = *i;
+		    write_event(&outputTemplate);
+		}
+		osm.clear();
+		return;
+	}
+	IO.write_event(&event);
+}
+
 inline void InputOutput::syn_pause() const {
     static const struct input_event syn = {
         .type = EV_SYN,
