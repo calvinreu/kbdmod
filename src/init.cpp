@@ -271,9 +271,11 @@ void load_config(string configPath) {
 
 	//init empty keys
 	for(int i = 0; i < KEY_OPTION_MAX - KEY_OPTION_MIN + 1; i++){
-		buffer[0] = 1;
-		buffer[1] = i + KEY_OPTION_MIN;
-		keyMapBase[i].init(0, OutputStorage(buffer, 2));
+		if(keyMapBase[i].get_output().is_empty()) {
+			buffer[0] = 1;
+			buffer[1] = i + KEY_OPTION_MIN;
+			keyMapBase[i].init(0, OutputStorage(buffer, 2));
+		}
 	}
 
 	//add autoshift

@@ -1,6 +1,8 @@
 TIMING:
 # unrealistic small value for faster testing
   TAP_MILLISEC: 40
+FEATURES:
+  AUTOSHIFT: 3
 
 MAPPINGS:
   - KEY: KEY_A
