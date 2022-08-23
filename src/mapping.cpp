@@ -34,7 +34,7 @@ void mapping::release() {
 			key ^= DOUBLE_PRESS_MASK;
 			timer_event.set(delay, this);
 		}else{
-			write_output_press<tapT>();
+			write_output<tapT>();
 		}
 	}
 	keyMapMutex.unlock();
@@ -60,6 +60,8 @@ void mapping::press() {
 		}else{
 			write_output_press<doubletapT>();
 			timer_event.clear();
+			keyMapMutex.unlock();
+			return;
 		}
 	}
 
@@ -77,7 +79,7 @@ void mapping::consume_event() {
 	//check key state
 	if (key & DOUBLE_PRESS_MASK) {
 		write_output<doubletapT>();
-	}else{
+	}else if(key & TAPHOLD_ENABLED_MASK + HOLD_ENABLED_MASK) {
 		write_output<tapT>();
 	}
 	AktiveKey = nullptr;
