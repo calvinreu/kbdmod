@@ -39,18 +39,29 @@ void input_loop() {
 					IO.set_osm(current->get_output());
 				else
 					IO.write_event_press(current->get_output());
-			} else if (!current->tap_osm())
-				IO.write_event_release(current->get_output());
+			} else {
+				if (!current->tap_osm())
+					IO.write_event_release(current->get_output());
+				key_released(current);
+			}
 			continue;
 		}
 
         if (input.value == INPUT_VAL_PRESS) {
-            current->press();
+			if (current->iscommand())
+				command_press(current);
+			else
+            	current->press();
             continue;
         }
 
         if (input.value == INPUT_VAL_RELEASE){
-            current->release();
+			if (current->iscommand())
+				command_release(current);
+			else {
+				current->release();
+				key_released(current);
+			}
             continue;
         }
 

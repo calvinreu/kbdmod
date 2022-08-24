@@ -42,5 +42,6 @@ public:
 		memcpy(this->data, data, len*sizeof(KeyCode));
 		this->data++;
 	}
-	inline uint8_t size() const { return data[-1]; }
+	inline const uint8_t& size() const { return data[-1]; }
+	inline const int64_t& valuestorage() const { return (int64_t)data; }
 };

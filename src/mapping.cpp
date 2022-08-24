@@ -7,6 +7,8 @@ extern milliseconds delay;
 extern IOTYPE IO;
 
 mapping::~mapping() {
+	if(key == COMMAND_KEY)
+		return;
 	if(key & HOLD_ENABLED_MASK+DOUBLETAP_ENABLED_MASK+TAPHOLD_ENABLED_MASK){
 		if(key & TAPHOLD_ENABLED_MASK)
 			taphold().destruct();
