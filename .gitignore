@@ -5,3 +5,4 @@ build
 otherstuff/
 pkgbuild_test/
 kbdmod/
+new_release.sh
