@@ -4,7 +4,7 @@
 [![AUR](https://img.shields.io/aur/version/kbdmod)](https://aur.archlinux.org/packages/kbdmod)
 [![Latest Release](https://gitlab.com/calvinreu/kbdmod/-/badges/release.svg)](https://gitlab.com/calvinreu/kbdmod/-/releases)
 
-intercept keycodes and change them to emulate qmk/oryx zsa like behaviour with any keyboard meaning you can assign macros, OSMs and normal keys to single tap, double tap, hold or tap and then hold of a key
+intercept keycodes and change them to emulate qmk/oryx zsa like behaviour with any keyboard meaning you can assign macros, OSMs and normal keys to single tap, double tap, hold or tap and then hold of a key. Create multiple keyboard layers and cycle between them or enable autoshift to automaticly add a shift key for normal keys which are held down to improve writing comfort.
 
 a lot of this project is from [dual-function-keys](https://gitlab.com/interception/linux/plugins/dual-function-keys) a great project worth checking out
 
@@ -48,20 +48,43 @@ You can use raw (integer) keycodes, however it is easier to use the `#define`d s
 TIMING:
 	# max amount of ms to qualify as a tap default = 200
     TAP_MILLISEC: <integer>
+FEATURES:
+	# add numbers togethere to get desired behaviour
+	# enable from start on 1
+	# autoshift every digit 2
+	# every letter 4
+	# every special character 8
+	# for example 3 for digits and at start enabled
+  	AUTOSHIFT: <integer>
 
 MAPPINGS:
-	#required to create mapping
-    - KEY: <integer | string>
-      TAP: [ <integer | string>, ... ]
-	#optional options of mapping
-      HOLD: [ <integer | string>, ... ]
-	  DOUBLETAP: [ <integer | string>, ... ]
-	  TAPHOLD: [ <integer | string>, ... ]
-	  TAP_OSM: bool
-	  DOUBLETAP_OSM: bool
-	  HOLD_OSM: bool
-	  TAPHOLD_OSM: bool
-    - KEY: ...
+	#naming of layer
+	baselayer:
+		#required to create mapping
+    	- KEY: <integer | string>
+    	  TAP: [ <integer | string>, ... ]
+		#optional options of mapping
+    	  HOLD: [ <integer | string>, ... ]
+		  DOUBLETAP: [ <integer | string>, ... ]
+		  TAPHOLD: [ <integer | string>, ... ]
+		  #OSM means modify next sequence for output for example add a shift or control
+		  TAP_OSM: bool
+		  DOUBLETAP_OSM: bool
+		  HOLD_OSM: bool
+		  TAPHOLD_OSM: bool
+		- KEY: <integer | string>
+		  #create command mappings which do not emulate keypresses but run some programm internal command
+		  CMD:
+		  	#options are
+			#SWITCH_LAYER
+			#SWITCH_LAYER_OSM (switch layer only for one key press)
+		  	TYPE: <string>
+			#only necessary when type is smth_layer_smth
+			LAYER: otherlayer
+    	- KEY: ...
+	otherlayer:
+		- KEY: ...
+	...
 ```
 
 ## Usage
