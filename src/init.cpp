@@ -12,7 +12,7 @@ extern Layer* Layers;
 extern uint8_t LayerCount;
 extern uint8_t autoShift;
 
-Layer load_layer(const YAML::Node &layerconf);
+Layer load_layer(const YAML::Node &layerconf, std::map<string, int> &layernames);
 
 //init
 void init(string configPath) {
@@ -40,15 +40,23 @@ void init(string configPath) {
     const YAML::Node& layers = config["MAPPINGS"];
 
 	//old config with only one layer
-	if (layers[0].IsMap()) {
+	if (layers.IsSequence()) {
+		std::map<string, int> layerMap;
 		LayerCount = 1;
 		Layers = new Layer[1];
-		*Layers = load_layer(layers);
-	}else if(layers[0].IsSequence()){
-		LayerCount = layers.size();
+		*Layers = load_layer(layers, layerMap);
+	}else if(layers.IsMap()){
+		std::map<string, int> layerMap;
+		int i = 0;
+		for(const auto &it : layers){
+			layerMap[it.first.as<string>()] = i;
+			i++;
+		}
+		LayerCount = i;
+
 		Layers = new Layer[LayerCount];
-		for (uint8_t i = 0; i < LayerCount; i++) {
-			Layers[i] = load_layer(layers[i]);
+		for (auto &it : layerMap) {
+			Layers[it.second] = load_layer(layers[it.first], layerMap);
 		}
 	}
 
@@ -62,10 +70,11 @@ void init(string configPath) {
 	AktiveLayer.mappings -= AktiveLayer.min;
 }
 
-Layer load_layer(const YAML::Node &layerconf) {
+Layer load_layer(
+const YAML::Node &layerconf, std::map<string, int> &layernames)
+{
 	int max = 0;
 	int min = std::numeric_limits<int>::max();
-	std::map<int, KeyCode*> keyMap;
 	KeyCode buffer[128];
 
 	uint16_t kfbm;
@@ -121,23 +130,22 @@ Layer load_layer(const YAML::Node &layerconf) {
 		}
 
 		if (it["CMD"]) {
-			for(const auto &cmd : it["CMD"]) {
-				if(cmd["TYPE"].as<string>() == "SWITCH_LAYER") {
-					kfbm = SWITCH_LAYER + COMMAND_KEY;
-					//use len as help var
-					len = cmd["LAYER"].as<int>();
-					layer[event_code(it["KEY"].as<string>())-min].init(
-            		kfbm, OutputStorage(len));
-				}else if(cmd["TYPE"].as<string>() == "SWITCH_LAYER_OSM") {
-					kfbm = SWITCH_LAYER_OSM + COMMAND_KEY;
-					//use len as help var
-					len = cmd["LAYER"].as<int>();
-					layer[event_code(it["KEY"].as<string>())-min].init(
-					kfbm, OutputStorage(len));
-				}else{
-					fprintf(stderr, "Unknown command: %s\n",
-					cmd["TYPE"].as<string>().c_str());
-				}
+			auto cmd = it["CMD"];
+			if(cmd["TYPE"].as<string>() == "SWITCH_LAYER") {
+				kfbm = SWITCH_LAYER + COMMAND_KEY;
+				//use len as help var
+				len = layernames[cmd["LAYER"].as<string>()];
+				layer[event_code(it["KEY"].as<string>())-min].init(
+            	kfbm, OutputStorage(len));
+			}else if(cmd["TYPE"].as<string>() == "SWITCH_LAYER_OSM") {
+				kfbm = SWITCH_LAYER_OSM + COMMAND_KEY;
+				//use len as help var
+				len = layernames[cmd["LAYER"].as<string>()];
+				layer[event_code(it["KEY"].as<string>())-min].init(
+				kfbm, OutputStorage(len));
+			}else{
+				fprintf(stderr, "Unknown command: %s\n",
+				cmd["TYPE"].as<string>().c_str());
 			}
 			continue;
 		}
@@ -256,9 +264,12 @@ Layer load_layer(const YAML::Node &layerconf) {
 	}
 
 	//add autoshift
-	for(auto &i : layer)
+	for(auto &i : layer){
+		if(i.iscommand())
+			continue;
 		if(i.get_output().size() < 2)
 			autoshift_init(*i.get_output().begin(), &i.key);
+	}
 
 	return layer;
 }

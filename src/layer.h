@@ -14,5 +14,3 @@ struct Layer{
 	inline uint8_t size(){return max - min + 1;}
 	void layerswitch(const Layer &other);
 };
-
-extern void checkOSMLayer();

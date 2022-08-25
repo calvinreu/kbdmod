@@ -18,10 +18,3 @@ void Layer::layerswitch(const Layer &other){
 	min = other.min;
 	max = other.max;
 }
-
-void checkOSMLayer(){
-	if(CommandState == SWITCH_LAYER_OSM){
-		CommandState = 0;
-		AktiveLayer = PreviousLayer;
-	}
-}

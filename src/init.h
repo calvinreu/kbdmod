@@ -10,6 +10,7 @@
 #include <yaml-cpp/yaml.h>
 #include <fstream>
 #include <iostream>
+#include <map>
 using std::string;
 using std::exception;
 using std::stringstream;

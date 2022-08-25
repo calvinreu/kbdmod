@@ -10,8 +10,8 @@ bool running = true;
 
 inline bool release_key(const uint16_t &keyCode) {
 	return !(
-		AktiveLayer.mappings[keyCode].iscommand() ||
-		layer_command(keyCode));
+		layer_command(keyCode) ||
+		AktiveLayer.mappings[keyCode].iscommand());
 }
 
 void input_loop() {
@@ -49,7 +49,7 @@ void input_loop() {
 					IO.write_event_press(current->get_output());
 				pPressKey = input.code;
 			} else {
-				if (!(current->tap_osm() && release_key(input.code)))
+				if (!(release_key(input.code) && current->tap_osm()))
 					IO.write_event_release(current->get_output());
 			}
 		}else if (input.value == INPUT_VAL_PRESS) {
@@ -68,7 +68,6 @@ void input_loop() {
             input.value,
             input.code);
 		}
-		checkOSMLayer();
     }
 
     running = false;
