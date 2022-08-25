@@ -71,7 +71,7 @@ to get a bit of inspiration what you could do with this look for zsa oryx on you
 Just create an issue or mail me
 
 ## Contributing
-Contributions are very welcome for improvements with the current features a working pipeline is enough to get a commit merged though testing your code yourself would be nice for implementation of new features even if they are on the roadmap please create an issue so the details can be resolved contributing examples would be very welcome.
+Contributions are very welcome for improvements. Testing your code yourself should be done either by using the project activly with the new code or by using test_manual script. If your merge request adds some new feature which is not yet in the config please change the manual_testing.yaml for quick checks the test.sh can be helpfull but its not a complete test.
 PS: please follow the editorconfig
 ## Debuging
 to debug build the project with the DEBUG flag in cmake
@@ -81,7 +81,6 @@ this is a part of the vscode debuger options but they should be easy to convert 
 "program": "${workspaceFolder}/build/keyboard_modify.bin",
 "args": ["-c", "${workspaceFolder}/test/testing.yaml"],
 ```
-Note: the manual testing script does not work yet it is supposed to enable this program on your system and disable it after 20s
 
 ## License
 this project is under the MIT license (c)Calvin Reu see LICENSE
