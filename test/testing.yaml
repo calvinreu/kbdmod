@@ -5,28 +5,43 @@ FEATURES:
   AUTOSHIFT: 3
 
 MAPPINGS:
-  - KEY: KEY_A
-    TAP: KEY_A
-    HOLD: KEY_B
-    DOUBLETAP: KEY_C
-    TAPHOLD: [ KEY_T, KEY_E, KEY_S,  ]
+  baselayer:
+    - KEY: KEY_A
+      TAP: KEY_A
+      HOLD: KEY_B
+      DOUBLETAP: KEY_C
+      TAPHOLD: [ KEY_T, KEY_E, KEY_S ]
 
-  - KEY: KEY_B
-    TAP: KEY_LEFTSHIFT
-    TAP_OSM: ENABLED
+    - KEY: KEY_B
+      TAP: KEY_LEFTSHIFT
+      TAP_OSM: ENABLED
 
-  - KEY: KEY_C
-    TAP: KEY_C
+    - KEY: KEY_C
+      TAP: KEY_C
 
-  - KEY: KEY_D
-    TAP: [ KEY_T, KEY_E, KEY_S, ]
+    - KEY: KEY_D
+      TAP: [ KEY_T, KEY_E, KEY_S ]
 
-  - KEY: KEY_E
-    TAP: [ KEY_LEFTCTRL, KEY_LEFTMETA, KEY_LEFTALT ]
-    TAP_OSM: ENABLED
+    - KEY: KEY_E
+      TAP: [ KEY_LEFTCTRL, KEY_LEFTMETA, KEY_LEFTALT ]
+      TAP_OSM: ENABLED
 
-  - KEY: KEY_F
-    TAP: KEY_M
-    HOLD: KEY_N
-    DOUBLETAP: KEY_O
-
+    - KEY: KEY_F
+      TAP: KEY_M
+      HOLD: KEY_N
+      DOUBLETAP: KEY_O
+    - KEY: KEY_G
+      CMD:
+        TYPE: SWITCH_LAYER
+        LAYER: secondlayer
+    - KEY: KEY_H
+      CMD:
+        TYPE: SWITCH_LAYER_OSM
+        LAYER: secondlayer
+  secondlayer:
+    - KEY: KEY_A
+      TAP: KEY_D
+    - KEY: KEY_G
+      CMD:
+        TYPE: SWITCH_LAYER
+        LAYER: baselayer
