@@ -6,7 +6,7 @@ extern Layer* Layers;
 extern Layer PreviousLayer;
 mapping* pLayerKey;
 uint16_t pPressKey;
-extern bool OSMLayer = false;
+extern bool OSMLayer;
 
 void command_press(mapping* m) {
 	LayerMutex.lock();
@@ -41,4 +41,5 @@ bool layer_command(const uint16_t &keyCode) {
 		AktiveLayer = PreviousLayer;
 		LayerMutex.unlock();
 	}
+	return true;
 }

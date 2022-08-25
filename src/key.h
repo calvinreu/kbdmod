@@ -43,5 +43,5 @@ public:
 		this->data++;
 	}
 	inline const uint8_t& size() const { return data[-1]; }
-	inline const int64_t& valuestorage() const { return (int64_t)data; }
+	inline const int64_t valuestorage() const { return (int64_t)data; }
 };

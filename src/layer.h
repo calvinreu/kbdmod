@@ -12,11 +12,7 @@ struct Layer{
 	mapping* end();
 	mapping &operator[](uint8_t key);
 	inline uint8_t size(){return max - min + 1;}
-	inline void layerswitch(const Layer &other){
-		mappings = other.mappings-other.min;
-		min = other.min;
-		max = other.max;
-	}
+	void layerswitch(const Layer &other);
 };
 
-void checkOSMLayer();
+extern void checkOSMLayer();
