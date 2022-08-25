@@ -1,7 +1,3 @@
-# Examples
-
-## autoshift example and mod remaping for laptop example
-```yaml
 TIMING:
   TAP_MILLISEC: 160
 FEATURES:
@@ -33,4 +29,4 @@ MAPPINGS:
       TAP: KEY_SLASH
     - KEY: KEY_SLASH
       TAP: KEY_E
-```
+
