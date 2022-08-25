@@ -6,6 +6,7 @@
 #include "mapping.h"
 #include "timer.h"
 #include "autoshift.h"
+#include "command.h"
 #include <yaml-cpp/yaml.h>
 #include <fstream>
 #include <iostream>

@@ -7,7 +7,7 @@ extern milliseconds delay;
 extern IOTYPE IO;
 
 mapping::~mapping() {
-	if(key >= COMMAND_KEY)
+	if(key & COMMAND_KEY)
 		return;
 
 	output.destruct();

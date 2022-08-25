@@ -113,10 +113,33 @@ Layer load_layer(const YAML::Node &layerconf) {
 				it2->first.as<string>() != "DOUBLETAP_OSM" &&
 				it2->first.as<string>() != "HOLD_OSM" &&
 				it2->first.as<string>() != "TAPHOLD_OSM" &&
-				it2->first.as<string>() != "KEY" ){
+				it2->first.as<string>() != "KEY" &&
+				it2->first.as<string>() != "CMD") {
 				fprintf(stderr,
 				"Unknown field: %s\n", it2->first.as<string>().c_str());
 			}
+		}
+
+		if (it["CMD"]) {
+			for(const auto &cmd : it["CMD"]) {
+				if(cmd["TYPE"].as<string>() == "SWITCH_LAYER") {
+					kfbm = SWITCH_LAYER + COMMAND_KEY;
+					//use len as help var
+					len = cmd["LAYER"].as<int>();
+					layer[event_code(it["KEY"].as<string>())-min].init(
+            		kfbm, OutputStorage(len));
+				}else if(cmd["TYPE"].as<string>() == "SWITCH_LAYER_OSM") {
+					kfbm = SWITCH_LAYER_OSM + COMMAND_KEY;
+					//use len as help var
+					len = cmd["LAYER"].as<int>();
+					layer[event_code(it["KEY"].as<string>())-min].init(
+					kfbm, OutputStorage(len));
+				}else{
+					fprintf(stderr, "Unknown command: %s\n",
+					cmd["TYPE"].as<string>().c_str());
+				}
+			}
+			continue;
 		}
 
 		//reset keyfeaturesbitmap

@@ -5,7 +5,7 @@ extern Layer* Layers;
 extern uint8_t LayerCount;
 
 void autoshift_init(const KeyCode &code, TypeOutputConf *outputConf) {
-	if (*outputConf & HOLD_ENABLED_MASK)
+	if (*outputConf & HOLD_ENABLED_MASK + COMMAND_KEY)
 		return;
 
 	if (autoShift & AUTOSHIFT_DIGIT_MASK && code >= KEY_1 && code <= KEY_0)

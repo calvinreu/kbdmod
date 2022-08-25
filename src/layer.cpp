@@ -5,7 +5,7 @@ Layer* Layers;
 Layer AktiveLayer;
 Layer PreviousLayer;
 uint8_t LayerCount;
-bool OSMLayer = false;
+extern uint8_t CommandState;
 
 Layer::Layer(uint min, uint max)
 : min(min), max(max), mappings(new mapping[max - min + 1]){}
@@ -20,9 +20,8 @@ void Layer::layerswitch(const Layer &other){
 }
 
 void checkOSMLayer(){
-	if(OSMLayer){
-		OSMLayer = false;
+	if(CommandState == SWITCH_LAYER_OSM){
+		CommandState = 0;
 		AktiveLayer = PreviousLayer;
-		PreviousLayer.mappings = nullptr;
 	}
 }
