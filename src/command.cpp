@@ -3,41 +3,42 @@
 extern std::mutex LayerMutex;
 extern Layer AktiveLayer;
 extern Layer* Layers;
-Layer* PreviousLayer;
-mapping* PreviousMapping;
+extern Layer PreviousLayer;
+mapping* pLayerKey;
+uint16_t pPressKey;
+extern bool OSMLayer = false;
 
 void command_press(mapping* m) {
-	switch (m->key) {
+	LayerMutex.lock();
+	switch (m->key & COMMAND_MASK) {
 	case SWITCH_LAYER:
-		LayerMutex.lock();
+		PreviousLayer = AktiveLayer;
+		pLayerKey = m;
 		AktiveLayer.layerswitch(Layers[m->get_output().valuestorage()]);
-		LayerMutex.unlock();
 		break;
 	case OSM_LAYER:
-		LayerMutex.lock();
-		PreviousLayer = &AktiveLayer;
-		PreviousMapping = m;
+		PreviousLayer = AktiveLayer;
+		pLayerKey = m;
 		AktiveLayer.layerswitch(Layers[m->get_output().valuestorage()]);
-		LayerMutex.unlock();
-		break;
-	case HOLD_TOGGLE_LAYER+SWITCH_LAYER:
-		LayerMutex.lock();
-		PreviousLayer = &AktiveLayer;
-		PreviousMapping = m;
-		AktiveLayer.layerswitch(Layers[m->get_output().valuestorage()]);
-		LayerMutex.unlock();
-		break;
-	case HOLD_TOGGLE_LAYER+OSM_LAYER:
-		LayerMutex.lock();
-		PreviousLayer = &AktiveLayer;
-		PreviousMapping = m;
-		AktiveLayer.layerswitch(Layers[m->get_output().valuestorage()]);
-		LayerMutex.unlock();
 		break;
 	//room for more commands
 	}
+	LayerMutex.unlock();
 }
 
-void command_release(mapping *m) {
+bool layer_command(const uint16_t &keyCode) {
+	if (keyCode+PreviousLayer.mappings != pLayerKey)
+		return false;
 
+	//check for tap
+	if (keyCode == pPressKey) {
+		if (pLayerKey->key & COMMAND_MASK == OSM_LAYER)
+			OSMLayer = true;
+		else
+			PreviousLayer.mappings = nullptr;
+	}else{
+		LayerMutex.lock();
+		AktiveLayer = PreviousLayer;
+		LayerMutex.unlock();
+	}
 }

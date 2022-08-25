@@ -14,7 +14,7 @@
 #define TAPHOLD_ENABLED 9
 #define HOLD_ENABLED 10
 
-#define COMMAND_KEY 255
+#define COMMAND_KEY constPow(2, 11) - 1
 
 #define AUTOSHIFT_ON_MASK constPow(2, AUTOSHIFT_ON)
 #define AUTOSHIFT_DIGIT_MASK constPow(2, AUTOSHIFT_DIGIT)

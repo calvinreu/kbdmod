@@ -40,7 +40,7 @@ public:
 	{ return *output.begin() == code && key == 0; }
 	inline bool notapdance() const { return key < ON_HOLD_OSM_MASK; }
 	inline bool tap_osm() const { return key == ON_TAP_OSM_MASK; }
-	inline bool iscommand() const { return key == COMMAND_KEY; }
+	inline bool iscommand() const { return key >= COMMAND_KEY; }
 	void timeout_event();
     void release();
     void press();

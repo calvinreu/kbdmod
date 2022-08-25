@@ -5,7 +5,14 @@ extern IOTYPE IO;
 extern TimerEvent timer_event;
 extern mapping* AktiveKey;
 extern Layer AktiveLayer;
+extern uint16_t pPressKey;
 bool running = true;
+
+inline bool release_key(const uint16_t &keyCode) {
+	return !(
+		AktiveLayer.mappings[keyCode].iscommand() ||
+		layer_command(keyCode));
+}
 
 void input_loop() {
     input_event input;
@@ -22,14 +29,15 @@ void input_loop() {
             continue;
 
 		//pass non keyboard and unsuported keys throught to the system
-        if (input.type != EV_KEY ||
-			input.code > AktiveLayer.max ||
-			input.code < AktiveLayer.min) {
+        if (input.type != EV_KEY) {
             IO.write_event(&input);
-            continue;
-        }
+			continue;
+		}
 
-		if (current->notapdance()) {
+		if(input.code > AktiveLayer.max||input.code < AktiveLayer.min){
+			if(!layer_command(input.code))
+				IO.write_event(&input);
+        }else if (current->notapdance()) {
 			if (AktiveKey != nullptr)
 				AktiveKey->consume_event();
 			if(current->passthrough(input.code)) {
@@ -39,39 +47,28 @@ void input_loop() {
 					IO.set_osm(current->get_output());
 				else
 					IO.write_event_press(current->get_output());
+				pPressKey = input.code;
 			} else {
-				if (!current->tap_osm())
+				if (!(current->tap_osm() && release_key(input.code)))
 					IO.write_event_release(current->get_output());
-				key_released(current);
 			}
-			continue;
-		}
-
-        if (input.value == INPUT_VAL_PRESS) {
+		}else if (input.value == INPUT_VAL_PRESS) {
 			if (current->iscommand())
 				command_press(current);
 			else
             	current->press();
-            continue;
-        }
-
-        if (input.value == INPUT_VAL_RELEASE){
-			if (current->iscommand())
-				command_release(current);
-			else {
+			pPressKey = input.code;
+        }else if (input.value == INPUT_VAL_RELEASE){
+			if(release_key(input.code))
 				current->release();
-				key_released(current);
-			}
-            continue;
-        }
-
-		if (input.value == INPUT_VAL_REPEAT){
+        }else if (input.value == INPUT_VAL_REPEAT){
 			continue;
-		}
-
-        fprintf(stderr, "unexpected .value=%d .code=%d, doing nothing",
+		}else{
+        	fprintf(stderr, "unexpected .value=%d .code=%d, doing nothing",
             input.value,
             input.code);
+		}
+		checkOSMLayer();
     }
 
     running = false;
