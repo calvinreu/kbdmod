@@ -3,8 +3,8 @@
 # Repository: https://gitlab.com/calvinreu/kbdmod
 
 pkgname=kbdmod
-pkgver=0.2.1
-pkgrel=3
+pkgver=0.2.2
+pkgrel=4
 epoch=
 pkgdesc="modify your keyboard functionality with multi functions per key"
 arch=('any')
