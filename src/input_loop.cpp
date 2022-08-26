@@ -35,7 +35,10 @@ void input_loop() {
 		}
 
 		if(input.code > AktiveLayer.max||input.code < AktiveLayer.min){
-			if(!layer_command(input.code))
+			if(input.value == INPUT_VAL_PRESS){
+				IO.write_event(&input);
+				pPressKey = input.code;
+			}else if(!layer_command(input.code))
 				IO.write_event(&input);
         }else if (current->notapdance()) {
 			if (AktiveKey != nullptr)
