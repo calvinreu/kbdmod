@@ -21,6 +21,15 @@ void command_press(mapping* m) {
 		pLayerKey = m;
 		AktiveLayer.layerswitch(Layers[m->get_output().valuestorage()]);
 		break;
+	case CMD_AUTOSHIFT_ON:
+		enable_autoshift();
+		break;
+	case CMD_AUTOSHIFT_OFF:
+		disable_autoshift();
+		break;
+	case CMD_AUTOSHIFT_TOGGLE:
+		toggle_autoshift();
+		break;
 	//room for more commands
 	}
 	LayerMutex.unlock();

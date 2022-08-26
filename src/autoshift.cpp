@@ -27,6 +27,7 @@ void enable_autoshift() {
 				it.key |= HOLD_ENABLED_MASK;
 		}
 	}
+	autoShift = 1;
 }
 
 void disable_autoshift() {
@@ -36,11 +37,13 @@ void disable_autoshift() {
 				it.key &= ~HOLD_ENABLED_MASK;
 		}
 	}
+	autoShift = 0;
 }
 
 void toggle_autoshift() {
-	if (autoShift)
+	if (autoShift != 0) {
 		disable_autoshift();
-	else
+	}else{
 		enable_autoshift();
+	}
 }

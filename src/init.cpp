@@ -60,10 +60,10 @@ void init(string configPath) {
 		}
 	}
 
-	autoShift &= ~(AUTOSHIFT_DIGIT_MASK | AUTOSHIFT_LETTER_MASK |
+	autoShift &= ~(AUTOSHIFT_DIGIT_MASK + AUTOSHIFT_LETTER_MASK +
 	AUTOSHIFT_SPECIAL_CHARACTER_MASK);
 
-	if (autoShift)
+	if (autoShift != 0)
 		enable_autoshift();
 
 	AktiveLayer = *Layers;
@@ -143,6 +143,18 @@ const YAML::Node &layerconf, std::map<string, int> &layernames)
 				len = layernames[cmd["LAYER"].as<string>()];
 				layer[event_code(it["KEY"].as<string>())-min].init(
 				kfbm, OutputStorage(len));
+			}else if (cmd["TYPE"].as<string>() == "AUTOSHIFT_OFF") {
+				kfbm = CMD_AUTOSHIFT_OFF + COMMAND_KEY;
+				layer[event_code(it["KEY"].as<string>())-min].init(
+				kfbm, OutputStorage((int64_t)0));
+			}else if (cmd["TYPE"].as<string>() == "AUTOSHIFT_ON") {
+				kfbm = CMD_AUTOSHIFT_ON + COMMAND_KEY;
+				layer[event_code(it["KEY"].as<string>())-min].init(
+				kfbm, OutputStorage((int64_t)0));
+			}else if(cmd["TYPE"].as<string>() == "AUTOSHIFT_TOGGLE") {
+				kfbm = CMD_AUTOSHIFT_TOGGLE + COMMAND_KEY;
+				layer[event_code(it["KEY"].as<string>())-min].init(
+				kfbm, OutputStorage((int64_t)0));
 			}else{
 				fprintf(stderr, "Unknown command: %s\n",
 				cmd["TYPE"].as<string>().c_str());

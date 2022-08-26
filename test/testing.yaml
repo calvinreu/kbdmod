@@ -38,6 +38,15 @@ MAPPINGS:
       CMD:
         TYPE: SWITCH_LAYER_OSM
         LAYER: secondlayer
+    - KEY: KEY_J
+      CMD:
+        TYPE: AUTOSHIFT_TOGGLE
+    - KEY: KEY_K
+      CMD:
+        TYPE: AUTOSHIFT_ON
+    - KEY: KEY_L
+      CMD:
+        TYPE: AUTOSHIFT_OFF
   secondlayer:
     - KEY: KEY_A
       TAP: KEY_D
