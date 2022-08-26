@@ -22,10 +22,13 @@ if [ -z $DESTDIR ]; then
 	DESTDIR="/usr/bin"
 fi
 
+# get package version
+VERSION=$(grep pkgver PKGBUILD | cut -d "=" -f 2)
+
 # build
 mkdir -p build
 cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release
+cmake .. -DCMAKE_BUILD_TYPE=Release -Dversion="$VERSION"
 make -j 8
 cd ../
 
